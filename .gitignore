@@ -137,4 +137,5 @@ fabric.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij
 
-.idea/workspace.xml
+workspace.xml
+git rm -f .idea/workspace.xml
