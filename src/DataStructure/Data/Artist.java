@@ -1,3 +1,5 @@
+package DataStructure.Data;
+
 public class Artist extends Performer {
 
 	private String name;
