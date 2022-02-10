@@ -29,15 +29,18 @@ public class Main extends Application {
         addPerformerPopUp.setScene(popUpScene);
         addPerformerPopUp.setHeight(350);
         addPerformerPopUp.setWidth(300);
+
         //add performer vbox
         VBox addPerformerVbox = new VBox();
         Label name = new Label("Artist Name");
         TextField artistNameTextField = new TextField();
+        //radiobuttons
         ToggleGroup selectorToggleGroup = new ToggleGroup();
         RadioButton artistRadioButton = new RadioButton("Artist");
         RadioButton bandRadioButton = new RadioButton("Band");
         artistRadioButton.setToggleGroup(selectorToggleGroup);
         bandRadioButton.setToggleGroup(selectorToggleGroup);
+        //member interface in case of band
         Label members = new Label("Members");
         members.setVisible(false);
         HBox membersHBox = new HBox();
@@ -65,12 +68,19 @@ public class Main extends Application {
             members.setVisible(false);
             membersHBox.setVisible(false);
         });
+        backButton.setOnAction(E -> {
+            addPerformerPopUp.close();
+        });
+        addButton.setOnAction(E->{
+            System.out.println("add button pressed!");
+        });
 
+        //add performer vbox
         addPerformerVbox.getChildren().addAll(name, artistNameTextField, artistRadioButton, bandRadioButton, buttonHbox, members, membersHBox);
         popUpBorderPane.setTop(addPerformerVbox);
         popUpBorderPane.setBottom(buttonHbox);
 
-
+        //stage title and main borderpane
         primaryStage.setTitle("Festival planner agenda");
         BorderPane agendaBorderpane = new BorderPane();
 
