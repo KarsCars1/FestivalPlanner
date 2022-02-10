@@ -1,3 +1,5 @@
+package DataStructure.Data;
+
 public class Location {
 
     private int xLocation = 0;
