@@ -73,8 +73,11 @@ public class Gui extends Application {
             addPerformerPopUp.close();
         });
         addButton.setOnAction(E->{
-            performerController.addArtist(artistNameTextField.getText());
-            addAllPerformers(performerlist);
+            if (!artistNameTextField.getText().isEmpty()) {
+                performerController.addArtist(artistNameTextField.getText());
+                performerlist.getItems().add(artistNameTextField.getText());
+                artistNameTextField.deleteText(0, artistNameTextField.getText().length());
+            }
         });
 
         //add performer vbox
@@ -103,7 +106,6 @@ public class Gui extends Application {
         Button updatePerfomer = new Button("Update performer");
         //List components
         performerlist = new ListView();
-        addAllPerformers(performerlist);
         //performerlist.getItems().addAll("test", "test","test","test","test","test","test","test","test","test","test","test","test","test","test","test","test","test");
 
         performerlist.setOrientation(Orientation.VERTICAL);
@@ -115,13 +117,7 @@ public class Gui extends Application {
         primaryStage.setScene(agendaScene);
         primaryStage.show();
     }
-
-    public void addAllPerformers(ListView performerList){
-        for(int i = 0; i < performerController.getPerformers().size(); i++){
-            performerList.getItems().add(performerController.getPerformers().get(i).getPerformerName());
-        }
-    }
-
+    
     public static void main(String[] args) {
         launch(args);
     }
