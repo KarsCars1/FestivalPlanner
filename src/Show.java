@@ -1,11 +1,25 @@
+import sun.misc.Perf;
+
 public class Show {
 
-    private Location location;
     private String name;
+    private Location location;
+    private Performer performer;
 
-    public Show(String name, Location location) {
-        this.location = location;
+    public Show(String name, Location location, Performer performer) {
         this.name = name;
+        this.location = location;
+        this.performer = performer;
+    }
+
+    public Performer getPerformer(){
+        return this.performer;
+    }
+
+    public Performer setPerformer(Performer performer){
+        this.performer = performer;
+
+        return this.performer;
     }
 
     public String getLocation() {
