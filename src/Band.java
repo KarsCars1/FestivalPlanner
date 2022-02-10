@@ -18,4 +18,12 @@ public class Band extends Performer {
 			members.remove(member);
 		}
 	}
+
+	public String getMembers() {
+		String memberList = "";
+		for (Performer member : members){
+			memberList += member.getPerformerName() + "\n";
+		}
+		return memberList;
+	}
 }
