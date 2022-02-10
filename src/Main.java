@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 
 public class Main {
+    private ArrayList<Performer> performers;
+    private ArrayList<Location> locations;
+    private ArrayList<Show> shows;
+
     public static void main(String[] args) {
         Show show1 = new Show("Show 1", new Location("Stage 1", 120, 300, 10, 10));
         Show show2 = new Show("Show 2", new Location("Stage 1", 90, 200, 10, 10));
@@ -26,4 +30,20 @@ public class Main {
             System.out.println(show.getLocation());
         }
     }
+
+    public void addPerformer(String name){
+        Performer performer = new Performer(name);
+        this.performers.add(performer);
+    }
+
+    public void addLocation(String name, int x, int y, int width, int height){
+        Location location = new Location(name, x, y, width, height);
+        this.locations.add(location);
+    }
+
+    public void addShow(String name, Location location){
+        Show show = new Show(name, location);
+        this.shows.add(show);
+    }
 }
+
