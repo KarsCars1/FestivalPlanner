@@ -13,14 +13,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import DataStructure.PerformerController;
 
-public class GUI extends Application {
+public class Gui extends Application {
 
+    private PerformerController performerController = new PerformerController();
+    ListView<String> performerlist = new ListView<>();
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-
-
 
         //add performer popup
         Stage addPerformerPopUp = new Stage();
@@ -32,7 +33,7 @@ public class GUI extends Application {
 
         //add performer vbox
         VBox addPerformerVbox = new VBox();
-        Label name = new Label("Artist Name");
+        Label name = new Label("Artist name:");
         TextField artistNameTextField = new TextField();
         //radiobuttons
         ToggleGroup selectorToggleGroup = new ToggleGroup();
@@ -46,7 +47,7 @@ public class GUI extends Application {
         HBox membersHBox = new HBox();
         Button addMemberButton = new Button("+");
         TextField addMemberField = new TextField();
-        membersHBox.getChildren().addAll(  addMemberField, addMemberButton);
+        membersHBox.getChildren().addAll(addMemberField, addMemberButton);
         membersHBox.setVisible(false);
 
         //Button hbox
@@ -72,7 +73,8 @@ public class GUI extends Application {
             addPerformerPopUp.close();
         });
         addButton.setOnAction(E->{
-            System.out.println("add button pressed!");
+            performerController.addArtist(artistNameTextField.getText());
+            addAllPerformers(performerlist);
         });
 
         //add performer vbox
@@ -100,8 +102,10 @@ public class GUI extends Application {
         Button removePerformer = new Button("Remove performer");
         Button updatePerfomer = new Button("Update performer");
         //List components
-        ListView<String> performerlist = new ListView();
-        performerlist.getItems().addAll("test", "test","test","test","test","test","test","test","test","test","test","test","test","test","test","test","test","test");
+        performerlist = new ListView();
+        addAllPerformers(performerlist);
+        //performerlist.getItems().addAll("test", "test","test","test","test","test","test","test","test","test","test","test","test","test","test","test","test","test");
+
         performerlist.setOrientation(Orientation.VERTICAL);
 
         performerVBox.getChildren().addAll(performerLabel, performerlist, addPerformer, updatePerfomer, removePerformer);
@@ -112,6 +116,11 @@ public class GUI extends Application {
         primaryStage.show();
     }
 
+    public void addAllPerformers(ListView performerList){
+        for(int i = 0; i < performerController.getPerformers().size(); i++){
+            performerList.getItems().add(performerController.getPerformers().get(i).getPerformerName());
+        }
+    }
 
     public static void main(String[] args) {
         launch(args);
