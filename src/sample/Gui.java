@@ -15,6 +15,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import DataStructure.PerformerController;
 
+import java.util.ArrayList;
+
 public class Gui extends Application {
 
     private PerformerController performerController = new PerformerController();
@@ -75,7 +77,7 @@ public class Gui extends Application {
         addButton.setOnAction(E->{
             if (!artistNameTextField.getText().isEmpty()) {
                 performerController.addArtist(artistNameTextField.getText());
-                performerlist.getItems().add(artistNameTextField.getText());
+                performerController.updateList(performerlist);
                 artistNameTextField.deleteText(0, artistNameTextField.getText().length());
             }
         });
@@ -106,8 +108,6 @@ public class Gui extends Application {
         Button updatePerfomer = new Button("Update performer");
         //List components
         performerlist = new ListView();
-        //performerlist.getItems().addAll("test", "test","test","test","test","test","test","test","test","test","test","test","test","test","test","test","test","test");
-
         performerlist.setOrientation(Orientation.VERTICAL);
 
         performerVBox.getChildren().addAll(performerLabel, performerlist, addPerformer, updatePerfomer, removePerformer);
@@ -117,7 +117,7 @@ public class Gui extends Application {
         primaryStage.setScene(agendaScene);
         primaryStage.show();
     }
-    
+
     public static void main(String[] args) {
         launch(args);
     }
