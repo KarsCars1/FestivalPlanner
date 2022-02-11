@@ -15,8 +15,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.awt.*;
-
 public class Gui extends Application {
 
     ListView<String> performerlist = new ListView<>();
@@ -123,6 +121,11 @@ public class Gui extends Application {
         agenda.setHeight(400);
         agenda.setWidth(400);
         agenda.testDraw();
+
+        agenda.setOnMouseDragged(e ->
+        {
+            agenda.moveOnMouse(e.getX(), e.getY());
+        });
 
         //Vbox components
         VBox performerVBox = new VBox();
