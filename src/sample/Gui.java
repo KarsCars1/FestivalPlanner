@@ -1,26 +1,27 @@
 package sample;
 
+import DataStructure.PerformerController;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import DataStructure.PerformerController;
-
-import java.util.ArrayList;
 
 public class Gui extends Application {
 
-    private PerformerController performerController = new PerformerController();
     ListView<String> performerlist = new ListView<>();
+    ListView<String> newBandMemberlist = new ListView<>();
+    private PerformerController performerController = new PerformerController();
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
@@ -36,7 +37,7 @@ public class Gui extends Application {
         //add performer vbox
         VBox addPerformerVbox = new VBox();
         Label name = new Label("Artist name:");
-        TextField artistNameTextField = new TextField();
+        TextField performerNameTextField = new TextField();
         //radiobuttons
         ToggleGroup selectorToggleGroup = new ToggleGroup();
         RadioButton artistRadioButton = new RadioButton("Artist");
@@ -50,7 +51,12 @@ public class Gui extends Application {
         Button addMemberButton = new Button("+");
         TextField addMemberField = new TextField();
         membersHBox.getChildren().addAll(addMemberField, addMemberButton);
+        newBandMemberlist.setVisible(false);
+        newBandMemberlist = new ListView<>();
+        newBandMemberlist.setMaxSize(175, 150);
         membersHBox.setVisible(false);
+        newBandMemberlist.setVisible(false);
+        artistRadioButton.setSelected(true);
 
         //Button hbox
         HBox buttonHbox = new HBox();
@@ -62,28 +68,41 @@ public class Gui extends Application {
         //Button eventhandling
         bandRadioButton.setOnAction(E -> {
             name.setText("Band name:");
-            members.setVisible(true);
             membersHBox.setVisible(true);
+            newBandMemberlist.setVisible(true);
 
         });
         artistRadioButton.setOnAction(E -> {
             name.setText("Artist name:");
-            members.setVisible(false);
             membersHBox.setVisible(false);
+            newBandMemberlist.setVisible(false);
         });
         backButton.setOnAction(E -> {
             addPerformerPopUp.close();
         });
-        addButton.setOnAction(E->{
-            if (!artistNameTextField.getText().isEmpty()) {
-                performerController.addArtist(artistNameTextField.getText());
-                performerController.updateList(performerlist);
-                artistNameTextField.deleteText(0, artistNameTextField.getText().length());
+        addMemberButton.setOnAction(E -> {
+            newBandMemberlist.getItems().add(addMemberField.getText());
+            addMemberField.setText("");
+        });
+        addButton.setOnAction(E -> {
+            if (artistRadioButton.isSelected()) {
+                if (!performerNameTextField.getText().isEmpty()) {
+                    performerController.addArtist(performerNameTextField.getText());
+                    performerController.updateList(performerlist);
+                    performerNameTextField.deleteText(0, performerNameTextField.getText().length());
+                }
+            } else if (bandRadioButton.isSelected()) {
+                if (!performerNameTextField.getText().isEmpty()) {
+                    performerController.addBand(performerNameTextField.getText());
+                    performerController.addBandMembers(newBandMemberlist,performerNameTextField.getText());
+                    performerController.updateList(performerlist);
+                    performerNameTextField.deleteText(0, performerNameTextField.getText().length());
+                }
             }
         });
 
         //add performer vbox
-        addPerformerVbox.getChildren().addAll(name, artistNameTextField, artistRadioButton, bandRadioButton, buttonHbox, members, membersHBox);
+        addPerformerVbox.getChildren().addAll(name, performerNameTextField, artistRadioButton, bandRadioButton, buttonHbox, members, membersHBox, newBandMemberlist);
         popUpBorderPane.setTop(addPerformerVbox);
         popUpBorderPane.setBottom(buttonHbox);
 
@@ -101,9 +120,9 @@ public class Gui extends Application {
         Button addPerformer = new Button("Add performer");
 
         addPerformer.setOnAction(E -> {
-                    System.out.println("Pressed");
-                    addPerformerPopUp.show();
-                });
+            System.out.println("Pressed");
+            addPerformerPopUp.show();
+        });
         Button removePerformer = new Button("Remove performer");
         Button updatePerfomer = new Button("Update performer");
         //List components
@@ -116,9 +135,5 @@ public class Gui extends Application {
         Scene agendaScene = new Scene(agendaBorderpane);
         primaryStage.setScene(agendaScene);
         primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

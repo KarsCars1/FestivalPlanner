@@ -21,11 +21,7 @@ public class Band extends Performer {
 		}
 	}
 
-	public String getMembers() {
-		String memberList = "";
-		for (Performer member : members){
-			memberList += member.getPerformerName() + "\n";
-		}
-		return memberList;
+	public ArrayList<Performer> getMembers() {
+		return members;
 	}
 }
