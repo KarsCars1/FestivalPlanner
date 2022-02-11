@@ -96,6 +96,7 @@ public class Gui extends Application {
                     performerController.addBand(performerNameTextField.getText());
                     performerController.addBandMembers(newBandMemberlist,performerNameTextField.getText());
                     performerController.updateList(performerlist);
+                    newBandMemberlist.getItems().clear();
                     performerNameTextField.deleteText(0, performerNameTextField.getText().length());
                 }
             }
