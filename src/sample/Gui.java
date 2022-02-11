@@ -7,10 +7,15 @@ import javafx.geometry.Orientation;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.awt.*;
 
 public class Gui extends Application {
 
@@ -114,6 +119,10 @@ public class Gui extends Application {
 
         //Todo 2dGraphics
         TextField textField = new TextField();
+        Agenda agenda = new Agenda();
+        agenda.setHeight(400);
+        agenda.setWidth(400);
+        agenda.testDraw();
 
         //Vbox components
         VBox performerVBox = new VBox();
@@ -132,7 +141,7 @@ public class Gui extends Application {
 
         performerVBox.getChildren().addAll(performerLabel, performerlist, addPerformer, updatePerfomer, removePerformer);
         agendaBorderpane.setRight(performerVBox);
-        agendaBorderpane.setLeft(textField);
+        agendaBorderpane.setLeft(agenda);
         Scene agendaScene = new Scene(agendaBorderpane);
         primaryStage.setScene(agendaScene);
         primaryStage.show();
