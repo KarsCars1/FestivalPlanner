@@ -11,28 +11,46 @@ public class PerformerController {
     private ArrayList<Artist> artists = new ArrayList<>();
     private ArrayList<Band> bands = new ArrayList<>();
 
-    public void addArtist(String performername){
+    public void addArtist(String performername) {
         Artist newArtist = new Artist(performername);
         performers.add(newArtist);
         artists.add(newArtist);
     }
 
-    public ArrayList<Performer> getPerformers(){
+    public ArrayList<Performer> getPerformers() {
         return this.performers;
     }
 
-    public void addBandMember(String performerName){
+    public void addBandMember(String performerName) {
         Artist newArtist = new Artist(performerName);
         artists.add(newArtist);
     }
 
-    public void addBand(String performerName){
+    public boolean artistAlreadyExists(String performerName){
+        for (Artist artist : artists) {
+          if(artist.getName().equals(performerName)){
+              return true;
+          }
+        }
+        return false;
+    }
+
+    public boolean performerAlreadyExists(String performerName){
+        for (Performer performer : performers) {
+            if(performer.getPerformerName().equals(performerName)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addBand(String performerName) {
         Band newBand = new Band(performerName);
         performers.add(newBand);
         bands.add(newBand);
     }
 
-    public void updatePerformer(){
+    public void updatePerformer() {
 
     }
 }
