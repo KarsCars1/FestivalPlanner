@@ -121,14 +121,19 @@ public class Gui extends Application {
         Button addPerformer = new Button("Add performer");
 
         addPerformer.setOnAction(E -> {
-            System.out.println("Pressed");
             addPerformerPopUp.show();
         });
         Button removePerformer = new Button("Remove performer");
+
         Button updatePerfomer = new Button("Update performer");
         //List components
         performerlist = new ListView();
         performerlist.setOrientation(Orientation.VERTICAL);
+        removePerformer.setOnAction(E ->{
+            System.out.println(performerlist.getSelectionModel().getSelectedItem());
+            performerController.removePerformer(performerlist.getSelectionModel().getSelectedItem()+"");
+            performerController.updateList(performerlist);
+        });
 
         performerVBox.getChildren().addAll(performerLabel, performerlist, addPerformer, updatePerfomer, removePerformer);
         agendaBorderpane.setRight(performerVBox);
