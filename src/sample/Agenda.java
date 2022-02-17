@@ -7,11 +7,14 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.LinkedList;
 
 
 public class Agenda extends Canvas {
 
     private FXGraphics2D graphics = new FXGraphics2D(this.getGraphicsContext2D());
+    private LinkedList<ShowBlock> shows = new LinkedList<>();
+
     public Point2D position = new Point2D.Double(100,100);
 
 
