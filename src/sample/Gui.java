@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 
 public class Gui extends Application {
 
-    ListView<String> performerlist = new ListView<>();
+    private ListView<String> performerlist;
     ListView<String> newBandMemberlist = new ListView<>();
     private PerformerController performerController = new PerformerController();
 
@@ -33,7 +33,7 @@ public class Gui extends Application {
         BorderPane popUpBorderPane = new BorderPane();
         Scene popUpScene = new Scene(popUpBorderPane);
         addPerformerPopUp.setScene(popUpScene);
-        addPerformerPopUp.setHeight(350);
+        addPerformerPopUp.setHeight(400);
         addPerformerPopUp.setWidth(300);
 
         //add performer vbox
@@ -137,6 +137,9 @@ public class Gui extends Application {
                 });
         //List components
         performerlist = new ListView();
+        performerlist.setOnMousePressed(e ->{
+            performerlist.getItems().set(0, "someting else");
+        });
         performerlist.setOrientation(Orientation.VERTICAL);
 
         performerVBox.getChildren().addAll(performerLabel, performerlist, addPerformer, editPerformer, removePerformer);
