@@ -98,7 +98,7 @@ public class Gui extends Application {
             } else if (bandRadioButton.isSelected()) {
                 if (!performerNameTextField.getText().isEmpty()) {
                     performerController.addBand(performerNameTextField.getText());
-                    performerController.addBandMembers(newBandMemberlist,performerNameTextField.getText());
+                    performerController.addBandMembers(newBandMemberlist, performerNameTextField.getText());
                     performerController.updateList(performerlist);
                     newBandMemberlist.getItems().clear();
                     performerNameTextField.deleteText(0, performerNameTextField.getText().length());
@@ -125,7 +125,6 @@ public class Gui extends Application {
         Button addPerformer = new Button("Add performer");
 
         addPerformer.setOnAction(E -> {
-            System.out.println("Pressed");
             addPerformerPopUp.show();
         });
         Button removePerformer = new Button("Remove performer");
@@ -135,11 +134,17 @@ public class Gui extends Application {
                     System.out.println("Edit button pressed");
                     editArtist(performerlist.getSelectionModel().getSelectedItem());
                 });
+        Button addPerformance = new Button("Add performance");
         //List components
         performerlist = new ListView();
         performerlist.setOrientation(Orientation.VERTICAL);
+        removePerformer.setOnAction(E -> {
+            System.out.println(performerlist.getSelectionModel().getSelectedItem());
+            performerController.removePerformer(performerlist.getSelectionModel().getSelectedItem() + "");
+            performerController.updateList(performerlist);
+        });
 
-        performerVBox.getChildren().addAll(performerLabel, performerlist, addPerformer, editPerformer, removePerformer);
+        performerVBox.getChildren().addAll(performerLabel, performerlist, addPerformer, addPerformance, updatePerfomer, removePerformer);
         agendaBorderpane.setRight(performerVBox);
         agendaBorderpane.setLeft(textField);
         Scene agendaScene = new Scene(agendaBorderpane);
