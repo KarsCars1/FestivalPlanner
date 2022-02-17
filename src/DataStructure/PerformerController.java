@@ -17,17 +17,17 @@ public class PerformerController {
             Artist newArtist = new Artist(performerName);
             performers.add(newArtist);
             artists.add(newArtist);
-        } else if (artistAlreadyExists(performerName)&&!performerAlreadyExists(performerName)) {
+        } else if (artistAlreadyExists(performerName) && !performerAlreadyExists(performerName)) {
             for (Artist artist : artists) {
-                if (artist.getPerformerName().equals(performerName)){
+                if (artist.getPerformerName().equals(performerName)) {
                     performers.add(artist);
-                    System.out.println("added bandmember to artistlist: "+ performerName);
                 }
             }
         } else {
             System.out.println("Cannot add duplicates (" + performerName + ")");
         }
     }
+
 
     public ArrayList<Performer> getPerformers() {
         return this.performers;
@@ -41,6 +41,15 @@ public class PerformerController {
     public boolean artistAlreadyExists(String performerName) {
         for (Artist artist : artists) {
             if (artist.getName().equals(performerName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean bandAlreadyExists(String performerName) {
+        for (Band band : bands) {
+            if (band.getPerformerName().equals(performerName)) {
                 return true;
             }
         }
@@ -82,12 +91,32 @@ public class PerformerController {
     }
 
     public void addBand(String performerName) {
-        Band newBand = new Band(performerName);
-        performers.add(newBand);
-        bands.add(newBand);
+        if (!performerAlreadyExists(performerName) && !bandAlreadyExists(performerName)) {
+            Band newBand = new Band(performerName);
+            performers.add(newBand);
+            bands.add(newBand);
+        } else if (bandAlreadyExists(performerName) && !performerAlreadyExists(performerName)) {
+            for (Band artist : bands) {
+                if (artist.getPerformerName().equals(performerName)) {
+                    performers.add(artist);
+                    System.out.println(performerName);
+                }
+            }
+        } else {
+            System.out.println("Cannot add duplicates (" + performerName + ")");
+        }
     }
 
     public void updatePerformer() {
 
+    }
+
+    public void removePerformer(String performerName) {
+        for (int i = 0; i < performers.size(); i++) {
+            Performer performer = performers.get(i);
+            if (performer.getPerformerName().equals(performerName)) {
+                performers.remove(i);
+            }
+        }
     }
 }
