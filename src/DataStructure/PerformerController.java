@@ -129,5 +129,12 @@ public class PerformerController {
         }
         return names;
     }
-    
+
+    public ArrayList<String> getLocationsString() {
+        ArrayList<String> names = new ArrayList<>();
+        for (Location location : this.locations) {
+            names.add(location.getName());
+        }
+        return names;
+    }
 }

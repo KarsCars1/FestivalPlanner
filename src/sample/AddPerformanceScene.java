@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -33,8 +34,6 @@ public class AddPerformanceScene extends StandardScene {
         TextField beginTimeHour = new TextField("00");
         TextField beginTimeMinute = new TextField("00");
         TextField endTimeHour = new TextField("00");
-        Label betweenBegin = new Label(":");
-        Label betweenEnd = new Label(":");
         TextField endTimeMinute = new TextField("00");
         time = new ArrayList<>();
         time.add(beginTimeHour);
@@ -58,14 +57,31 @@ public class AddPerformanceScene extends StandardScene {
         endTimeHour.setMaxWidth(30);
         endTimeMinute.setMaxWidth(30);
 
+        Label betweenBegin = new Label(":");
+        Label betweenEnd = new Label(":");
+        Label begintime = new Label("Begintime: ");
+        Label endtime = new Label(" EndTime: ");
+        Label performers = new Label("performer:");
+        Label showNameText = new Label("show name:");
+        Label location = new Label("location:");
 
-        Button save = new Button("add Performance");
+
+        Button save = new Button("add show");
         HBox times = new HBox();
         performerName.getItems().addAll(controller.getPerformersString());
+        GridPane names = new GridPane();
+        names.add(performers,0,0);
+        names.add(performerName,1,0);
+        names.add(location,0,1);
+        names.add(locations,1,1);
+
         performerName.getSelectionModel().select(performer);
-        times.getChildren().addAll(beginTimeHour, betweenBegin, beginTimeMinute, endTimeHour, betweenEnd, endTimeMinute);
+        performerName.setMinWidth(200);
+        locations.setMinWidth(200);
+        locations.getItems().addAll(controller.getLocationsString());
+        times.getChildren().addAll(begintime,beginTimeHour, betweenBegin, beginTimeMinute,endtime, endTimeHour, betweenEnd, endTimeMinute);
         VBox vBox = new VBox();
-        vBox.getChildren().addAll(performerName, times);
+        vBox.getChildren().addAll(showNameText,showName,names, times,save);
 
         Scene scene = new Scene(vBox);
         return scene;
@@ -76,7 +92,7 @@ public class AddPerformanceScene extends StandardScene {
             TextField textField = time.get(i);
             try {
                 int time = Integer.parseInt(textField.getText());
-                if ((time >=24 && i<2)||(time >=60 && i>1)){
+                if ((time >= 24 && i < 2) || (time >= 60 && i > 1)) {
                     textField.setText("");
                 }
             } catch (NumberFormatException e) {

@@ -126,7 +126,7 @@ public class Gui extends Application {
         Button removePerformer = new Button("Remove performer");
 
         Button updatePerfomer = new Button("Update performer");
-        Button addPerformance = new Button("Add performance");
+        Button addShow = new Button("Add Show");
 
         //List components
         performerlist = new ListView();
@@ -136,14 +136,15 @@ public class Gui extends Application {
             performerController.removePerformer(performerlist.getSelectionModel().getSelectedItem() + "");
             performerController.updateList(performerlist);
         });
-        addPerformance.setOnAction(E ->{
+        addShow.setOnAction(E ->{
             System.out.println("opening");
             Stage addPerformanceStage = new Stage();
             addPerformanceStage.setScene(new AddPerformanceScene(performerController,performerlist.getSelectionModel().getSelectedItem()).getScene());
+            addPerformanceStage.setResizable(false);
             addPerformanceStage.show();
         });
 
-        performerVBox.getChildren().addAll(performerLabel, performerlist, addPerformer, addPerformance, updatePerfomer, removePerformer);
+        performerVBox.getChildren().addAll(performerLabel, performerlist, addPerformer, addShow, updatePerfomer, removePerformer);
         agendaBorderpane.setRight(performerVBox);
         agendaBorderpane.setLeft(textField);
         Scene agendaScene = new Scene(agendaBorderpane);
