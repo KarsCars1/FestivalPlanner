@@ -2,6 +2,7 @@ package DataStructure;
 
 import DataStructure.Data.Artist;
 import DataStructure.Data.Band;
+import DataStructure.Data.Location;
 import DataStructure.Data.Performer;
 import javafx.scene.control.ListView;
 
@@ -11,6 +12,7 @@ public class PerformerController {
     private ArrayList<Performer> performers = new ArrayList<>();
     private ArrayList<Artist> artists = new ArrayList<>();
     private ArrayList<Band> bands = new ArrayList<>();
+    private ArrayList<Location> locations = new ArrayList<>();
 
     public void addArtist(String performerName) {
         if (!performerAlreadyExists(performerName) && !artistAlreadyExists(performerName)) {
@@ -127,4 +129,5 @@ public class PerformerController {
         }
         return names;
     }
+    
 }
