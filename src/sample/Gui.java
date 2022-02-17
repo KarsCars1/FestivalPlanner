@@ -1,5 +1,7 @@
 package sample;
 
+import DataStructure.Data.Artist;
+import DataStructure.Data.Performer;
 import DataStructure.PerformerController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -38,12 +40,14 @@ public class Gui extends Application {
         VBox addPerformerVbox = new VBox();
         Label name = new Label("Artist name:");
         TextField performerNameTextField = new TextField();
+
         //radiobuttons
         ToggleGroup selectorToggleGroup = new ToggleGroup();
         RadioButton artistRadioButton = new RadioButton("Artist");
         RadioButton bandRadioButton = new RadioButton("Band");
         artistRadioButton.setToggleGroup(selectorToggleGroup);
         bandRadioButton.setToggleGroup(selectorToggleGroup);
+
         //member interface in case of band
         Label members = new Label("Members");
         members.setVisible(false);
@@ -125,16 +129,33 @@ public class Gui extends Application {
             addPerformerPopUp.show();
         });
         Button removePerformer = new Button("Remove performer");
-        Button updatePerfomer = new Button("Update performer");
+        Button editPerformer = new Button("Edit performer");
+
+        editPerformer.setOnAction(E -> {
+                    System.out.println("Edit button pressed");
+                    editArtist(performerlist.getSelectionModel().getSelectedItem());
+                });
         //List components
         performerlist = new ListView();
         performerlist.setOrientation(Orientation.VERTICAL);
 
-        performerVBox.getChildren().addAll(performerLabel, performerlist, addPerformer, updatePerfomer, removePerformer);
+        performerVBox.getChildren().addAll(performerLabel, performerlist, addPerformer, editPerformer, removePerformer);
         agendaBorderpane.setRight(performerVBox);
         agendaBorderpane.setLeft(textField);
         Scene agendaScene = new Scene(agendaBorderpane);
         primaryStage.setScene(agendaScene);
         primaryStage.show();
+    }
+
+    public void editArtist(String artist){
+        Stage editArtistPopUp = new Stage();
+        BorderPane popUpBorderPane = new BorderPane();
+        Scene popUpScene = new Scene(popUpBorderPane);
+        editArtistPopUp.setScene(popUpScene);
+        editArtistPopUp.setHeight(350);
+        editArtistPopUp.setWidth(300);
+        editArtistPopUp.show();
+
+
     }
 }
