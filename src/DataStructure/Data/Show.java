@@ -1,25 +1,29 @@
 package DataStructure.Data;
 
+import java.time.LocalDateTime;
+
 public class Show {
 
     private String name;
     private Location location;
     private Performer performer;
+    private LocalDateTime beginTime;
+    private LocalDateTime endTime;
 
-    public Show(String name, Location location, Performer performer) {
+    public Show(String name, Location location, Performer performer, LocalDateTime beginTime, LocalDateTime endTime) {
         this.name = name;
         this.location = location;
         this.performer = performer;
+        this.beginTime = beginTime;
+        this.endTime = endTime;
     }
 
-    public Performer getPerformer(){
+    public Performer getPerformer() {
         return this.performer;
     }
 
-    public Performer setPerformer(Performer performer){
+    public void setPerformer(Performer performer) {
         this.performer = performer;
-
-        return this.performer;
     }
 
     public String getLocation() {

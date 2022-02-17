@@ -119,4 +119,12 @@ public class PerformerController {
             }
         }
     }
+
+    public ArrayList<String> getPerformersString() {
+        ArrayList<String> names = new ArrayList<>();
+        for (Performer performer : this.performers) {
+            names.add(performer.getPerformerName());
+        }
+        return names;
+    }
 }

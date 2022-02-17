@@ -127,13 +127,20 @@ public class Gui extends Application {
 
         Button updatePerfomer = new Button("Update performer");
         Button addPerformance = new Button("Add performance");
+
         //List components
         performerlist = new ListView();
         performerlist.setOrientation(Orientation.VERTICAL);
         removePerformer.setOnAction(E -> {
-            System.out.println(performerlist.getSelectionModel().getSelectedItem());
+            System.out.println();
             performerController.removePerformer(performerlist.getSelectionModel().getSelectedItem() + "");
             performerController.updateList(performerlist);
+        });
+        addPerformance.setOnAction(E ->{
+            System.out.println("opening");
+            Stage addPerformanceStage = new Stage();
+            addPerformanceStage.setScene(new AddPerformanceScene(performerController,performerlist.getSelectionModel().getSelectedItem()).getScene());
+            addPerformanceStage.show();
         });
 
         performerVBox.getChildren().addAll(performerLabel, performerlist, addPerformer, addPerformance, updatePerfomer, removePerformer);
