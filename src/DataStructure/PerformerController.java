@@ -1,11 +1,9 @@
 package DataStructure;
 
-import DataStructure.Data.Artist;
-import DataStructure.Data.Band;
-import DataStructure.Data.Location;
-import DataStructure.Data.Performer;
+import DataStructure.Data.*;
 import javafx.scene.control.ListView;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class PerformerController {
@@ -13,6 +11,7 @@ public class PerformerController {
     private ArrayList<Artist> artists = new ArrayList<>();
     private ArrayList<Band> bands = new ArrayList<>();
     private ArrayList<Location> locations = new ArrayList<>();
+    private ArrayList<Show> shows = new ArrayList<>();
 
     public void addArtist(String performerName) {
         if (!performerAlreadyExists(performerName) && !artistAlreadyExists(performerName)) {
@@ -83,6 +82,43 @@ public class PerformerController {
                 thisBand.addMember(thisArtist);
             }
         }
+    }
+
+    public void addShow(String name, String location, String performer, LocalTime beginTime, LocalTime endTime) {
+        for (Show show : shows) {
+            if (show.getName().equals(name)) {
+                return;
+            }
+        }
+        Performer performer1 = null;
+        for (Performer performer2 : performers) {
+            if (performer2.getPerformerName().equals(performer)) {
+                performer1 = performer2;
+            }
+        }
+        Location location1 = null;
+        for (Location location2 : locations) {
+            if (location2.getName().equals(location)) {
+                location1 = location2;
+            }
+        }
+        Show newShow = new Show(name, location1, performer1, beginTime, endTime);
+        shows.add(newShow);
+        System.out.println(newShow.toString());
+    }
+
+    public Show getShow(String name) {
+        for (Show show : shows) {
+            if (show.getName().equals(name)) {
+                return show;
+            }
+        }
+
+        return null;
+    }
+
+    public void removeShow(Show show) {
+        shows.remove(show);
     }
 
     public void updateList(ListView<String> listView) {

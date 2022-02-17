@@ -10,19 +10,20 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class AddPerformanceScene extends StandardScene {
+public class AddShowScene extends StandardScene {
 
     private String performer;
     private ArrayList<TextField> time;
 
-    public AddPerformanceScene(PerformerController controller, String performer) {
+    public AddShowScene(PerformerController controller, String performer) {
         this.performer = performer;
         this.scene = createScene(controller);
     }
 
-    public AddPerformanceScene(PerformerController controller) {
+    public AddShowScene(PerformerController controller) {
         this.performer = "";
         this.scene = createScene(controller);
     }
@@ -70,20 +71,31 @@ public class AddPerformanceScene extends StandardScene {
         HBox times = new HBox();
         performerName.getItems().addAll(controller.getPerformersString());
         GridPane names = new GridPane();
-        names.add(performers,0,0);
-        names.add(performerName,1,0);
-        names.add(location,0,1);
-        names.add(locations,1,1);
+        names.add(performers, 0, 0);
+        names.add(performerName, 1, 0);
+        names.add(location, 0, 1);
+        names.add(locations, 1, 1);
+
 
         performerName.getSelectionModel().select(performer);
         performerName.setMinWidth(200);
         locations.setMinWidth(200);
         locations.getItems().addAll(controller.getLocationsString());
-        times.getChildren().addAll(begintime,beginTimeHour, betweenBegin, beginTimeMinute,endtime, endTimeHour, betweenEnd, endTimeMinute);
+        times.getChildren().addAll(begintime, beginTimeHour, betweenBegin, beginTimeMinute, endtime, endTimeHour, betweenEnd, endTimeMinute);
         VBox vBox = new VBox();
-        vBox.getChildren().addAll(showNameText,showName,names, times,save);
+        vBox.getChildren().addAll(showNameText, showName, names, times, save);
 
         Scene scene = new Scene(vBox);
+        LocalTime theBeginTime = LocalTime.of(Integer.parseInt(beginTimeHour.getText()), Integer.parseInt(beginTimeMinute.getText()));
+        LocalTime theEndTime = LocalTime.of(Integer.parseInt(endTimeHour.getText()), Integer.parseInt(endTimeMinute.getText()));
+
+        save.setOnAction(e -> {
+            controller.addShow(showName.getText(),
+                    locations.getSelectionModel().getSelectedItem(),
+                    performerName.getSelectionModel().getSelectedItem(),
+                    theBeginTime,
+                    theEndTime);
+        });
         return scene;
     }
 

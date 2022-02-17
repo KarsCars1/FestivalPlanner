@@ -139,7 +139,7 @@ public class Gui extends Application {
         addShow.setOnAction(E ->{
             System.out.println("opening");
             Stage addPerformanceStage = new Stage();
-            addPerformanceStage.setScene(new AddPerformanceScene(performerController,performerlist.getSelectionModel().getSelectedItem()).getScene());
+            addPerformanceStage.setScene(new AddShowScene(performerController,performerlist.getSelectionModel().getSelectedItem()).getScene());
             addPerformanceStage.setResizable(false);
             addPerformanceStage.show();
         });
