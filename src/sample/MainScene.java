@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
@@ -33,10 +34,20 @@ public class MainScene extends StandardScene {
             performerController.updateList(performerList);
         });
 
-        //Todo 2dGraphics
+        TextField textField = new TextField();
+        Agenda agenda = new Agenda();
         agenda.setHeight(400);
         agenda.setWidth(400);
-        agenda.testDraw();
+        agenda.drawAgendaBase();
+        agenda.addShow();
+        agenda.drawShows();
+
+        agenda.setOnMouseDragged(e ->
+        {
+            agenda.moveOnMouse(e.getX(), e.getY());
+        });
+        agenda.setOnMousePressed(e -> agenda.mousePressed(e));
+        agenda.setOnMouseReleased(e -> agenda.mouseReleased(e));
 
         agenda.setOnMouseDragged(e -> {
             agenda.moveOnMouse(e.getX(), e.getY());
