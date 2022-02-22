@@ -62,6 +62,11 @@ public class MainScene extends StandardScene {
             addPerformanceStage.setResizable(false);
             addPerformanceStage.show();
         });
+        addLocation.setOnAction(E->{
+            Stage addLoactionStage = new Stage();
+            addLoactionStage.setScene(new AddLocation(performerController).getScene());
+            addLoactionStage.show();
+        });
 
         TextField textField = new TextField();
 

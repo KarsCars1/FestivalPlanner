@@ -91,6 +91,7 @@ public class PerformerController {
             }
         }
         locations.add(new Location(name));
+        System.out.println(locations.toString());
     }
 
     public void addShow(String name, String location, String performer, LocalTime beginTime, LocalTime endTime) {
