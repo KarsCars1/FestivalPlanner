@@ -68,6 +68,7 @@ public class Gui extends Application {
             addPerformerScene.addPerformerPopUp.show();
         });
 
+
         primaryStage.setTitle("Festival planner agenda");
         primaryStage.setScene(mainScene.getScene());
         primaryStage.show();

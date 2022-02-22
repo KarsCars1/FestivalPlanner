@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
@@ -33,14 +34,21 @@ public class MainScene extends StandardScene {
             performerController.updateList(performerList);
         });
 
-        //Todo 2dGraphics
-        agenda.setHeight(400);
-        agenda.setWidth(400);
-        agenda.testDraw();
+        TextField textField = new TextField();
 
-        agenda.setOnMouseDragged(e -> {
-            agenda.moveOnMouse(e.getX(), e.getY());
-        });
+        //schedule stuff
+        Agenda agenda = new Agenda();
+        agenda.setHeight(400);
+        agenda.setWidth(800);
+        agenda.drawAgendaBase();
+        agenda.addShow();
+        agenda.addShow();
+        agenda.addShow();
+        agenda.drawShows();
+
+        agenda.setOnMousePressed(e -> agenda.mousePressed(e));
+        agenda.setOnMouseReleased(e -> agenda.mouseReleased(e));
+        agenda.setOnMouseDragged(e -> agenda.moveOnMouse(e.getX(), e.getY()));
 
         performerVBox.getChildren().addAll(performerLabel, performerList, addPerformer, addPerformance, updatePerformer, removePerformer);
         agendaBorderPane.setRight(performerVBox);
