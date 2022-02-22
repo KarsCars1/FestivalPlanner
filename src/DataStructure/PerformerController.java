@@ -2,7 +2,6 @@ package DataStructure;
 
 import DataStructure.Data.*;
 import javafx.scene.control.ListView;
-import sample.EditArtist;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -84,6 +83,14 @@ public class PerformerController {
                 thisBand.addMember(thisArtist);
             }
         }
+    }
+    public void addLocation(String name){
+        for (Location location : locations) {
+            if (location.getName().equals(name)) {
+                return;
+            }
+        }
+        locations.add(new Location(name));
     }
 
     public void addShow(String name, String location, String performer, LocalTime beginTime, LocalTime endTime) {

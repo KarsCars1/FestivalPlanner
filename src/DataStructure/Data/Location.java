@@ -18,11 +18,16 @@ public class Location {
         this.surfaceArea = this.height * this.width;
     }
 
+    public Location(String name) {
+        this.name = name;
+    }
+
+
     public String getName() {
         return name;
     }
 
-    public int getSurfaceArea(){
+    public int getSurfaceArea() {
         return this.surfaceArea;
     }
 
