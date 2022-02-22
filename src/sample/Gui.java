@@ -2,7 +2,11 @@ package sample;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Orientation;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Gui extends Application {
@@ -16,7 +20,7 @@ public class Gui extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
         // The different scenes
-        MainScene mainScene = new MainScene();
+        MainScene mainScene = new MainScene(this);
         AddPerformerScene addPerformerScene = new AddPerformerScene();
         AddBandScene addBandScene = new AddBandScene();
 
@@ -72,31 +76,26 @@ public class Gui extends Application {
 
         Button addShow = new Button("Add Show");
 
-        editPerformer.setOnAction(E -> {
-            System.out.println("Edit button pressed");
-            EditArtist editArtist = new EditArtist(selectedPerformer, this, performerController);
-            //editArtist(selectedPerformer);
-        });
+//        editPerformer.setOnAction(E -> {
+//            System.out.println("Edit button pressed");
+//            EditArtist editArtist = new EditArtist(selectedPerformer, this, performerController);
+//            //editArtist(selectedPerformer);
+//        });
         //List components
-        performerlist = new ListView();
-        performerlist.setOnMousePressed(e -> {
-            selectedPerformer = performerlist.getSelectionModel().getSelectedItem();
-            //performerController.editPerformer(e.g);
+//        performerlist = new ListView();
+//        performerlist.setOnMousePressed(e -> {
+//            selectedPerformer = performerlist.getSelectionModel().getSelectedItem();
+//            //performerController.editPerformer(e.g);
+//
+//        });
 
-        });
-        performerlist.setOrientation(Orientation.VERTICAL);
-        removePerformer.setOnAction(E -> {
-            System.out.println();
-            performerController.removePerformer(performerlist.getSelectionModel().getSelectedItem() + "");
-            performerController.updateList(performerlist);
-        });
-        addShow.setOnAction(E -> {
-            System.out.println("opening");
-            Stage addPerformanceStage = new Stage();
-            addPerformanceStage.setScene(new AddShowScene(performerController, performerlist.getSelectionModel().getSelectedItem()).getScene());
-            addPerformanceStage.setResizable(false);
-            addPerformanceStage.show();
-        });
+//        addShow.setOnAction(E -> {
+//            System.out.println("opening");
+//            Stage addPerformanceStage = new Stage();
+//            addPerformanceStage.setScene(new AddShowScene(performerController, performerlist.getSelectionModel().getSelectedItem()).getScene());
+//            addPerformanceStage.setResizable(false);
+//            addPerformanceStage.show();
+//        });
 
         primaryStage.setTitle("Festival planner agenda");
         primaryStage.setScene(mainScene.getScene());
