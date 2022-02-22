@@ -4,6 +4,7 @@ import DataStructure.Data.Artist;
 import DataStructure.Data.Band;
 import DataStructure.Data.Performer;
 import javafx.scene.control.ListView;
+import sample.EditArtist;
 
 import java.util.ArrayList;
 
@@ -11,6 +12,7 @@ public class PerformerController {
     private ArrayList<Performer> performers = new ArrayList<>();
     private ArrayList<Artist> artists = new ArrayList<>();
     private ArrayList<Band> bands = new ArrayList<>();
+    //private EditArtist editArtist = new EditArtist();
 
     public void addArtist(String performerName) {
         if (!performerAlreadyExists(performerName) && !artistAlreadyExists(performerName)) {
@@ -107,8 +109,17 @@ public class PerformerController {
         }
     }
 
-    public void updatePerformer() {
-
+    public void editPerformer(String performerName) {
+        for (Performer performer: performers) {
+            if(performerName == performer.getPerformerName()){
+                if (bands.contains(performerName)){
+                    //getEditBand;
+                } else {
+                    //editArtist.getScene();
+                }
+                break;
+            }
+        }
     }
 
     public void removePerformer(String performerName) {
