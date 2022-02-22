@@ -23,7 +23,7 @@ public class Gui extends Application {
         MainScene mainScene = new MainScene(this);
         AddPerformerScene addPerformerScene = new AddPerformerScene();
         AddBandScene addBandScene = new AddBandScene();
-
+        
         //Button eventhandling
         addPerformerScene.switchToBandButton.setOnAction(E -> {
             addPerformerScene.addPerformerPopUp.close();
@@ -37,7 +37,7 @@ public class Gui extends Application {
             addPerformerScene.addPerformerPopUp.close();
         });
         addBandScene.backButton.setOnAction(E -> {
-
+            addBandScene.addPerformerPopUp.close();
         });
         addBandScene.addMemberButton.setOnAction(E -> {
             addBandScene.newBandMemberList.getItems().add(addBandScene.addMemberField.getText());
@@ -49,6 +49,8 @@ public class Gui extends Application {
                 mainScene.performerController.updateList(mainScene.performerList);
                 addPerformerScene.performerNameTextField.deleteText(0, addPerformerScene.performerNameTextField.getText().length());
             }
+        });
+        addBandScene.addButton.setOnAction(E -> {
             if (!addBandScene.performerNameTextField.getText().isEmpty()) {
                 mainScene.performerController.addBand(addBandScene.performerNameTextField.getText());
                 mainScene.performerController.addBandMembers(addBandScene.newBandMemberList, addBandScene.performerNameTextField.getText());
@@ -58,23 +60,9 @@ public class Gui extends Application {
             }
         });
 
-        //add performer vbox
-        addPerformerScene.addPerformerVBox.getChildren().addAll(addPerformerScene.name, addPerformerScene.performerNameTextField, addPerformerScene.switchToBandButton);
-        addPerformerScene.popUpBorderPane.setTop(addPerformerScene.addPerformerVBox);
-        addPerformerScene.popUpBorderPane.setBottom(addPerformerScene.buttonHBox);
-
-        addBandScene.addPerformerVBox.getChildren().addAll(addBandScene.name, addBandScene.performerNameTextField, addBandScene.switchToArtistButton, addBandScene.buttonHBox, addBandScene.members, addBandScene.membersHBox, addPerformerScene.newBandMemberList);
-        addBandScene.popUpBorderPane.setTop(addBandScene.addPerformerVBox);
-        addBandScene.popUpBorderPane.setBottom(addBandScene.buttonHBox);
-
-
         mainScene.addPerformer.setOnAction(E -> {
             addPerformerScene.addPerformerPopUp.show();
         });
-        Button removePerformer = new Button("Remove performer");
-        Button editPerformer = new Button("Edit performer");
-
-        Button addShow = new Button("Add Show");
 
 //        editPerformer.setOnAction(E -> {
 //            System.out.println("Edit button pressed");
@@ -108,17 +96,5 @@ public class Gui extends Application {
         newStage.setHeight(200);
         newStage.setWidth(300);
         newStage.show();
-    }
-
-    public void editArtist(String artist) {
-        Stage editArtistPopUp = new Stage();
-        BorderPane popUpBorderPane = new BorderPane();
-        Scene popUpScene = new Scene(popUpBorderPane);
-        editArtistPopUp.setScene(popUpScene);
-        editArtistPopUp.setHeight(350);
-        editArtistPopUp.setWidth(300);
-        editArtistPopUp.show();
-
-
     }
 }

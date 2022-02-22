@@ -33,5 +33,8 @@ public class AddPerformerScene extends StandardScene {
         addPerformerPopUp.setWidth(300);
         buttonHBox.getChildren().addAll(backButton, switchToBandButton, addButton);
         buttonHBox.setSpacing(140);
+        addPerformerVBox.getChildren().addAll(name, performerNameTextField, switchToBandButton);
+        popUpBorderPane.setTop(addPerformerVBox);
+        popUpBorderPane.setBottom(buttonHBox);
     }
 }

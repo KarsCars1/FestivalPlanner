@@ -38,9 +38,11 @@ public class AddBandScene extends StandardScene{
         addPerformerPopUp.setHeight(500);
         addPerformerPopUp.setWidth(300);
         membersHBox.getChildren().addAll(addMemberField, addMemberButton);
-        newBandMemberList = new ListView<>();
-        newBandMemberList.setPrefSize(175, 50);
+        newBandMemberList.setMaxSize(175, 150);
         buttonHBox.getChildren().addAll(backButton, addButton, switchToArtistButton);
         buttonHBox.setSpacing(140);
+        addPerformerVBox.getChildren().addAll(name, performerNameTextField, switchToArtistButton, buttonHBox, members, membersHBox, newBandMemberList);
+        popUpBorderPane.setTop(addPerformerVBox);
+        popUpBorderPane.setBottom(buttonHBox);
     }
 }
