@@ -14,6 +14,10 @@ public class PerformerController {
     private ArrayList<Show> shows = new ArrayList<>();
     //private EditArtist editArtist = new EditArtist();
 
+    public ArrayList<Show> getShows() {
+        return shows;
+    }
+
     public void addArtist(String performerName) {
         if (!performerAlreadyExists(performerName) && !artistAlreadyExists(performerName)) {
             Artist newArtist = new Artist(performerName);
