@@ -10,7 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class MainScene extends StandardScene {
     ListView<String> performerList = new ListView<>();
@@ -29,10 +28,10 @@ public class MainScene extends StandardScene {
     Button removeLocation = new Button("Remove Location");
     Button editLocation = new Button("Edit Location");
     Agenda agenda = new Agenda();
-    private String selectedPerformer;
+    String selectedPerformer;
 
 
-    public MainScene(Gui gui) {
+    public MainScene() {
 
         performerList = new ListView();
         performerList.setOnMousePressed(e -> {
@@ -43,30 +42,7 @@ public class MainScene extends StandardScene {
         //List components
         performerList.setOrientation(Orientation.VERTICAL);
 
-        removePerformer.setOnAction(E -> {
-            System.out.println(performerList.getSelectionModel().getSelectedItem());
-            performerController.removePerformer(performerList.getSelectionModel().getSelectedItem() + "");
-            performerController.updateList(performerList);
-        });
 
-        editPerformer.setOnAction(E -> {
-            System.out.println("Edit button pressed");
-            EditArtist editArtist = new EditArtist(selectedPerformer, gui, performerController);
-            //editArtist(selectedPerformer);
-        });
-
-        addShow.setOnAction(E -> {
-            System.out.println("opening");
-            Stage addPerformanceStage = new Stage();
-            addPerformanceStage.setScene(new AddShowScene(performerController, performerList.getSelectionModel().getSelectedItem()).getScene());
-            addPerformanceStage.setResizable(false);
-            addPerformanceStage.show();
-        });
-        addLocation.setOnAction(E->{
-            Stage addLoactionStage = new Stage();
-            addLoactionStage.setScene(new AddLocation(performerController).getScene());
-            addLoactionStage.show();
-        });
 
         TextField textField = new TextField();
 
@@ -89,6 +65,15 @@ public class MainScene extends StandardScene {
         performerVBox.getChildren().addAll(performerLabel, performerList, buttons);
         agendaBorderPane.setRight(performerVBox);
         agendaBorderPane.setLeft(agenda);
+
+        removePerformer.setOnAction(E -> {
+            System.out.println(performerList.getSelectionModel().getSelectedItem());
+            performerController.removePerformer(performerList.getSelectionModel().getSelectedItem() + "");
+            performerController.updateList(performerList);
+        });
+
+
+
         this.scene = new Scene(agendaBorderPane);
 
     }

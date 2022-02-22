@@ -2,11 +2,7 @@ package sample;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Orientation;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Gui extends Application {
@@ -20,24 +16,55 @@ public class Gui extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
         // The different scenes
-        MainScene mainScene = new MainScene(this);
+        MainScene mainScene = new MainScene();
+        Stage mainStage = new Stage();
+        mainStage.setScene(mainScene.getScene());
+
         AddPerformerScene addPerformerScene = new AddPerformerScene();
+        Stage addPerformerStage = new Stage();
+        addPerformerStage.setScene(addPerformerScene.getScene());
+
         AddBandScene addBandScene = new AddBandScene();
-        
+        Stage addBandStage = new Stage();
+        addBandStage.setScene(addBandScene.getScene());
+
+
+
+        mainScene.editPerformer.setOnAction(E -> {
+            System.out.println("Edit button pressed");
+            EditArtist editArtist = new EditArtist(mainScene.selectedPerformer, mainScene.performerController);
+            Stage editArtistStage = new Stage();
+            editArtistStage.setScene(editArtist.getScene());
+            editArtistStage.show();
+        });
+
+        mainScene.addShow.setOnAction(E -> {
+            System.out.println("opening");
+            Stage addPerformanceStage = new Stage();
+            addPerformanceStage.setScene(new AddShowScene(mainScene.performerController, mainScene.performerList.getSelectionModel().getSelectedItem()).getScene());
+            addPerformanceStage.setResizable(false);
+            addPerformanceStage.show();
+        });
+        mainScene.addLocation.setOnAction(E -> {
+            Stage addLoactionStage = new Stage();
+            addLoactionStage.setScene(new AddLocation(mainScene.performerController).getScene());
+            addLoactionStage.show();
+        });
+
         //Button eventhandling
         addPerformerScene.switchToBandButton.setOnAction(E -> {
-            addPerformerScene.addPerformerPopUp.close();
-            addBandScene.addPerformerPopUp.show();
+            addPerformerStage.close();
+            addBandStage.show();
         });
         addBandScene.switchToArtistButton.setOnAction(E -> {
-            addBandScene.addPerformerPopUp.close();
-            addPerformerScene.addPerformerPopUp.show();
+            addBandStage.close();
+            addPerformerStage.show();
         });
         addPerformerScene.backButton.setOnAction(E -> {
-            addPerformerScene.addPerformerPopUp.close();
+            addPerformerStage.close();
         });
         addBandScene.backButton.setOnAction(E -> {
-            addBandScene.addPerformerPopUp.close();
+            addBandStage.close();
         });
         addBandScene.addMemberButton.setOnAction(E -> {
             addBandScene.newBandMemberList.getItems().add(addBandScene.addMemberField.getText());
@@ -61,7 +88,7 @@ public class Gui extends Application {
         });
 
         mainScene.addPerformer.setOnAction(E -> {
-            addPerformerScene.addPerformerPopUp.show();
+            addPerformerStage.show();
         });
 
 //        editPerformer.setOnAction(E -> {
@@ -88,13 +115,5 @@ public class Gui extends Application {
         primaryStage.setTitle("Festival planner agenda");
         primaryStage.setScene(mainScene.getScene());
         primaryStage.show();
-    }
-
-    public void updateScene(Scene newScene) {
-        Stage newStage = new Stage();
-        newStage.setScene(newScene);
-        newStage.setHeight(200);
-        newStage.setWidth(300);
-        newStage.show();
     }
 }
