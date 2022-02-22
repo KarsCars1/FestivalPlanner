@@ -1,5 +1,6 @@
 package sample;
 
+import DataStructure.Data.Performer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
@@ -23,8 +24,26 @@ public class Gui extends Application {
         MainScene mainScene = new MainScene(this);
         AddPerformerScene addPerformerScene = new AddPerformerScene();
         AddBandScene addBandScene = new AddBandScene();
-        
+        EditArtist editArtistScene = new EditArtist();
+
         //Button eventhandling
+        mainScene.editPerformer.setOnAction(E -> {
+            if (!mainScene.performerList.getSelectionModel().isEmpty()){
+                editArtistScene.getArtistField().setText(mainScene.performerList.getSelectionModel().getSelectedItem());
+                editArtistScene.setOldArtist(mainScene.performerList.getSelectionModel().getSelectedItem());
+                editArtistScene.editPerformerPopup.show();
+            }
+        });
+        editArtistScene.getSaveButton().setOnAction(E -> {
+            for (Performer performer : mainScene.performerController.getPerformers()){
+                if (performer.getPerformerName().equals(editArtistScene.getOldArtist())){
+                    performer.setPerformerName(editArtistScene.getArtistField().getText());
+                    System.out.println("ik was hier...");
+                }
+            }
+            mainScene.performerController.updateList(mainScene.performerList);
+            editArtistScene.editPerformerPopup.close();
+        });
         addPerformerScene.switchToBandButton.setOnAction(E -> {
             addPerformerScene.addPerformerPopUp.close();
             addBandScene.addPerformerPopUp.show();
@@ -59,6 +78,7 @@ public class Gui extends Application {
                 addBandScene.performerNameTextField.deleteText(0, addBandScene.performerNameTextField.getText().length());
             }
         });
+
 
         mainScene.addPerformer.setOnAction(E -> {
             addPerformerScene.addPerformerPopUp.show();
