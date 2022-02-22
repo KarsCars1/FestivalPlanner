@@ -7,7 +7,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class AddPerformerScene extends StandardScene {
+public class AddBandScene extends StandardScene{
+    //member interface in case of band
+    Label members = new Label("Members");
+    HBox membersHBox = new HBox();
+    Button addMemberButton = new Button("+");
+    TextField addMemberField = new TextField();
+
     //add performer popup
     Stage addPerformerPopUp = new Stage();
     BorderPane popUpBorderPane = new BorderPane();
@@ -20,21 +26,24 @@ public class AddPerformerScene extends StandardScene {
 
     //radiobuttons
     ToggleGroup selectorToggleGroup = new ToggleGroup();
-    RadioButton artistRadioButton = new RadioButton("Artist");
-    RadioButton switchToBandButton = new RadioButton("Band");
+    RadioButton switchToBandButton = new RadioButton("Artist");
+    RadioButton bandRadioButton = new RadioButton("Band");
 
     //Button hbox
     HBox buttonHBox = new HBox();
     Button backButton = new Button("Back");
     Button addButton = new Button("Add to list");
 
-    public AddPerformerScene(){
+    public AddBandScene() {
         scene = new Scene(popUpBorderPane);
         addPerformerPopUp.setScene(scene);
         addPerformerPopUp.setHeight(350);
         addPerformerPopUp.setWidth(300);
-        artistRadioButton.setToggleGroup(selectorToggleGroup);
         switchToBandButton.setToggleGroup(selectorToggleGroup);
+        bandRadioButton.setToggleGroup(selectorToggleGroup);
+        membersHBox.getChildren().addAll(addMemberField, addMemberButton);
+        newBandMemberList = new ListView<>();
+        newBandMemberList.setMaxSize(175, 150);
         buttonHBox.getChildren().addAll(backButton, addButton);
         buttonHBox.setSpacing(140);
     }

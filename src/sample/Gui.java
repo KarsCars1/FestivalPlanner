@@ -18,47 +18,51 @@ public class Gui extends Application {
         // The different scenes
         MainScene mainScene = new MainScene();
         AddPerformerScene addPerformerScene = new AddPerformerScene();
+        AddBandScene addBandScene = new AddBandScene();
 
         //Button eventhandling
-        addPerformerScene.bandRadioButton.setOnAction(E -> {
-            addPerformerScene.name.setText("Band name:");
-            addPerformerScene.membersHBox.setVisible(true);
-            addPerformerScene.newBandMemberList.setVisible(true);
+        addPerformerScene.switchToBandButton.setOnAction(E -> {
+            addPerformerScene.addPerformerPopUp.close();
+            addBandScene.addPerformerPopUp.show();
         });
-        addPerformerScene.artistRadioButton.setOnAction(E -> {
-            addPerformerScene.name.setText("Artist name:");
-            addPerformerScene.membersHBox.setVisible(false);
-            addPerformerScene.newBandMemberList.setVisible(false);
+        addBandScene.switchToBandButton.setOnAction(E -> {
+            addBandScene.addPerformerPopUp.close();
+            addPerformerScene.addPerformerPopUp.show();
         });
         addPerformerScene.backButton.setOnAction(E -> {
             addPerformerScene.addPerformerPopUp.close();
         });
-        addPerformerScene.addMemberButton.setOnAction(E -> {
-            addPerformerScene.newBandMemberList.getItems().add(addPerformerScene.addMemberField.getText());
-            addPerformerScene.addMemberField.setText("");
+        addBandScene.backButton.setOnAction(E -> {
+
+        });
+        addBandScene.addMemberButton.setOnAction(E -> {
+            addBandScene.newBandMemberList.getItems().add(addBandScene.addMemberField.getText());
+            addBandScene.addMemberField.setText("");
         });
         addPerformerScene.addButton.setOnAction(E -> {
-            if (addPerformerScene.artistRadioButton.isSelected()) {
-                if (!addPerformerScene.performerNameTextField.getText().isEmpty()) {
-                    mainScene.performerController.addArtist(addPerformerScene.performerNameTextField.getText());
-                    mainScene.performerController.updateList(mainScene.performerList);
-                    addPerformerScene.performerNameTextField.deleteText(0, addPerformerScene.performerNameTextField.getText().length());
-                }
-            } else if (addPerformerScene.bandRadioButton.isSelected()) {
-                if (!addPerformerScene.performerNameTextField.getText().isEmpty()) {
-                    mainScene.performerController.addBand(addPerformerScene.performerNameTextField.getText());
-                    mainScene.performerController.addBandMembers(addPerformerScene.newBandMemberList, addPerformerScene.performerNameTextField.getText());
-                    mainScene.performerController.updateList(mainScene.performerList);
-                    addPerformerScene.newBandMemberList.getItems().clear();
-                    addPerformerScene.performerNameTextField.deleteText(0, addPerformerScene.performerNameTextField.getText().length());
-                }
+            if (!addPerformerScene.performerNameTextField.getText().isEmpty()) {
+                mainScene.performerController.addArtist(addPerformerScene.performerNameTextField.getText());
+                mainScene.performerController.updateList(mainScene.performerList);
+                addPerformerScene.performerNameTextField.deleteText(0, addPerformerScene.performerNameTextField.getText().length());
+            }
+            if (!addBandScene.performerNameTextField.getText().isEmpty()) {
+                mainScene.performerController.addBand(addBandScene.performerNameTextField.getText());
+                mainScene.performerController.addBandMembers(addBandScene.newBandMemberList, addBandScene.performerNameTextField.getText());
+                mainScene.performerController.updateList(mainScene.performerList);
+                addBandScene.newBandMemberList.getItems().clear();
+                addBandScene.performerNameTextField.deleteText(0, addBandScene.performerNameTextField.getText().length());
             }
         });
 
         //add performer vbox
-        addPerformerScene.addPerformerVBox.getChildren().addAll(addPerformerScene.name, addPerformerScene.performerNameTextField, addPerformerScene.artistRadioButton, addPerformerScene.bandRadioButton, addPerformerScene.buttonHBox, addPerformerScene.members, addPerformerScene.membersHBox, addPerformerScene.newBandMemberList);
+        addPerformerScene.addPerformerVBox.getChildren().addAll(addPerformerScene.name, addPerformerScene.performerNameTextField, addPerformerScene.artistRadioButton, addPerformerScene.switchToBandButton);
         addPerformerScene.popUpBorderPane.setTop(addPerformerScene.addPerformerVBox);
         addPerformerScene.popUpBorderPane.setBottom(addPerformerScene.buttonHBox);
+
+        addBandScene.addPerformerVBox.getChildren().addAll(addBandScene.name, addBandScene.performerNameTextField, addBandScene.switchToBandButton, addBandScene.bandRadioButton, addBandScene.buttonHBox, addBandScene.members, addBandScene.membersHBox, addPerformerScene.newBandMemberList);
+        addBandScene.popUpBorderPane.setTop(addBandScene.addPerformerVBox);
+        addBandScene.popUpBorderPane.setBottom(addBandScene.buttonHBox);
+
 
         mainScene.addPerformer.setOnAction(E -> {
             addPerformerScene.addPerformerPopUp.show();
