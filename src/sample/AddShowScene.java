@@ -86,10 +86,12 @@ public class AddShowScene extends StandardScene {
         vBox.getChildren().addAll(showNameText, showName, names, times, save);
 
         Scene scene = new Scene(vBox);
-        LocalTime theBeginTime = LocalTime.of(Integer.parseInt(beginTimeHour.getText()), Integer.parseInt(beginTimeMinute.getText()));
-        LocalTime theEndTime = LocalTime.of(Integer.parseInt(endTimeHour.getText()), Integer.parseInt(endTimeMinute.getText()));
+        System.out.println(Integer.parseInt(beginTimeHour.getText()));
+
 
         save.setOnAction(e -> {
+            LocalTime theBeginTime = LocalTime.of(Integer.parseInt(beginTimeHour.getText()), Integer.parseInt(beginTimeMinute.getText()));
+            LocalTime theEndTime = LocalTime.of(Integer.parseInt(endTimeHour.getText()), Integer.parseInt(endTimeMinute.getText()));
             controller.addShow(showName.getText(),
                     locations.getSelectionModel().getSelectedItem(),
                     performerName.getSelectionModel().getSelectedItem(),
