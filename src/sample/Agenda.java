@@ -3,6 +3,7 @@ package sample;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseEvent;
 import org.jfree.fx.FXGraphics2D;
+import org.jfree.fx.ResizableCanvas;
 
 import java.awt.*;
 import java.awt.font.GlyphVector;
@@ -24,25 +25,24 @@ public class Agenda extends Canvas {
 
 
     public Agenda() {
-
     }
 
     //todo make proper base for agenda
     public void drawAgendaBase() {
         graphics.setClip(null);
         this.graphics.setBackground(Color.white);
-        this.graphics.clearRect(0, 0, 1920, 1080);
+        this.graphics.clearRect(0, 0, (int)getWidth(), (int)getHeight());
 
 
         graphics.setColor(Color.gray);
-        graphics.fill(new Rectangle2D.Double(5, 5, this.getWidth() / 5, this.getHeight() - 10));
-        graphics.fill(new Rectangle2D.Double(5, 5, this.getWidth(), this.getHeight() / 5));
+        graphics.fill(new Rectangle2D.Double(5, 5, getWidth(), 100));
+        graphics.fill(new Rectangle2D.Double(5, 5, 100, getHeight()));
 
 
         graphics.setColor(Color.black);
         this.graphics.setStroke(new BasicStroke(10));
-        graphics.draw(new Rectangle2D.Double(5, 5, this.getWidth() / 5, this.getHeight() - 10));
-        graphics.draw(new Rectangle2D.Double(5, 5, this.getWidth(), this.getHeight() / 5));
+        graphics.draw(new Rectangle2D.Double(5, 5, getWidth(), 100));
+        graphics.draw(new Rectangle2D.Double(5, 5, 100, getHeight()));
 
         Font font = new Font("Dialog", Font.PLAIN, 20);
         GlyphVector agendaText = font.createGlyphVector(graphics.getFontRenderContext(), "12:00                12:30                13:00                13:30                14:00                14:30                15:00                15:30                16:00                16:30                17:00                17:30");
@@ -52,7 +52,7 @@ public class Agenda extends Canvas {
         Shape text = transform.createTransformedShape(agendaText.getOutline());
         graphics.fill(text);
 
-        graphics.setClip(new Rectangle2D.Double(this.getWidth() / 5 + 5, this.getHeight() / 5 + 5, this.getWidth(), this.getHeight()));
+        //graphics.setClip(new Rectangle2D.Double(100, 100, 100, 100));
     }
 
     public void addShow() {

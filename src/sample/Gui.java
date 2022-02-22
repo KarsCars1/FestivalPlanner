@@ -20,7 +20,7 @@ public class Gui extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
         // The different scenes
-        MainScene mainScene = new MainScene(this);
+        MainScene mainScene = new MainScene(this, primaryStage);
         AddPerformerScene addPerformerScene = new AddPerformerScene();
         AddBandScene addBandScene = new AddBandScene();
         
@@ -84,6 +84,7 @@ public class Gui extends Application {
 //            addPerformanceStage.setResizable(false);
 //            addPerformanceStage.show();
 //        });
+
 
         primaryStage.setTitle("Festival planner agenda");
         primaryStage.setScene(mainScene.getScene());
