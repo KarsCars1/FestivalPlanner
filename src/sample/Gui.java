@@ -139,7 +139,7 @@ public class Gui extends Application {
 
         editPerformer.setOnAction(E -> {
                     System.out.println("Edit button pressed");
-                    EditArtist editArtist = new EditArtist(selectedPerformer, this);
+                    EditArtist editArtist = new EditArtist(selectedPerformer, this, performerController);
                     //editArtist(selectedPerformer);
         });
         Button addPerformance = new Button("Add performance");
