@@ -1,5 +1,7 @@
 package sample;
 
+import DataStructure.Data.Location;
+import DataStructure.Data.Performer;
 import DataStructure.Data.Show;
 import DataStructure.PerformerController;
 import javafx.collections.FXCollections;
@@ -7,10 +9,13 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class MainScene extends StandardScene {
@@ -31,6 +36,7 @@ public class MainScene extends StandardScene {
     Button editLocation = new Button("Edit Location");
     Agenda agenda = new Agenda();
     String selectedPerformer;
+    TableView showsTable = new TableView<>();
 
 
     public MainScene() {
@@ -69,19 +75,22 @@ public class MainScene extends StandardScene {
 //        agendaScroll.fitToHeightProperty().setValue(false);
 //        agendaScroll.setMaxHeight(600);
 //        agendaScroll.setMaxWidth(800);
-        TableView<String> showsTable = new TableView<>();
+
         TableColumn showName = new TableColumn("Show");
+        showName.setCellValueFactory(new PropertyValueFactory<>("name"));
         TableColumn performer = new TableColumn("Performer");
+        performer.setCellValueFactory(new PropertyValueFactory<>("performer.getName()"));
         TableColumn beginTime = new TableColumn("Begin time");
+        beginTime.setCellValueFactory(new PropertyValueFactory<>("beginTime"));
         TableColumn endTime = new TableColumn("End time");
-        ArrayList<Show> shows = new ArrayList<>();
+        endTime.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+//        ArrayList<Show> shows = performerController.getShows();
 
-        ObservableList<Show> showsObservableList = FXCollections.observableList(shows);
-
-        for (Show show : shows) {
-//            showsTable.getItems().add(show.getName(), show.getPerformer().getPerformerName(), show.getBeginTime().toString(), show.getEndTime().toString());
-        }
+        //shows.add(new Show("yee", null, new Performer("eey"), LocalTime.NOON, LocalTime.now()));
         showsTable.getColumns().addAll(showName, performer, beginTime, endTime);
+
+        updateShows();
+
 
         buttons.addColumn(0, addPerformer, editPerformer, removePerformer);
         buttons.addColumn(1, addShow);
@@ -102,4 +111,12 @@ public class MainScene extends StandardScene {
 
     }
 
+    public void updateShows() {
+        ArrayList<Show> shows = performerController.getShows();
+        int i = 0;
+        for (Show show : shows) {
+            showsTable.getItems().add(i, show);
+            i++;
+        }
+    }
 }
