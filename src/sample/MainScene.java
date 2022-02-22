@@ -35,23 +35,20 @@ public class MainScene extends StandardScene {
         });
 
         TextField textField = new TextField();
+
+        //schedule stuff
         Agenda agenda = new Agenda();
         agenda.setHeight(400);
-        agenda.setWidth(400);
+        agenda.setWidth(800);
         agenda.drawAgendaBase();
+        agenda.addShow();
+        agenda.addShow();
         agenda.addShow();
         agenda.drawShows();
 
-        agenda.setOnMouseDragged(e ->
-        {
-            agenda.moveOnMouse(e.getX(), e.getY());
-        });
         agenda.setOnMousePressed(e -> agenda.mousePressed(e));
         agenda.setOnMouseReleased(e -> agenda.mouseReleased(e));
-
-        agenda.setOnMouseDragged(e -> {
-            agenda.moveOnMouse(e.getX(), e.getY());
-        });
+        agenda.setOnMouseDragged(e -> agenda.moveOnMouse(e.getX(), e.getY()));
 
         performerVBox.getChildren().addAll(performerLabel, performerList, addPerformer, addPerformance, updatePerformer, removePerformer);
         agendaBorderPane.setRight(performerVBox);

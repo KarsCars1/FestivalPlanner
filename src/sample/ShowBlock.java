@@ -9,8 +9,8 @@ public class ShowBlock {
 
 
     public ShowBlock() {
-        position = new Point2D.Double(0, 0);
-        block = new Rectangle2D.Double(0, 0, 100,100);
+        position = new Point2D.Double(200, 0);
+        block = new Rectangle2D.Double(200, 0, 100,100);
     }
 
     public Rectangle2D.Double getBlock() {
