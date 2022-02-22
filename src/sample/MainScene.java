@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -16,6 +17,7 @@ public class MainScene extends StandardScene {
     PerformerController performerController = new PerformerController();
     //stage title and main borderpane
     BorderPane agendaBorderPane = new BorderPane();
+    GridPane buttons = new GridPane();
     //Vbox components
     VBox performerVBox = new VBox();
     Label performerLabel = new Label("Performers:");
@@ -23,6 +25,9 @@ public class MainScene extends StandardScene {
     Button removePerformer = new Button("Remove performer");
     Button editPerformer = new Button("Edit performer");
     Button addShow = new Button("Add show");
+    Button addLocation = new Button("Add Location");
+    Button removeLocation = new Button("Remove Location");
+    Button editLocation = new Button("Edit Location");
     Agenda agenda = new Agenda();
     private String selectedPerformer;
 
@@ -57,6 +62,11 @@ public class MainScene extends StandardScene {
             addPerformanceStage.setResizable(false);
             addPerformanceStage.show();
         });
+        addLocation.setOnAction(E->{
+            Stage addLoactionStage = new Stage();
+            addLoactionStage.setScene(new AddLocation(performerController).getScene());
+            addLoactionStage.show();
+        });
 
         TextField textField = new TextField();
 
@@ -73,8 +83,10 @@ public class MainScene extends StandardScene {
         agenda.setOnMousePressed(e -> agenda.mousePressed(e));
         agenda.setOnMouseReleased(e -> agenda.mouseReleased(e));
         agenda.setOnMouseDragged(e -> agenda.moveOnMouse(e.getX(), e.getY()));
-
-        performerVBox.getChildren().addAll(performerLabel, performerList, addPerformer, addShow, editPerformer, removePerformer);
+        buttons.addColumn(0,addPerformer,editPerformer,removePerformer);
+        buttons.addColumn(1,addShow);
+        buttons.addColumn(2,addLocation,editLocation,removeLocation);
+        performerVBox.getChildren().addAll(performerLabel, performerList, buttons);
         agendaBorderPane.setRight(performerVBox);
         agendaBorderPane.setLeft(agenda);
         this.scene = new Scene(agendaBorderPane);
