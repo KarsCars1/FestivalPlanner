@@ -12,7 +12,23 @@ public class PerformerController {
     private ArrayList<Band> bands = new ArrayList<>();
     private ArrayList<Location> locations = new ArrayList<>();
     private ArrayList<Show> shows = new ArrayList<>();
-    //private EditArtist editArtist = new EditArtist();
+    //private EditArtistScene editArtist = new EditArtistScene();
+
+    public ArrayList<Artist> getArtists() {
+        return artists;
+    }
+
+    public ArrayList<Band> getBands() {
+        return bands;
+    }
+
+    public ArrayList<Location> getLocations() {
+        return locations;
+    }
+
+    public ArrayList<Show> getShows() {
+        return shows;
+    }
 
     public void addArtist(String performerName) {
         if (!performerAlreadyExists(performerName) && !artistAlreadyExists(performerName)) {

@@ -1,5 +1,7 @@
 package sample;
 
+import DataStructure.Data.Artist;
+import DataStructure.Data.Band;
 import DataStructure.Data.Performer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -29,15 +31,8 @@ public class Gui extends Application {
         Stage addBandStage = new Stage();
         addBandStage.setScene(addBandScene.getScene());
 
-
-
-        mainScene.editPerformer.setOnAction(E -> {
-            System.out.println("Edit button pressed");
-            EditArtist editArtist = new EditArtist(mainScene.selectedPerformer, mainScene.performerController);
-            Stage editArtistStage = new Stage();
-            editArtistStage.setScene(editArtist.getScene());
-            editArtistStage.show();
-        });
+        EditArtistScene editArtist = new EditArtistScene();
+        Stage editArtistStage = new Stage();
 
         mainScene.addShow.setOnAction(E -> {
             System.out.println("opening");
@@ -54,21 +49,32 @@ public class Gui extends Application {
 
         //Button eventhandling
         mainScene.editPerformer.setOnAction(E -> {
-            if (!mainScene.performerList.getSelectionModel().isEmpty()){
-                editArtistScene.getArtistField().setText(mainScene.performerList.getSelectionModel().getSelectedItem());
-                editArtistScene.setOldArtist(mainScene.performerList.getSelectionModel().getSelectedItem());
-                editArtistScene.editPerformerPopup.show();
+            if (!mainScene.performerList.getSelectionModel().isEmpty()) {
+                for (Artist artist : mainScene.performerController.getArtists()){
+                    if (artist.getPerformerName().equals(editArtist.getOldArtist())) {
+                        editArtist.getArtistField().setText(mainScene.performerList.getSelectionModel().getSelectedItem());
+                        editArtist.setOldArtist(mainScene.performerList.getSelectionModel().getSelectedItem());
+                        editArtistStage.show();
+                        break;
+                    }
+                }
+                for (Band band : mainScene.performerController.getBands()) {
+                    if (band.getPerformerName().equals(editArtist.getOldArtist())) {
+
+                    }
+                }
+
             }
         });
-        editArtistScene.getSaveButton().setOnAction(E -> {
-            for (Performer performer : mainScene.performerController.getPerformers()){
-                if (performer.getPerformerName().equals(editArtistScene.getOldArtist())){
-                    performer.setPerformerName(editArtistScene.getArtistField().getText());
+        editArtist.getSaveButton().setOnAction(E -> {
+            for (Performer performer : mainScene.performerController.getPerformers()) {
+                if (performer.getPerformerName().equals(editArtist.getOldArtist())) {
+                    performer.setPerformerName(editArtist.getArtistField().getText());
                     System.out.println("ik was hier...");
                 }
             }
             mainScene.performerController.updateList(mainScene.performerList);
-            editArtistScene.editPerformerPopup.close();
+            editArtistStage.close();
         });
         addPerformerScene.switchToBandButton.setOnAction(E -> {
             addPerformerStage.close();
@@ -105,31 +111,9 @@ public class Gui extends Application {
             }
         });
 
-
         mainScene.addPerformer.setOnAction(E -> {
             addPerformerStage.show();
         });
-
-//        editPerformer.setOnAction(E -> {
-//            System.out.println("Edit button pressed");
-//            EditArtist editArtist = new EditArtist(selectedPerformer, this, performerController);
-//            //editArtist(selectedPerformer);
-//        });
-        //List components
-//        performerlist = new ListView();
-//        performerlist.setOnMousePressed(e -> {
-//            selectedPerformer = performerlist.getSelectionModel().getSelectedItem();
-//            //performerController.editPerformer(e.g);
-//
-//        });
-
-//        addShow.setOnAction(E -> {
-//            System.out.println("opening");
-//            Stage addPerformanceStage = new Stage();
-//            addPerformanceStage.setScene(new AddShowScene(performerController, performerlist.getSelectionModel().getSelectedItem()).getScene());
-//            addPerformanceStage.setResizable(false);
-//            addPerformanceStage.show();
-//        });
 
         primaryStage.setTitle("Festival planner agenda");
         primaryStage.setScene(mainScene.getScene());
