@@ -67,10 +67,59 @@ public class Gui extends Application {
         mainScene.addPerformer.setOnAction(E -> {
             addPerformerScene.addPerformerPopUp.show();
         });
+        Button removePerformer = new Button("Remove performer");
+        Button editPerformer = new Button("Edit performer");
 
+        Button addShow = new Button("Add Show");
+
+        editPerformer.setOnAction(E -> {
+            System.out.println("Edit button pressed");
+            EditArtist editArtist = new EditArtist(selectedPerformer, this, performerController);
+            //editArtist(selectedPerformer);
+        });
+        //List components
+        performerlist = new ListView();
+        performerlist.setOnMousePressed(e -> {
+            selectedPerformer = performerlist.getSelectionModel().getSelectedItem();
+            //performerController.editPerformer(e.g);
+
+        });
+        performerlist.setOrientation(Orientation.VERTICAL);
+        removePerformer.setOnAction(E -> {
+            System.out.println();
+            performerController.removePerformer(performerlist.getSelectionModel().getSelectedItem() + "");
+            performerController.updateList(performerlist);
+        });
+        addShow.setOnAction(E -> {
+            System.out.println("opening");
+            Stage addPerformanceStage = new Stage();
+            addPerformanceStage.setScene(new AddShowScene(performerController, performerlist.getSelectionModel().getSelectedItem()).getScene());
+            addPerformanceStage.setResizable(false);
+            addPerformanceStage.show();
+        });
 
         primaryStage.setTitle("Festival planner agenda");
         primaryStage.setScene(mainScene.getScene());
         primaryStage.show();
+    }
+
+    public void updateScene(Scene newScene) {
+        Stage newStage = new Stage();
+        newStage.setScene(newScene);
+        newStage.setHeight(200);
+        newStage.setWidth(300);
+        newStage.show();
+    }
+
+    public void editArtist(String artist) {
+        Stage editArtistPopUp = new Stage();
+        BorderPane popUpBorderPane = new BorderPane();
+        Scene popUpScene = new Scene(popUpBorderPane);
+        editArtistPopUp.setScene(popUpScene);
+        editArtistPopUp.setHeight(350);
+        editArtistPopUp.setWidth(300);
+        editArtistPopUp.show();
+
+
     }
 }
