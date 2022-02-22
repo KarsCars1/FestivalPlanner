@@ -1,10 +1,7 @@
 package sample;
 
-import DataStructure.Data.Artist;
-import DataStructure.Data.Performer;
 import DataStructure.PerformerController;
 import javafx.application.Application;
-import javafx.event.EventTarget;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.scene.Parent;
@@ -13,15 +10,12 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import java.lang.annotation.Target;
 
 public class Gui extends Application {
 
-    private ListView<String> performerlist;
     ListView<String> newBandMemberlist = new ListView<>();
+    private ListView<String> performerlist;
     private PerformerController performerController = new PerformerController();
     private Stage thisStage;
     private String selectedPerformer = "";
@@ -140,15 +134,15 @@ public class Gui extends Application {
         Button addShow = new Button("Add Show");
 
         editPerformer.setOnAction(E -> {
-                    System.out.println("Edit button pressed");
-                    EditArtist editArtist = new EditArtist(selectedPerformer, this);
-                    //editArtist(selectedPerformer);
+            System.out.println("Edit button pressed");
+            EditArtist editArtist = new EditArtist(selectedPerformer, this, performerController);
+            //editArtist(selectedPerformer);
         });
         //List components
         performerlist = new ListView();
-        performerlist.setOnMousePressed(e ->{
+        performerlist.setOnMousePressed(e -> {
             selectedPerformer = performerlist.getSelectionModel().getSelectedItem();
-                //performerController.editPerformer(e.g);
+            //performerController.editPerformer(e.g);
 
         });
         performerlist.setOrientation(Orientation.VERTICAL);
@@ -157,15 +151,15 @@ public class Gui extends Application {
             performerController.removePerformer(performerlist.getSelectionModel().getSelectedItem() + "");
             performerController.updateList(performerlist);
         });
-        addShow.setOnAction(E ->{
+        addShow.setOnAction(E -> {
             System.out.println("opening");
             Stage addPerformanceStage = new Stage();
-            addPerformanceStage.setScene(new AddShowScene(performerController,performerlist.getSelectionModel().getSelectedItem()).getScene());
+            addPerformanceStage.setScene(new AddShowScene(performerController, performerlist.getSelectionModel().getSelectedItem()).getScene());
             addPerformanceStage.setResizable(false);
             addPerformanceStage.show();
         });
 
-        performerVBox.getChildren().addAll(performerLabel, performerlist, addPerformer, addPerformance, editPerformer, removePerformer);
+        performerVBox.getChildren().addAll(performerLabel, performerlist, addPerformer, addShow, editPerformer, removePerformer);
         agendaBorderpane.setRight(performerVBox);
         agendaBorderpane.setLeft(textField);
         Scene agendaScene = new Scene(agendaBorderpane);
@@ -173,7 +167,7 @@ public class Gui extends Application {
         primaryStage.show();
     }
 
-    public void updateScene(Scene newScene){
+    public void updateScene(Scene newScene) {
         Stage newStage = new Stage();
         newStage.setScene(newScene);
         newStage.setHeight(200);
@@ -181,7 +175,7 @@ public class Gui extends Application {
         newStage.show();
     }
 
-    public void editArtist(String artist){
+    public void editArtist(String artist) {
         Stage editArtistPopUp = new Stage();
         BorderPane popUpBorderPane = new BorderPane();
         Scene popUpScene = new Scene(popUpBorderPane);
