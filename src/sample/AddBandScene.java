@@ -25,9 +25,7 @@ public class AddBandScene extends StandardScene{
     TextField performerNameTextField = new TextField();
 
     //radiobuttons
-    ToggleGroup selectorToggleGroup = new ToggleGroup();
-    RadioButton switchToBandButton = new RadioButton("Artist");
-    RadioButton bandRadioButton = new RadioButton("Band");
+    Button switchToArtistButton = new Button("Switch to Artist");
 
     //Button hbox
     HBox buttonHBox = new HBox();
@@ -37,14 +35,12 @@ public class AddBandScene extends StandardScene{
     public AddBandScene() {
         scene = new Scene(popUpBorderPane);
         addPerformerPopUp.setScene(scene);
-        addPerformerPopUp.setHeight(350);
+        addPerformerPopUp.setHeight(500);
         addPerformerPopUp.setWidth(300);
-        switchToBandButton.setToggleGroup(selectorToggleGroup);
-        bandRadioButton.setToggleGroup(selectorToggleGroup);
         membersHBox.getChildren().addAll(addMemberField, addMemberButton);
         newBandMemberList = new ListView<>();
-        newBandMemberList.setMaxSize(175, 150);
-        buttonHBox.getChildren().addAll(backButton, addButton);
+        newBandMemberList.setPrefSize(175, 50);
+        buttonHBox.getChildren().addAll(backButton, addButton, switchToArtistButton);
         buttonHBox.setSpacing(140);
     }
 }

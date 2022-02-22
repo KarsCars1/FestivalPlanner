@@ -18,10 +18,8 @@ public class AddPerformerScene extends StandardScene {
     Label name = new Label("Artist name:");
     TextField performerNameTextField = new TextField();
 
-    //radiobuttons
-    ToggleGroup selectorToggleGroup = new ToggleGroup();
-    RadioButton artistRadioButton = new RadioButton("Artist");
-    RadioButton switchToBandButton = new RadioButton("Band");
+    //radiobutton
+    Button switchToBandButton = new Button("Switch to Band");
 
     //Button hbox
     HBox buttonHBox = new HBox();
@@ -33,9 +31,7 @@ public class AddPerformerScene extends StandardScene {
         addPerformerPopUp.setScene(scene);
         addPerformerPopUp.setHeight(350);
         addPerformerPopUp.setWidth(300);
-        artistRadioButton.setToggleGroup(selectorToggleGroup);
-        switchToBandButton.setToggleGroup(selectorToggleGroup);
-        buttonHBox.getChildren().addAll(backButton, addButton);
+        buttonHBox.getChildren().addAll(backButton, switchToBandButton, addButton);
         buttonHBox.setSpacing(140);
     }
 }

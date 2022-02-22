@@ -25,7 +25,7 @@ public class Gui extends Application {
             addPerformerScene.addPerformerPopUp.close();
             addBandScene.addPerformerPopUp.show();
         });
-        addBandScene.switchToBandButton.setOnAction(E -> {
+        addBandScene.switchToArtistButton.setOnAction(E -> {
             addBandScene.addPerformerPopUp.close();
             addPerformerScene.addPerformerPopUp.show();
         });
@@ -55,11 +55,11 @@ public class Gui extends Application {
         });
 
         //add performer vbox
-        addPerformerScene.addPerformerVBox.getChildren().addAll(addPerformerScene.name, addPerformerScene.performerNameTextField, addPerformerScene.artistRadioButton, addPerformerScene.switchToBandButton);
+        addPerformerScene.addPerformerVBox.getChildren().addAll(addPerformerScene.name, addPerformerScene.performerNameTextField, addPerformerScene.switchToBandButton);
         addPerformerScene.popUpBorderPane.setTop(addPerformerScene.addPerformerVBox);
         addPerformerScene.popUpBorderPane.setBottom(addPerformerScene.buttonHBox);
 
-        addBandScene.addPerformerVBox.getChildren().addAll(addBandScene.name, addBandScene.performerNameTextField, addBandScene.switchToBandButton, addBandScene.bandRadioButton, addBandScene.buttonHBox, addBandScene.members, addBandScene.membersHBox, addPerformerScene.newBandMemberList);
+        addBandScene.addPerformerVBox.getChildren().addAll(addBandScene.name, addBandScene.performerNameTextField, addBandScene.switchToArtistButton, addBandScene.buttonHBox, addBandScene.members, addBandScene.membersHBox, addPerformerScene.newBandMemberList);
         addBandScene.popUpBorderPane.setTop(addBandScene.addPerformerVBox);
         addBandScene.popUpBorderPane.setBottom(addBandScene.buttonHBox);
 
