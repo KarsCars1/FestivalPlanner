@@ -137,12 +137,13 @@ public class Gui extends Application {
         Button removePerformer = new Button("Remove performer");
         Button editPerformer = new Button("Edit performer");
 
+        Button addShow = new Button("Add Show");
+
         editPerformer.setOnAction(E -> {
                     System.out.println("Edit button pressed");
                     EditArtist editArtist = new EditArtist(selectedPerformer, this);
                     //editArtist(selectedPerformer);
         });
-        Button addPerformance = new Button("Add performance");
         //List components
         performerlist = new ListView();
         performerlist.setOnMousePressed(e ->{
@@ -152,9 +153,16 @@ public class Gui extends Application {
         });
         performerlist.setOrientation(Orientation.VERTICAL);
         removePerformer.setOnAction(E -> {
-            System.out.println(performerlist.getSelectionModel().getSelectedItem());
+            System.out.println();
             performerController.removePerformer(performerlist.getSelectionModel().getSelectedItem() + "");
             performerController.updateList(performerlist);
+        });
+        addShow.setOnAction(E ->{
+            System.out.println("opening");
+            Stage addPerformanceStage = new Stage();
+            addPerformanceStage.setScene(new AddShowScene(performerController,performerlist.getSelectionModel().getSelectedItem()).getScene());
+            addPerformanceStage.setResizable(false);
+            addPerformanceStage.show();
         });
 
         performerVBox.getChildren().addAll(performerLabel, performerlist, addPerformer, addPerformance, editPerformer, removePerformer);

@@ -1,25 +1,41 @@
 package DataStructure.Data;
 
+import java.time.LocalTime;
+
 public class Show {
 
     private String name;
     private Location location;
     private Performer performer;
+    private LocalTime beginTime;
+    private LocalTime endTime;
 
-    public Show(String name, Location location, Performer performer) {
+    public Show(String name, Location location, Performer performer, LocalTime beginTime, LocalTime endTime) {
         this.name = name;
         this.location = location;
         this.performer = performer;
+        this.beginTime = beginTime;
+        this.endTime = endTime;
     }
 
-    public Performer getPerformer(){
+    public String getName() {
+        return name;
+    }
+
+    public LocalTime getBeginTime() {
+        return beginTime;
+    }
+
+    public LocalTime getEndTime() {
+        return endTime;
+    }
+
+    public Performer getPerformer() {
         return this.performer;
     }
 
-    public Performer setPerformer(Performer performer){
+    public void setPerformer(Performer performer) {
         this.performer = performer;
-
-        return this.performer;
     }
 
     public String getLocation() {
@@ -28,5 +44,16 @@ public class Show {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    @Override
+    public String toString() {
+        return "Show{" +
+                "name='" + name + '\'' +
+                ", location=" + location +
+                ", performer=" + performer +
+                ", beginTime=" + beginTime +
+                ", endTime=" + endTime +
+                '}';
     }
 }

@@ -18,6 +18,10 @@ public class Location {
         this.surfaceArea = this.height * this.width;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public int getSurfaceArea(){
         return this.surfaceArea;
     }
