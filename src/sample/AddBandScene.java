@@ -22,7 +22,7 @@ public class AddBandScene extends StandardScene{
 
     //add performer vbox
     VBox addPerformerVBox = new VBox();
-    Label name = new Label("Artist name:");
+    Label name = new Label("Band name:");
     TextField performerNameTextField = new TextField();
 
     //radiobuttons
