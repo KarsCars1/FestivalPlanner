@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 public class AddShowScene extends StandardScene {
 
-    private String performer;
     private ArrayList<TextField> time;
 
     private TextField showName = new TextField();
@@ -33,14 +32,8 @@ public class AddShowScene extends StandardScene {
 
     private Button save = new Button("add show");
 
-    public AddShowScene(PerformerController controller, String performer) {
-        this.controller = controller;
-        this.performer = performer;
-        this.scene = createScene();
-    }
-
     public AddShowScene(PerformerController controller) {
-        this.performer = "";
+        this.controller = controller;
         this.scene = createScene();
     }
 
@@ -82,18 +75,14 @@ public class AddShowScene extends StandardScene {
 
 
         HBox times = new HBox();
-        performerName.getItems().addAll(this.controller.getPerformersString());
         GridPane names = new GridPane();
         names.add(performers, 0, 0);
         names.add(performerName, 1, 0);
         names.add(location, 0, 1);
         names.add(locations, 1, 1);
 
-
-        performerName.getSelectionModel().select(performer);
         performerName.setMinWidth(200);
         locations.setMinWidth(200);
-        locations.getItems().addAll(this.controller.getLocationsString());
         times.getChildren().addAll(begintime, beginTimeHour, betweenBegin, beginTimeMinute, endtime, endTimeHour, betweenEnd, endTimeMinute);
         VBox vBox = new VBox();
         vBox.getChildren().addAll(showNameText, showName, names, times, save);
@@ -130,9 +119,14 @@ public class AddShowScene extends StandardScene {
                 theEndTime);
     }
 
-    public void setVariables(PerformerController performerController, String selectedItem) {
+    public void setVariables(String selectedItem) {
         performerName.getItems().removeAll(performerName.getSelectionModel().getSelectedItem());
         performerName.getItems().addAll(this.controller.getPerformersString());
-        performerName.getSelectionModel().select(performer);
+        performerName.getSelectionModel().select(selectedItem);
+        locations.getItems().removeAll(locations.getSelectionModel().getSelectedItem());
+        locations.getItems().addAll(this.controller.getLocationsString());
+
+
+
     }
 }

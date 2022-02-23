@@ -1,11 +1,7 @@
 package sample;
 
-import DataStructure.Data.Location;
-import DataStructure.Data.Performer;
 import DataStructure.Data.Show;
 import DataStructure.PerformerController;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -15,8 +11,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class MainScene extends StandardScene {
@@ -72,7 +66,7 @@ public class MainScene extends StandardScene {
         agendaScroll.fitToWidthProperty().setValue(false);
         agendaScroll.fitToHeightProperty().setValue(false);
         agendaScroll.setMaxHeight(600);
-        agendaScroll.setMaxWidth(800);
+        agendaScroll.setMaxWidth(400);
 
         TableColumn showName = new TableColumn("Show");
         showName.setCellValueFactory(new PropertyValueFactory<>("name"));

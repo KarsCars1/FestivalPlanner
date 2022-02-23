@@ -32,7 +32,7 @@ public class Gui extends Application {
         Stage editArtistStage = new Stage();
         editArtistStage.setScene(editArtist.getScene());
 
-        AddShowScene addShowScene = new AddShowScene(mainScene.performerController, mainScene.performerList.getSelectionModel().getSelectedItem());
+        AddShowScene addShowScene = new AddShowScene(mainScene.performerController);
         Stage addPerformanceStage = new Stage();
         addPerformanceStage.setScene(addShowScene.getScene());
 
@@ -43,7 +43,7 @@ public class Gui extends Application {
 
         mainScene.addShow.setOnAction(E -> {
             System.out.println("opening");
-            addShowScene.setVariables(mainScene.performerController, mainScene.performerList.getSelectionModel().getSelectedItem());
+            addShowScene.setVariables(mainScene.performerList.getSelectionModel().getSelectedItem());
             addPerformanceStage.setResizable(false);
             addPerformanceStage.show();
 
