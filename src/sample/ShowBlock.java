@@ -1,16 +1,21 @@
 package sample;
 
+import DataStructure.Data.Show;
+
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 public class ShowBlock {
     private Rectangle2D.Double block;
     private Point2D.Double position;
+    private Show show;
 
 
-    public ShowBlock() {
-        position = new Point2D.Double(200, 0);
-        block = new Rectangle2D.Double(200, 0, 100,100);
+    public ShowBlock(Show show) {
+        this.show = show;
+        position = new Point2D.Double(this.show.getBeginTime().getMinute()/100+100, 100);
+        block = new Rectangle2D.Double(this.show.getBeginTime().getMinute()/100+100, 100, this.show.getBeginTime().getMinute()/100+100-this.show.getEndTime().getMinute()/100+100,100);
+        System.out.println(this.show.getBeginTime().getMinute()/100+100-this.show.getEndTime().getMinute()/100+100);
     }
 
     public Rectangle2D.Double getBlock() {

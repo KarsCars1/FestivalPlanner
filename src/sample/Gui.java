@@ -1,9 +1,12 @@
 package sample;
 
+import DataStructure.Data.Performer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+
+import java.time.LocalTime;
 
 public class Gui extends Application {
 
@@ -32,6 +35,9 @@ public class Gui extends Application {
         Stage editArtistStage = new Stage();
         editArtistStage.setScene(editArtist.getScene());
 
+        AddShowScene addShowScene = new AddShowScene(mainScene.performerController, mainScene.performerList.getSelectionModel().getSelectedItem());
+        Stage addPerformanceStage = new Stage();
+        addPerformanceStage.setScene(addShowScene.getScene());
 
         mainScene.editPerformer.setOnAction(E -> {
             System.out.println("Edit button pressed");
@@ -40,12 +46,14 @@ public class Gui extends Application {
 
         mainScene.addShow.setOnAction(E -> {
             System.out.println("opening");
-            AddShowScene addShowScene = new AddShowScene(mainScene.performerController, mainScene.performerList.getSelectionModel().getSelectedItem());
-            Stage addPerformanceStage = new Stage();
-            addPerformanceStage.setScene(addShowScene.getScene());
             addPerformanceStage.setResizable(false);
-            mainScene.updateShows();
             addPerformanceStage.show();
+
+        });
+
+        addShowScene.getSave().setOnAction(e -> {
+            addShowScene.saveShow();
+            mainScene.updateShows();
         });
         mainScene.addLocation.setOnAction(E -> {
             Stage addLoactionStage = new Stage();

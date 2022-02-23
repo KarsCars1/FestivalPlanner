@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.time.LocalDateTime;
@@ -54,39 +55,34 @@ public class MainScene extends StandardScene {
         TextField textField = new TextField();
 
         //schedule stuff
-//        Agenda agenda = new Agenda();
-//        agenda.setHeight(400);
-//        agenda.setWidth(3000);
-//        agenda.drawAgendaBase();
-//        agenda.addShow();
-//        agenda.addShow();
-//        agenda.addShow();
-//        agenda.drawShows();
-//
-//        agenda.setOnMousePressed(e -> agenda.mousePressed(e));
-//        agenda.setOnMouseReleased(e -> agenda.mouseReleased(e));
-//        agenda.setOnMouseDragged(e -> agenda.moveOnMouse(e.getX(), e.getY()));
-//
-//        ScrollPane agendaScroll = new ScrollPane();
-//        agendaScroll.setContent(agenda);
-//        agendaScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-//        agendaScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-//        agendaScroll.fitToWidthProperty().setValue(false);
-//        agendaScroll.fitToHeightProperty().setValue(false);
-//        agendaScroll.setMaxHeight(600);
-//        agendaScroll.setMaxWidth(800);
+        Agenda agenda = new Agenda();
+        agenda.setHeight(800);
+        agenda.setWidth(3000);
+        agenda.drawAgendaBase();
+        agenda.drawShows();
+
+        agenda.setOnMousePressed(e -> agenda.mousePressed(e));
+        agenda.setOnMouseReleased(e -> agenda.mouseReleased(e));
+        agenda.setOnMouseDragged(e -> agenda.moveOnMouse(e.getX(), e.getY()));
+
+        ScrollPane agendaScroll = new ScrollPane();
+        agendaScroll.setContent(agenda);
+        agendaScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        agendaScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        agendaScroll.fitToWidthProperty().setValue(false);
+        agendaScroll.fitToHeightProperty().setValue(false);
+        agendaScroll.setMaxHeight(600);
+        agendaScroll.setMaxWidth(800);
 
         TableColumn showName = new TableColumn("Show");
         showName.setCellValueFactory(new PropertyValueFactory<>("name"));
         TableColumn performer = new TableColumn("Performer");
-        performer.setCellValueFactory(new PropertyValueFactory<>("performer.getName()"));
+        performer.setCellValueFactory(new PropertyValueFactory<>("performer"));
         TableColumn beginTime = new TableColumn("Begin time");
         beginTime.setCellValueFactory(new PropertyValueFactory<>("beginTime"));
         TableColumn endTime = new TableColumn("End time");
         endTime.setCellValueFactory(new PropertyValueFactory<>("endTime"));
-//        ArrayList<Show> shows = performerController.getShows();
 
-        //shows.add(new Show("yee", null, new Performer("eey"), LocalTime.NOON, LocalTime.now()));
         showsTable.getColumns().addAll(showName, performer, beginTime, endTime);
 
         updateShows();
@@ -104,9 +100,10 @@ public class MainScene extends StandardScene {
             performerController.updateList(performerList);
         });
 
+        HBox agendaHBox = new HBox();
+        agendaHBox.getChildren().addAll(showsTable, agendaScroll);
 
-//        agendaBorderPane.setLeft(agendaScroll);
-        agendaBorderPane.setLeft(showsTable);
+        agendaBorderPane.setLeft(agendaHBox);
         this.scene = new Scene(agendaBorderPane);
 
     }
@@ -115,8 +112,14 @@ public class MainScene extends StandardScene {
         ArrayList<Show> shows = performerController.getShows();
         int i = 0;
         for (Show show : shows) {
-            showsTable.getItems().add(i, show);
+            if(!showsTable.getItems().contains(show)) {
+                showsTable.getItems().add(i, show);
+                agenda.addShowBlock(show);
+            }
+            System.out.println("yet");
             i++;
+
         }
+
     }
 }

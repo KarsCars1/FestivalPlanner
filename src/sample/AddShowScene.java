@@ -18,24 +18,37 @@ public class AddShowScene extends StandardScene {
     private String performer;
     private ArrayList<TextField> time;
 
+    private TextField showName = new TextField();
+    private ComboBox<String> performerName = new ComboBox<>();
+    private ComboBox<String> locations = new ComboBox<>();
+    private TextField beginTimeHour = new TextField("00");
+    private TextField beginTimeMinute = new TextField("00");
+    private TextField endTimeHour = new TextField("00");
+    private TextField endTimeMinute = new TextField("00");
+    private PerformerController controller;
+
+    public Button getSave() {
+        return save;
+    }
+
+    private Button save = new Button("add show");
+
     public AddShowScene(PerformerController controller, String performer) {
+        this.controller = controller;
         this.performer = performer;
-        this.scene = createScene(controller);
+        this.scene = createScene();
     }
 
     public AddShowScene(PerformerController controller) {
         this.performer = "";
-        this.scene = createScene(controller);
+        this.scene = createScene();
     }
 
-    public Scene createScene(PerformerController controller) {
-        TextField showName = new TextField();
-        ComboBox<String> performerName = new ComboBox<>();
-        ComboBox<String> locations = new ComboBox<>();
-        TextField beginTimeHour = new TextField("00");
-        TextField beginTimeMinute = new TextField("00");
-        TextField endTimeHour = new TextField("00");
-        TextField endTimeMinute = new TextField("00");
+    public PerformerController getController() {
+        return controller;
+    }
+
+    public Scene createScene() {
         time = new ArrayList<>();
         time.add(beginTimeHour);
         time.add(endTimeHour);
@@ -67,9 +80,9 @@ public class AddShowScene extends StandardScene {
         Label location = new Label("location:");
 
 
-        Button save = new Button("add show");
+
         HBox times = new HBox();
-        performerName.getItems().addAll(controller.getPerformersString());
+        performerName.getItems().addAll(this.controller.getPerformersString());
         GridPane names = new GridPane();
         names.add(performers, 0, 0);
         names.add(performerName, 1, 0);
@@ -80,7 +93,7 @@ public class AddShowScene extends StandardScene {
         performerName.getSelectionModel().select(performer);
         performerName.setMinWidth(200);
         locations.setMinWidth(200);
-        locations.getItems().addAll(controller.getLocationsString());
+        locations.getItems().addAll(this.controller.getLocationsString());
         times.getChildren().addAll(begintime, beginTimeHour, betweenBegin, beginTimeMinute, endtime, endTimeHour, betweenEnd, endTimeMinute);
         VBox vBox = new VBox();
         vBox.getChildren().addAll(showNameText, showName, names, times, save);
@@ -88,16 +101,6 @@ public class AddShowScene extends StandardScene {
         Scene scene = new Scene(vBox);
         System.out.println(Integer.parseInt(beginTimeHour.getText()));
 
-
-        save.setOnAction(e -> {
-            LocalTime theBeginTime = LocalTime.of(Integer.parseInt(beginTimeHour.getText()), Integer.parseInt(beginTimeMinute.getText()));
-            LocalTime theEndTime = LocalTime.of(Integer.parseInt(endTimeHour.getText()), Integer.parseInt(endTimeMinute.getText()));
-            controller.addShow(showName.getText(),
-                    locations.getSelectionModel().getSelectedItem(),
-                    performerName.getSelectionModel().getSelectedItem(),
-                    theBeginTime,
-                    theEndTime);
-        });
         return scene;
     }
 
@@ -114,5 +117,16 @@ public class AddShowScene extends StandardScene {
             }
 
         }
+    }
+
+
+    public void saveShow(){
+        LocalTime theBeginTime = LocalTime.of(Integer.parseInt(beginTimeHour.getText()), Integer.parseInt(beginTimeMinute.getText()));
+        LocalTime theEndTime = LocalTime.of(Integer.parseInt(endTimeHour.getText()), Integer.parseInt(endTimeMinute.getText()));
+        controller.addShow(showName.getText(),
+                locations.getSelectionModel().getSelectedItem(),
+                performerName.getSelectionModel().getSelectedItem(),
+                theBeginTime,
+                theEndTime);
     }
 }
