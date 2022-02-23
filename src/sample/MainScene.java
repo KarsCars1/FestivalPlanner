@@ -77,7 +77,7 @@ public class MainScene extends StandardScene {
         TableColumn showName = new TableColumn("Show");
         showName.setCellValueFactory(new PropertyValueFactory<>("name"));
         TableColumn performer = new TableColumn("Performer");
-        performer.setCellValueFactory(new PropertyValueFactory<>("performer"));
+        performer.setCellValueFactory(new PropertyValueFactory<>("performerName"));
         TableColumn beginTime = new TableColumn("Begin time");
         beginTime.setCellValueFactory(new PropertyValueFactory<>("beginTime"));
         TableColumn endTime = new TableColumn("End time");
