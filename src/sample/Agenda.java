@@ -4,7 +4,6 @@ import DataStructure.Data.Show;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseEvent;
 import org.jfree.fx.FXGraphics2D;
-import org.jfree.fx.ResizableCanvas;
 
 import java.awt.*;
 import java.awt.font.GlyphVector;
@@ -17,13 +16,11 @@ import java.util.LinkedList;
 
 public class Agenda extends Canvas {
 
-    private FXGraphics2D graphics = new FXGraphics2D(this.getGraphicsContext2D());
-    private LinkedList<ShowBlock> shows = new LinkedList<>();
-
-    private boolean clickedOnBlock = false;
-
     public Point2D position = new Point2D.Double(0, 0);
     public Point2D oldPosition;
+    private FXGraphics2D graphics = new FXGraphics2D(this.getGraphicsContext2D());
+    private LinkedList<ShowBlock> shows = new LinkedList<>();
+    private boolean clickedOnBlock = false;
 
 
     public Agenda() {
@@ -31,37 +28,39 @@ public class Agenda extends Canvas {
 
     //todo make proper base for agenda
     public void drawAgendaBase() {
-//        graphics.setClip(null);
+        System.out.println("hallo");//        graphics.setClip(null);
         this.graphics.setBackground(Color.white);
-        this.graphics.clearRect(0, 0, (int)getWidth(), (int)getHeight());
+        this.graphics.clearRect(0, 0, (int) getWidth(), (int) getHeight());
 
 
         graphics.setColor(Color.gray);
-        graphics.fill(new Rectangle2D.Double(5, 5, getWidth(), 100));
-        graphics.fill(new Rectangle2D.Double(5, 5, 100, getHeight()));
+        graphics.fill(new Rectangle2D.Double(5, 5, 90, getHeight()));
 
 
         graphics.setColor(Color.black);
         this.graphics.setStroke(new BasicStroke(10));
+        graphics.draw(new Rectangle2D.Double(5, 5, 90, getHeight()));
+        graphics.setColor(Color.gray);
+        graphics.fill(new Rectangle2D.Double(5, 5, getWidth(), 100));
+        graphics.setColor(Color.black);
         graphics.draw(new Rectangle2D.Double(5, 5, getWidth(), 100));
-        graphics.draw(new Rectangle2D.Double(5, 5, 100, getHeight()));
 
         this.graphics.setStroke(new BasicStroke(2));
         Font font = new Font("Dialog", Font.PLAIN, 20);
         GlyphVector agendaText;
-        for(int i = 0; i<24; i++){
-            if(i<10) {
+        for (int i = 0; i < 25; i++) {
+            if (i < 10) {
                 agendaText = font.createGlyphVector(graphics.getFontRenderContext(), "0" + i + ":00");
-            }else{
+            } else {
                 agendaText = font.createGlyphVector(graphics.getFontRenderContext(), i + ":00");
             }
 
             AffineTransform transform = new AffineTransform();
-            transform.translate(i*100+130, 60);
+            transform.translate(i * 100 + 75, 60);
             Shape text = transform.createTransformedShape(agendaText.getOutline());
             graphics.fill(text);
 
-            graphics.draw(new Line2D.Double(i*100+100, 105, i*100+100, getHeight()));
+            graphics.draw(new Line2D.Double(i * 100 + 100, 105, i * 100 + 100, getHeight()));
         }
 
 
@@ -69,7 +68,7 @@ public class Agenda extends Canvas {
     }
 
     public void addShowBlock(Show show) {
-        if(!this.shows.contains(show)){
+        if (!this.shows.contains(show)) {
             this.shows.add(new ShowBlock(show));
         }
         drawShows();
@@ -77,7 +76,7 @@ public class Agenda extends Canvas {
 
     public void moveOnMouse(double X, double Y) {
         //move the block you clicked on
-        if(clickedOnBlock) {
+        if (clickedOnBlock) {
             position = new Point2D.Double(X, Y);
             int i = 0;
             for (ShowBlock show : shows) {
@@ -98,14 +97,21 @@ public class Agenda extends Canvas {
 
     public void drawShows() {
         drawAgendaBase();
-
         //draw the shows
-        graphics.setColor(Color.black);
-        for (int i = shows.size() - 1; i >= 0; i--) {
-            System.out.println("??");
-            graphics.fill(shows.get(i).getBlock());
-            graphics.fill(new Rectangle2D.Double(500, 500, 100, 100));
+
+
+        graphics.setColor(Color.green);
+        for (ShowBlock show : shows) {
+
+            Rectangle.Double rectangle = show.getBlock();
+            System.out.println(rectangle.toString());
+            graphics.fill(rectangle);
         }
+//        for (int i = shows.size() - 1; i >= 0; i--) {
+//            System.out.println("??");
+//            graphics.fill(shows.get(i).getBlock());
+//
+//        }
     }
 
     private double calculateX(ShowBlock show) {

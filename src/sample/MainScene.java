@@ -32,6 +32,7 @@ public class MainScene extends StandardScene {
     Agenda agenda = new Agenda();
     String selectedPerformer;
     TableView showsTable = new TableView<>();
+    ScrollPane agendaScroll = new ScrollPane();
 
 
     public MainScene() {
@@ -49,9 +50,8 @@ public class MainScene extends StandardScene {
         TextField textField = new TextField();
 
         //schedule stuff
-        Agenda agenda = new Agenda();
         agenda.setHeight(800);
-        agenda.setWidth(3000);
+        agenda.setWidth(2600);
         agenda.drawAgendaBase();
         agenda.drawShows();
 
@@ -59,7 +59,7 @@ public class MainScene extends StandardScene {
         agenda.setOnMouseReleased(e -> agenda.mouseReleased(e));
         agenda.setOnMouseDragged(e -> agenda.moveOnMouse(e.getX(), e.getY()));
 
-        ScrollPane agendaScroll = new ScrollPane();
+
         agendaScroll.setContent(agenda);
         agendaScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         agendaScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
@@ -105,14 +105,14 @@ public class MainScene extends StandardScene {
 
     public void updateShows() {
         ArrayList<Show> shows = performerController.getShows();
-        int i = 0;
-        for (Show show : shows) {
-            if(!showsTable.getItems().contains(show)) {
+        for (int i = 0; i < shows.size(); i++) {
+            Show show = shows.get(i);
+            if (!showsTable.getItems().contains(show)) {
                 showsTable.getItems().add(i, show);
                 agenda.addShowBlock(show);
             }
             System.out.println("yet");
-            i++;
+
 
         }
 

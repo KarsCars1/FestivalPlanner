@@ -13,12 +13,13 @@ public class ShowBlock {
 
     public ShowBlock(Show show) {
         this.show = show;
-        position = new Point2D.Double(this.show.getBeginTime().getMinute()/100+100, 100);
-        block = new Rectangle2D.Double(this.show.getBeginTime().getMinute()/100+100, 100, this.show.getBeginTime().getMinute()/100+100-this.show.getEndTime().getMinute()/100+100,100);
-        System.out.println(this.show.getBeginTime().getMinute()/100+100-this.show.getEndTime().getMinute()/100+100);
+        position = new Point2D.Double(this.show.getBeginTime().getMinute() / 100 + 110, 110);
+        block = new Rectangle2D.Double((this.show.getBeginTime().getHour()*100) + (this.show.getBeginTime().getMinute()/60.0*100.0)+100, 110, (((this.show.getEndTime().getHour()*100) + (this.show.getEndTime().getMinute()/60.0*100.0))-((this.show.getBeginTime().getHour()*100) + (this.show.getBeginTime().getMinute()/60.0*100.0))) , 100);
+        System.out.println(this.show.getBeginTime().getMinute() / 100 + 100 - this.show.getEndTime().getMinute() / 100 + 100);
     }
 
     public Rectangle2D.Double getBlock() {
+        System.out.println(block.x + "," + block.y);
         return block;
     }
 
