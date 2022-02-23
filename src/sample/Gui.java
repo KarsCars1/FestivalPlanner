@@ -35,16 +35,24 @@ public class Gui extends Application {
         Stage editArtistStage = new Stage();
         editArtistStage.setScene(editArtistScene.getScene());
 
+        AddShowScene addShowScene = new AddShowScene(mainScene.performerController);
+        Stage addPerformanceStage = new Stage();
+        addPerformanceStage.setScene(addShowScene.getScene());
         EditBandScene editBandScene = new EditBandScene();
         Stage editBandStage = new Stage();
         editBandStage.setScene(editBandScene.getScene());
 
         mainScene.addShow.setOnAction(E -> {
             System.out.println("opening");
-            Stage addPerformanceStage = new Stage();
-            addPerformanceStage.setScene(new AddShowScene(mainScene.performerController, mainScene.performerList.getSelectionModel().getSelectedItem()).getScene());
+            addShowScene.setVariables(mainScene.performerList.getSelectionModel().getSelectedItem());
             addPerformanceStage.setResizable(false);
             addPerformanceStage.show();
+
+        });
+
+        addShowScene.getSave().setOnAction(e -> {
+            addShowScene.saveShow();
+            mainScene.updateShows();
         });
         mainScene.addLocation.setOnAction(E -> {
             Stage addLoactionStage = new Stage();

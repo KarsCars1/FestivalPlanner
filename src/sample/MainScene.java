@@ -1,15 +1,17 @@
 package sample;
 
+import DataStructure.Data.Show;
 import DataStructure.PerformerController;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
+import java.util.ArrayList;
 
 public class MainScene extends StandardScene {
     ListView<String> performerList = new ListView<>();
@@ -29,6 +31,8 @@ public class MainScene extends StandardScene {
     Button editLocation = new Button("Edit Location");
     Agenda agenda = new Agenda();
     String selectedPerformer;
+    TableView showsTable = new TableView<>();
+    ScrollPane agendaScroll = new ScrollPane();
 
 
     public MainScene() {
@@ -43,28 +47,47 @@ public class MainScene extends StandardScene {
         performerList.setOrientation(Orientation.VERTICAL);
 
 
-
         TextField textField = new TextField();
 
         //schedule stuff
-        Agenda agenda = new Agenda();
-        agenda.setHeight(400);
-        agenda.setWidth(800);
+        agenda.setHeight(800);
+        agenda.setWidth(2600);
         agenda.drawAgendaBase();
-        agenda.addShow();
-        agenda.addShow();
-        agenda.addShow();
         agenda.drawShows();
 
         agenda.setOnMousePressed(e -> agenda.mousePressed(e));
         agenda.setOnMouseReleased(e -> agenda.mouseReleased(e));
         agenda.setOnMouseDragged(e -> agenda.moveOnMouse(e.getX(), e.getY()));
-        buttons.addColumn(0,addPerformer,editPerformer,removePerformer);
-        buttons.addColumn(1,addShow);
-        buttons.addColumn(2,addLocation,editLocation,removeLocation);
+
+
+        agendaScroll.setContent(agenda);
+        agendaScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        agendaScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        agendaScroll.fitToWidthProperty().setValue(false);
+        agendaScroll.fitToHeightProperty().setValue(false);
+        agendaScroll.setMaxHeight(600);
+        agendaScroll.setMaxWidth(400);
+
+        TableColumn showName = new TableColumn("Show");
+        showName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        TableColumn performer = new TableColumn("Performer");
+        performer.setCellValueFactory(new PropertyValueFactory<>("performerName"));
+        TableColumn beginTime = new TableColumn("Begin time");
+        beginTime.setCellValueFactory(new PropertyValueFactory<>("beginTime"));
+        TableColumn endTime = new TableColumn("End time");
+        endTime.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+        TableColumn location = new TableColumn("Location");
+        location.setCellValueFactory(new PropertyValueFactory<>("locationName"));
+        showsTable.getColumns().addAll(showName, performer, beginTime, endTime, location);
+
+        updateShows();
+
+
+        buttons.addColumn(0, addPerformer, editPerformer, removePerformer);
+        buttons.addColumn(1, addShow);
+        buttons.addColumn(2, addLocation, editLocation, removeLocation);
         performerVBox.getChildren().addAll(performerLabel, performerList, buttons);
         agendaBorderPane.setRight(performerVBox);
-        agendaBorderPane.setLeft(agenda);
 
         removePerformer.setOnAction(E -> {
             System.out.println(performerList.getSelectionModel().getSelectedItem());
@@ -72,10 +95,26 @@ public class MainScene extends StandardScene {
             performerController.updateList(performerList);
         });
 
+        HBox agendaHBox = new HBox();
+        agendaHBox.getChildren().addAll(showsTable, agendaScroll);
 
-
+        agendaBorderPane.setLeft(agendaHBox);
         this.scene = new Scene(agendaBorderPane);
 
     }
 
+    public void updateShows() {
+        ArrayList<Show> shows = performerController.getShows();
+        for (int i = 0; i < shows.size(); i++) {
+            Show show = shows.get(i);
+            if (!showsTable.getItems().contains(show)) {
+                showsTable.getItems().add(i, show);
+                agenda.addShowBlock(show);
+            }
+            System.out.println("yet");
+
+
+        }
+
+    }
 }
