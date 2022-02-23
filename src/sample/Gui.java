@@ -1,12 +1,9 @@
 package sample;
 
-import DataStructure.Data.Performer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
-
-import java.time.LocalTime;
 
 public class Gui extends Application {
 
@@ -46,6 +43,7 @@ public class Gui extends Application {
 
         mainScene.addShow.setOnAction(E -> {
             System.out.println("opening");
+            addShowScene.setVariables(mainScene.performerController, mainScene.performerList.getSelectionModel().getSelectedItem());
             addPerformanceStage.setResizable(false);
             addPerformanceStage.show();
 

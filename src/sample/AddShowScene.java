@@ -129,4 +129,10 @@ public class AddShowScene extends StandardScene {
                 theBeginTime,
                 theEndTime);
     }
+
+    public void setVariables(PerformerController performerController, String selectedItem) {
+        performerName.getItems().removeAll(performerName.getSelectionModel().getSelectedItem());
+        performerName.getItems().addAll(this.controller.getPerformersString());
+        performerName.getSelectionModel().select(performer);
+    }
 }
