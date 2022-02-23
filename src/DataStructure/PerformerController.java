@@ -30,10 +30,6 @@ public class PerformerController {
         return shows;
     }
 
-    public ArrayList<Show> getShows() {
-        return shows;
-    }
-
     public void addArtist(String performerName) {
         if (!performerAlreadyExists(performerName) && !artistAlreadyExists(performerName)) {
             Artist newArtist = new Artist(performerName);
