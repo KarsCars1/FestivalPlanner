@@ -55,18 +55,20 @@ public class Gui extends Application {
         //Button eventhandling
         mainScene.editPerformer.setOnAction(E -> {
             if (!mainScene.performerList.getSelectionModel().isEmpty()) {
+
                 for (Artist artist : mainScene.performerController.getArtists()){
-                    if (artist.getPerformerName().equals(mainScene.performerList.getSelectionModel().getSelectedItem())) {
+                    editArtistScene.setOldArtist(mainScene.performerList.getSelectionModel().getSelectedItem());
+                    if (artist.getPerformerName().equals(editArtistScene.getOldArtist())) {
                         editArtistScene.getArtistField().setText(mainScene.performerList.getSelectionModel().getSelectedItem());
                         editArtistStage.show();
                         break;
                     }
                 }
                 for (Band band : mainScene.performerController.getBands()) {
-                    if (band.getPerformerName().equals(mainScene.performerList.getSelectionModel().getSelectedItem())) {
+                    editBandScene.setOldArtist(mainScene.performerList.getSelectionModel().getSelectedItem());
+                    if (band.getPerformerName().equals(editBandScene.getOldArtist())) {
                         editBandScene.getBandField().setText(mainScene.performerList.getSelectionModel().getSelectedItem());
                         editBandStage.show();
-                        break;
                     }
                 }
 

@@ -1,5 +1,6 @@
 package sample;
 
+import DataStructure.Data.Band;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,6 +12,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 public class EditBandScene extends StandardScene{
     private Label members = new Label("Members:");
@@ -43,6 +46,13 @@ public class EditBandScene extends StandardScene{
         this.oldArtist = oldArtist;
     }
 
+    public void setAddMemberField(ArrayList<Band> band) {
+        for (Band bandmember : band) {
+//            this.addMemberField.();
+        }
+
+        this.addMemberField = addMemberField;
+    }
 
     private Button saveButton = new Button("Save Changes");
     private BorderPane pane = new BorderPane();
