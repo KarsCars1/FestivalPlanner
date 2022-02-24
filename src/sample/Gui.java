@@ -1,5 +1,7 @@
 package sample;
 
+import DataStructure.Data.Artist;
+import DataStructure.Data.Band;
 import DataStructure.PerformerController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
