@@ -16,6 +16,7 @@ public class PerformerController implements Serializable {
     //private EditArtistScene editArtist = new EditArtistScene();
 
     public ArrayList<Artist> getArtists() {
+
         return artists;
     }
 
@@ -49,6 +50,7 @@ public class PerformerController implements Serializable {
 
 
     public ArrayList<Performer> getPerformers() {
+        System.out.println(this.performers);
         return this.performers;
     }
 
@@ -101,7 +103,8 @@ public class PerformerController implements Serializable {
             }
         }
     }
-    public void addLocation(String name){
+
+    public void addLocation(String name) {
         for (Location location : locations) {
             if (location.getName().equals(name)) {
                 return;
@@ -172,15 +175,16 @@ public class PerformerController implements Serializable {
         }
     }
 
-    public void editPerformer(String performerName) {
-        for (Performer performer: performers) {
-            if(performerName == performer.getPerformerName()){
-                if (bands.contains(performerName)){
-                    //getEditBand;
-                } else {
-                    //editArtist.getScene();
-                }
-                break;
+    public void editPerformer(String oldArtistName, Band newArtist) {
+
+        for (int i = 0; i < performers.size(); i++) {
+            if (performers.get(i).getPerformerName().equals(oldArtistName)) {
+                performers.set(i, newArtist);
+            }
+        }
+        for (int i = 0; i < bands.size(); i++) {
+            if (bands.get(i).getPerformerName().equals(oldArtistName)) {
+                bands.set(i, newArtist);
             }
         }
     }

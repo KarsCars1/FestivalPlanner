@@ -1,15 +1,11 @@
 package sample;
 
-import DataStructure.Data.Artist;
-import DataStructure.Data.Band;
 import DataStructure.PerformerController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.*;
 
 public class Gui extends Application implements GuiCallback {
     public Stage popUpStage;
@@ -37,20 +33,12 @@ public class Gui extends Application implements GuiCallback {
 //        EditArtistScene editArtistScene = new EditArtistScene();
 
 
-        AddShowScene addShowScene = new AddShowScene(mainScene.performerController);
-        Stage addPerformanceStage = new Stage();
-        addPerformanceStage.setScene(addShowScene.getScene());
-        EditBandScene editBandScene = new EditBandScene();
-        Stage editBandStage = new Stage();
-        editBandStage.setScene(editBandScene.getScene());
 
-        mainScene.addShow.setOnAction(e -> {
-            System.out.println("opening");
-            addShowScene.setVariables(mainScene.performerList.getSelectionModel().getSelectedItem());
-            addPerformanceStage.setResizable(false);
-            addPerformanceStage.show();
-
-        });
+//        Stage addPerformanceStage = new Stage();
+//        addPerformanceStage.setScene(addShowScene.getScene());
+//        EditBandScene editBandScene = new EditBandScene();
+//        Stage editBandStage = new Stage();
+//        editBandStage.setScene(editBandScene.getScene());
 
 //        addShowScene.getSave().setOnAction(e -> {
 //            addShowScene.saveShow();
@@ -60,15 +48,7 @@ public class Gui extends Application implements GuiCallback {
 
         //Button eventhandling
 
-//        editArtistScene.getSaveButton().setOnAction(E -> {
-//            for (Performer performer : mainScene.performerController.getPerformers()) {
-//                if (performer.getPerformerName().equals(editArtistScene.getOldArtist())) {
-//                    performer.setPerformerName(editArtistScene.getArtistField().getText());
-//                }
-//            }
-//            mainScene.performerController.updateList(mainScene.performerList);
-//            editArtistStage.close();
-//        });
+
 //        addPerformerScene.switchToBandButton.setOnAction(E -> {
 //            addPerformerStage.close();
 //            addBandStage.show();
