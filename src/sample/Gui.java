@@ -2,7 +2,6 @@ package sample;
 
 import DataStructure.Data.Artist;
 import DataStructure.Data.Band;
-import DataStructure.Data.Performer;
 import DataStructure.PerformerController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +25,7 @@ public class Gui extends Application {
         Stage mainStage = new Stage();
         mainStage.setScene(mainScene.getScene());
 
-        AddPerformerScene addPerformerScene = new AddPerformerScene();
+        AddEditPerformerScene addPerformerScene = new AddEditPerformerScene();
         Stage addPerformerStage = new Stage();
         addPerformerStage.setScene(addPerformerScene.getScene());
 
@@ -113,26 +112,13 @@ public class Gui extends Application {
 
             }
         });
-        editArtistScene.getSaveButton().setOnAction(E -> {
-            for (Performer performer : mainScene.performerController.getPerformers()) {
-                if (performer.getPerformerName().equals(editArtistScene.getOldArtist())) {
-                    performer.setPerformerName(editArtistScene.getArtistField().getText());
-                }
-            }
-            mainScene.performerController.updateList(mainScene.performerList);
-            editArtistStage.close();
-        });
-        addPerformerScene.switchToBandButton.setOnAction(E -> {
-            addPerformerStage.close();
-            addBandStage.show();
-        });
+
+
         addBandScene.switchToArtistButton.setOnAction(E -> {
             addBandStage.close();
             addPerformerStage.show();
         });
-        addPerformerScene.backButton.setOnAction(E -> {
-            addPerformerStage.close();
-        });
+
         addBandScene.backButton.setOnAction(E -> {
             addBandStage.close();
         });
@@ -142,13 +128,7 @@ public class Gui extends Application {
             }
             addBandScene.addMemberField.setText("");
         });
-        addPerformerScene.addButton.setOnAction(E -> {
-            if (!addPerformerScene.performerNameTextField.getText().isEmpty()) {
-                mainScene.performerController.addArtist(addPerformerScene.performerNameTextField.getText());
-                mainScene.performerController.updateList(mainScene.performerList);
-                addPerformerScene.performerNameTextField.deleteText(0, addPerformerScene.performerNameTextField.getText().length());
-            }
-        });
+
         addBandScene.addButton.setOnAction(E -> {
             if (!addBandScene.performerNameTextField.getText().isEmpty()) {
                 mainScene.performerController.addBand(addBandScene.performerNameTextField.getText());
