@@ -3,10 +3,13 @@ package sample;
 import DataStructure.Data.Artist;
 import DataStructure.Data.Band;
 import DataStructure.Data.Performer;
+import DataStructure.PerformerController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+
+import java.io.*;
 
 public class Gui extends Application {
 
@@ -42,19 +45,47 @@ public class Gui extends Application {
         Stage editBandStage = new Stage();
         editBandStage.setScene(editBandScene.getScene());
 
-        mainScene.addShow.setOnAction(E -> {
+        mainScene.addShow.setOnAction(e -> {
             System.out.println("opening");
             addShowScene.setVariables(mainScene.performerList.getSelectionModel().getSelectedItem());
             addPerformanceStage.setResizable(false);
             addPerformanceStage.show();
 
         });
+        mainScene.saveButton.setOnAction(e -> {
+            try {
+                FileOutputStream fileOutputStream = new FileOutputStream("Data.txt");
+                ObjectOutputStream oos = new ObjectOutputStream(fileOutputStream);
+                oos.writeObject(mainScene.performerController);
+                fileOutputStream.close();
+            } catch (FileNotFoundException e1) {
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        });
+
+        mainScene.loadButton.setOnAction(e -> {
+            try {
+                FileInputStream fis = new FileInputStream("Data.txt");
+                ObjectInputStream ois = new ObjectInputStream(fis);
+               PerformerController newPerformerController = (PerformerController) ois.readObject();
+               mainScene.performerController.loadFrom(newPerformerController);
+                fis.close();
+            } catch (FileNotFoundException e1) {
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } catch (ClassNotFoundException e1) {
+                e1.printStackTrace();
+            }
+        });
 
         addShowScene.getSave().setOnAction(e -> {
             addShowScene.saveShow();
             mainScene.updateShows();
         });
-        mainScene.addLocation.setOnAction(E -> {
+        mainScene.addLocation.setOnAction(e -> {
             Stage addLoactionStage = new Stage();
             addLoactionStage.setScene(new AddLocation(mainScene.performerController).getScene());
             addLoactionStage.show();

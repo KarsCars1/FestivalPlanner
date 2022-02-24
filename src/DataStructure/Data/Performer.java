@@ -1,6 +1,8 @@
 package DataStructure.Data;
 
-public class Performer {
+import java.io.Serializable;
+
+public class Performer implements Serializable {
 	protected String performerName;
 
 	public Performer(String performerName) {

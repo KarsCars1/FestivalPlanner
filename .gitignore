@@ -37,6 +37,7 @@ hs_err_pid*
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+Data.txt
 
 # AWS User-specific
 .idea/**/aws.xml

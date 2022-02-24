@@ -1,9 +1,10 @@
 package DataStructure.Data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class Show {
+public class Show implements Serializable {
 
     private String name;
     private Location location;

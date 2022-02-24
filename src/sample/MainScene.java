@@ -29,6 +29,8 @@ public class MainScene extends StandardScene {
     Button addLocation = new Button("Add Location");
     Button removeLocation = new Button("Remove Location");
     Button editLocation = new Button("Edit Location");
+    Button saveButton = new Button("Save");
+    Button loadButton = new Button("Load");
     Agenda agenda = new Agenda();
     String selectedPerformer;
     TableView showsTable = new TableView<>();
@@ -84,7 +86,7 @@ public class MainScene extends StandardScene {
 
 
         buttons.addColumn(0, addPerformer, editPerformer, removePerformer);
-        buttons.addColumn(1, addShow);
+        buttons.addColumn(1, addShow, saveButton, loadButton);
         buttons.addColumn(2, addLocation, editLocation, removeLocation);
         performerVBox.getChildren().addAll(performerLabel, performerList, buttons);
         agendaBorderPane.setRight(performerVBox);

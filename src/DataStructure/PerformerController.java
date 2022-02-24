@@ -3,10 +3,11 @@ package DataStructure;
 import DataStructure.Data.*;
 import javafx.scene.control.ListView;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class PerformerController {
+public class PerformerController implements Serializable {
     private ArrayList<Performer> performers = new ArrayList<>();
     private ArrayList<Artist> artists = new ArrayList<>();
     private ArrayList<Band> bands = new ArrayList<>();
@@ -207,5 +208,13 @@ public class PerformerController {
             names.add(location.getName());
         }
         return names;
+    }
+
+    public void loadFrom(PerformerController newPerformerController) {
+        this.performers = newPerformerController.performers;
+        this.artists = newPerformerController.artists;
+        this.bands = newPerformerController.bands;
+        this.locations = newPerformerController.locations;
+        this.shows = newPerformerController.shows;
     }
 }
