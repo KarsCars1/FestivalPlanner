@@ -1,4 +1,4 @@
-package sample;
+package Planner;
 
 import DataStructure.Data.Artist;
 import DataStructure.PerformerController;

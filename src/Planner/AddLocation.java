@@ -1,4 +1,4 @@
-package sample;
+package Planner;
 
 //import javafx.*;
 //import javafx.application.Application;

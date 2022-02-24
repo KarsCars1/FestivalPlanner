@@ -1,4 +1,4 @@
-package sample;
+package Planner;
 
 import DataStructure.Data.Artist;
 import DataStructure.PerformerController;
@@ -14,7 +14,7 @@ public class AddEditPerformerScene extends StandardScene {
 
     private PerformerController controller;
 
-    public AddEditPerformerScene(PerformerController controller, Artist artist, GuiCallback callback){
+    public AddEditPerformerScene(PerformerController controller, Artist artist, GuiCallback callback) {
 
         BorderPane popUpBorderPane = new BorderPane();
         VBox addPerformerVBox = new VBox();
@@ -27,7 +27,7 @@ public class AddEditPerformerScene extends StandardScene {
         Button saveButton = new Button("Save Changes");
         this.controller = controller;
 
-        if (artist == null){
+        if (artist == null) {
             buttonHBox.getChildren().addAll(backButton, addButton);
             buttonHBox.setSpacing(140);
             addPerformerVBox.getChildren().addAll(name, performerNameTextField, switchToBandButton);

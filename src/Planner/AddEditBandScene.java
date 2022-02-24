@@ -1,4 +1,4 @@
-package sample;
+package Planner;
 
 import DataStructure.Data.Band;
 import DataStructure.Data.Performer;
@@ -12,7 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class AddEditBandScene extends StandardScene{
+public class AddEditBandScene extends StandardScene {
 
     private PerformerController controller;
 
@@ -24,7 +24,7 @@ public class AddEditBandScene extends StandardScene{
         Button addMemberButton = new Button("+");
         TextField addMemberField = new TextField();
         BorderPane popUpBorderPane = new BorderPane();
-        ListView<String> newBandMemberList = new ListView<>();
+        ListView<String> BandMemberList = new ListView<>();
         VBox addPerformerVBox = new VBox();
         Label name = new Label("Band name:");
         TextField performerNameTextField = new TextField();
@@ -36,22 +36,22 @@ public class AddEditBandScene extends StandardScene{
 
         if (band == null) {
             membersHBox.getChildren().addAll(addMemberField, addMemberButton);
-            newBandMemberList.setMaxSize(175, 150);
+            BandMemberList.setMaxSize(175, 150);
             buttonHBox.getChildren().addAll(backButton, addButton);
             buttonHBox.setSpacing(140);
-            addPerformerVBox.getChildren().addAll(name, performerNameTextField, switchToArtistButton, buttonHBox, members, membersHBox, newBandMemberList);
+            addPerformerVBox.getChildren().addAll(name, performerNameTextField, switchToArtistButton, buttonHBox, members, membersHBox, BandMemberList);
             popUpBorderPane.setTop(addPerformerVBox);
             popUpBorderPane.setBottom(buttonHBox);
         } else {
             performerNameTextField.setText(band.getPerformerName());
             membersHBox.getChildren().addAll(addMemberField, addMemberButton);
-            newBandMemberList.setMaxSize(175, 150);
+            BandMemberList.setMaxSize(175, 150);
             for (Performer member : band.getMembers()) {
-                newBandMemberList.getItems().add(member.getPerformerName());
+                BandMemberList.getItems().add(member.getPerformerName());
             }
             buttonHBox.getChildren().addAll(backButton, saveButton);
             buttonHBox.setSpacing(140);
-            addPerformerVBox.getChildren().addAll(name, performerNameTextField, buttonHBox, members, membersHBox, newBandMemberList);
+            addPerformerVBox.getChildren().addAll(name, performerNameTextField, buttonHBox, members, membersHBox, BandMemberList);
             popUpBorderPane.setTop(addPerformerVBox);
             popUpBorderPane.setBottom(buttonHBox);
         }
@@ -67,7 +67,10 @@ public class AddEditBandScene extends StandardScene{
 
         addMemberButton.setOnAction(E -> {
             if (!addMemberField.getText().trim().equals("")) {
-                newBandMemberList.getItems().add(addMemberField.getText());
+                if (band != null) {
+                    band.addMember(new Performer(addMemberField.getText()));
+                }
+                BandMemberList.getItems().add(addMemberField.getText());
             }
             addMemberField.setText("");
         });
@@ -75,9 +78,9 @@ public class AddEditBandScene extends StandardScene{
         addButton.setOnAction(E -> {
             if (!performerNameTextField.getText().isEmpty()) {
                 controller.addBand(performerNameTextField.getText());
-                controller.addBandMembers(newBandMemberList, performerNameTextField.getText());
+                controller.addBandMembers(BandMemberList, performerNameTextField.getText());
                 callback.updateLists();
-                newBandMemberList.getItems().clear();
+                BandMemberList.getItems().clear();
                 performerNameTextField.deleteText(0, performerNameTextField.getText().length());
             }
         });
@@ -85,7 +88,7 @@ public class AddEditBandScene extends StandardScene{
         saveButton.setOnAction(e -> {
             int i = 0;
             for (Performer member : band.getMembers()) {
-                member.setPerformerName(newBandMemberList.getItems().get(i));
+                member.setPerformerName(BandMemberList.getItems().get(i));
                 i++;
             }
             band.setPerformerName(performerNameTextField.getText());

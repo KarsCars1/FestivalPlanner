@@ -1,4 +1,4 @@
-package sample;
+package Planner;
 
 import DataStructure.Data.Artist;
 import DataStructure.Data.Band;
@@ -17,28 +17,27 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class MainScene extends StandardScene {
-    ListView<String> performerList = new ListView<>();
-    PerformerController performerController;
+    private ListView<String> performerList = new ListView<>();
+    private PerformerController performerController;
     //stage title and main borderpane
-    BorderPane agendaBorderPane = new BorderPane();
-    GridPane buttons = new GridPane();
+    private BorderPane agendaBorderPane = new BorderPane();
+    private GridPane buttons = new GridPane();
     //Vbox components
-    VBox performerVBox = new VBox();
-    Label performerLabel = new Label("Performers:");
-    Button addPerformer = new Button("Add performer");
-    Button removePerformer = new Button("Remove performer");
-    Button editPerformer = new Button("Edit performer");
-    Button addShow = new Button("Add show");
-    Button addLocation = new Button("Add Location");
-    Button removeLocation = new Button("Remove Location");
-    Button editLocation = new Button("Edit Location");
-    Button saveButton = new Button("Save");
-    Button loadButton = new Button("Load");
-    Agenda agenda = new Agenda();
-    String selectedPerformer;
-    TableView showsTable = new TableView<>();
-    ScrollPane agendaScroll = new ScrollPane();
-
+    private VBox performerVBox = new VBox();
+    private Label performerLabel = new Label("Performers:");
+    private Button addPerformer = new Button("Add performer");
+    private Button removePerformer = new Button("Remove performer");
+    private Button editPerformer = new Button("Edit performer");
+    private Button addShow = new Button("Add show");
+    private Button addLocation = new Button("Add Location");
+    private Button removeLocation = new Button("Remove Location");
+    private Button editLocation = new Button("Edit Location");
+    private Button saveButton = new Button("Save");
+    private Button loadButton = new Button("Load");
+    private Agenda agenda = new Agenda();
+    private String selectedPerformer;
+    private TableView showsTable = new TableView<>();
+    private ScrollPane agendaScroll = new ScrollPane();
 
     public MainScene(PerformerController performerController, GuiCallback callback) {
         this.performerController = performerController;
@@ -47,11 +46,9 @@ public class MainScene extends StandardScene {
         performerList.setOnMousePressed(e -> {
             selectedPerformer = performerList.getSelectionModel().getSelectedItem();
             //performerController.editPerformer(e.g);
-
         });
         //List components
         performerList.setOrientation(Orientation.VERTICAL);
-
 
         TextField textField = new TextField();
 
@@ -64,7 +61,6 @@ public class MainScene extends StandardScene {
         agenda.setOnMousePressed(e -> agenda.mousePressed(e));
         agenda.setOnMouseReleased(e -> agenda.mouseReleased(e));
         agenda.setOnMouseDragged(e -> agenda.moveOnMouse(e.getX(), e.getY()));
-
 
         agendaScroll.setContent(agenda);
         agendaScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
@@ -88,7 +84,6 @@ public class MainScene extends StandardScene {
 
         updateShows();
 
-
         buttons.addColumn(0, addPerformer, editPerformer, removePerformer);
         buttons.addColumn(1, addShow, saveButton, loadButton);
         buttons.addColumn(2, addLocation, editLocation, removeLocation);
@@ -107,7 +102,6 @@ public class MainScene extends StandardScene {
         agendaBorderPane.setLeft(agendaHBox);
         this.scene = new Scene(agendaBorderPane);
 
-
         //buttons
         editPerformer.setOnAction(E -> {
             if (!performerList.getSelectionModel().isEmpty()) {
@@ -119,10 +113,9 @@ public class MainScene extends StandardScene {
                 }
                 for (Band band : performerController.getBands()) {
                     if (band.getPerformerName().equals(performerList.getSelectionModel().getSelectedItem())) {
-                        callback.setStage(new AddEditBandScene(performerController,band,callback).getScene());
+                        callback.setStage(new AddEditBandScene(performerController, band, callback).getScene());
                     }
                 }
-
             }
         });
 
@@ -149,6 +142,7 @@ public class MainScene extends StandardScene {
                 e1.printStackTrace();
             }
         });
+
         saveButton.setOnAction(e -> {
             try {
                 FileOutputStream fileOutputStream = new FileOutputStream("Data.txt");
@@ -169,7 +163,6 @@ public class MainScene extends StandardScene {
                 }
             }
             callback.setStage(new AddShowScene(performerController, callback, null).getScene());
-
         });
     }
 
@@ -182,10 +175,7 @@ public class MainScene extends StandardScene {
                 agenda.addShowBlock(show);
             }
             System.out.println("yet");
-
-
         }
-
     }
 
     public void updatePerformerList() {
