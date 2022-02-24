@@ -1,5 +1,6 @@
 package DataStructure.Data;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Show {
@@ -10,12 +11,22 @@ public class Show {
     private LocalTime beginTime;
     private LocalTime endTime;
 
+
+
     public Show(String name, Location location, Performer performer, LocalTime beginTime, LocalTime endTime) {
         this.name = name;
         this.location = location;
         this.performer = performer;
         this.beginTime = beginTime;
         this.endTime = endTime;
+    }
+
+    public String getPerformerName() {
+        return performer.getPerformerName();
+    }
+
+    public String getLocationName(){
+        return location.getName();
     }
 
     public String getName() {

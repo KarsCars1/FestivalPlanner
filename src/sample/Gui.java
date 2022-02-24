@@ -31,15 +31,28 @@ public class Gui extends Application {
         Stage addBandStage = new Stage();
         addBandStage.setScene(addBandScene.getScene());
 
-        EditArtistScene editArtist = new EditArtistScene();
+        EditArtistScene editArtistScene = new EditArtistScene();
         Stage editArtistStage = new Stage();
+        editArtistStage.setScene(editArtistScene.getScene());
+
+        AddShowScene addShowScene = new AddShowScene(mainScene.performerController);
+        Stage addPerformanceStage = new Stage();
+        addPerformanceStage.setScene(addShowScene.getScene());
+        EditBandScene editBandScene = new EditBandScene();
+        Stage editBandStage = new Stage();
+        editBandStage.setScene(editBandScene.getScene());
 
         mainScene.addShow.setOnAction(E -> {
             System.out.println("opening");
-            Stage addPerformanceStage = new Stage();
-            addPerformanceStage.setScene(new AddShowScene(mainScene.performerController, mainScene.performerList.getSelectionModel().getSelectedItem()).getScene());
+            addShowScene.setVariables(mainScene.performerList.getSelectionModel().getSelectedItem());
             addPerformanceStage.setResizable(false);
             addPerformanceStage.show();
+
+        });
+
+        addShowScene.getSave().setOnAction(e -> {
+            addShowScene.saveShow();
+            mainScene.updateShows();
         });
         mainScene.addLocation.setOnAction(E -> {
             Stage addLoactionStage = new Stage();
@@ -50,27 +63,29 @@ public class Gui extends Application {
         //Button eventhandling
         mainScene.editPerformer.setOnAction(E -> {
             if (!mainScene.performerList.getSelectionModel().isEmpty()) {
+
                 for (Artist artist : mainScene.performerController.getArtists()){
-                    if (artist.getPerformerName().equals(editArtist.getOldArtist())) {
-                        editArtist.getArtistField().setText(mainScene.performerList.getSelectionModel().getSelectedItem());
-                        editArtist.setOldArtist(mainScene.performerList.getSelectionModel().getSelectedItem());
+                    editArtistScene.setOldArtist(mainScene.performerList.getSelectionModel().getSelectedItem());
+                    if (artist.getPerformerName().equals(editArtistScene.getOldArtist())) {
+                        editArtistScene.getArtistField().setText(mainScene.performerList.getSelectionModel().getSelectedItem());
                         editArtistStage.show();
                         break;
                     }
                 }
                 for (Band band : mainScene.performerController.getBands()) {
-                    if (band.getPerformerName().equals(editArtist.getOldArtist())) {
-
+                    editBandScene.setOldArtist(mainScene.performerList.getSelectionModel().getSelectedItem());
+                    if (band.getPerformerName().equals(editBandScene.getOldArtist())) {
+                        editBandScene.getBandField().setText(mainScene.performerList.getSelectionModel().getSelectedItem());
+                        editBandStage.show();
                     }
                 }
 
             }
         });
-        editArtist.getSaveButton().setOnAction(E -> {
+        editArtistScene.getSaveButton().setOnAction(E -> {
             for (Performer performer : mainScene.performerController.getPerformers()) {
-                if (performer.getPerformerName().equals(editArtist.getOldArtist())) {
-                    performer.setPerformerName(editArtist.getArtistField().getText());
-                    System.out.println("ik was hier...");
+                if (performer.getPerformerName().equals(editArtistScene.getOldArtist())) {
+                    performer.setPerformerName(editArtistScene.getArtistField().getText());
                 }
             }
             mainScene.performerController.updateList(mainScene.performerList);
@@ -91,7 +106,9 @@ public class Gui extends Application {
             addBandStage.close();
         });
         addBandScene.addMemberButton.setOnAction(E -> {
-            addBandScene.newBandMemberList.getItems().add(addBandScene.addMemberField.getText());
+            if (!addBandScene.addMemberField.getText().trim().equals("")){
+                addBandScene.newBandMemberList.getItems().add(addBandScene.addMemberField.getText());
+            }
             addBandScene.addMemberField.setText("");
         });
         addPerformerScene.addButton.setOnAction(E -> {

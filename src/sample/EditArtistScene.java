@@ -1,11 +1,16 @@
 package sample;
 
 import DataStructure.PerformerController;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.PopupControl;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 //import javafx.*;
@@ -14,7 +19,7 @@ import javafx.stage.Stage;
 //import javax.swing.*;
 
 public class EditArtistScene extends StandardScene {
-    private String artist;
+
     private String oldArtist;
     Stage editPerformerPopup = new Stage();
     private TextField artistField = new TextField();

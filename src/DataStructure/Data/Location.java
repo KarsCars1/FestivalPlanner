@@ -33,6 +33,6 @@ public class Location {
 
     @Override
     public String toString() {
-        return this.name + ": Coordinates (" + this.xLocation + ", " + this.yLocation + "): Surface area " + this.surfaceArea;
+        return this.name;
     }
 }
