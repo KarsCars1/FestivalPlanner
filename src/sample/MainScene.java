@@ -111,10 +111,9 @@ public class MainScene extends StandardScene {
         //buttons
         editPerformer.setOnAction(E -> {
             if (!performerList.getSelectionModel().isEmpty()) {
-
                 for (Artist artist : performerController.getArtists()) {
                     if (artist.getPerformerName().equals(performerList.getSelectionModel().getSelectedItem())) {
-                        callback.setStage(new AddEditPerformerScene(performerController,artist,callback).getScene());
+                        callback.setStage(new AddEditPerformerScene(performerController, artist, callback).getScene());
                         break;
                     }
                 }
@@ -128,7 +127,7 @@ public class MainScene extends StandardScene {
         });
 
         addPerformer.setOnAction(E -> {
-            callback.setStage(new AddEditPerformerScene(performerController,null,callback).getScene());
+            callback.setStage(new AddEditPerformerScene(performerController, null, callback).getScene());
         });
 
         addLocation.setOnAction(e -> {
@@ -161,6 +160,16 @@ public class MainScene extends StandardScene {
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
+        });
+        addShow.setOnAction(e -> {
+            for (Artist artist : performerController.getArtists()) {
+                if (artist.getPerformerName().equals(performerList.getSelectionModel().getSelectedItem())) {
+                    callback.setStage(new AddShowScene(performerController, callback, artist).getScene());
+                    return;
+                }
+            }
+            callback.setStage(new AddShowScene(performerController, callback, null).getScene());
+
         });
     }
 
