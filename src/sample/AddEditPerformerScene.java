@@ -47,7 +47,7 @@ public class AddEditPerformerScene extends StandardScene {
         });
 
         switchToBandButton.setOnAction(e -> {
-            callback.setStage(new AddEditBandScene().getScene());
+            callback.setStage(new AddEditBandScene(controller, null, callback).getScene());
         });
 
         saveButton.setOnAction(e -> {

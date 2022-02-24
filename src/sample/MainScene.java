@@ -119,9 +119,9 @@ public class MainScene extends StandardScene {
                     }
                 }
                 for (Band band : performerController.getBands()) {
-//                    if (band.getPerformerName().equals(performerList.getSelectionModel().getSelectedItem())) {
-//                        callback.setStage(new AddEditBandScene(performerController,band,callback).getScene());
-//                    }
+                    if (band.getPerformerName().equals(performerList.getSelectionModel().getSelectedItem())) {
+                        callback.setStage(new AddEditBandScene(performerController,band,callback).getScene());
+                    }
                 }
 
             }
