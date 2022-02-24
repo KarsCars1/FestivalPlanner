@@ -1,5 +1,7 @@
 package sample;
 
+import DataStructure.Data.Artist;
+import DataStructure.Data.Band;
 import DataStructure.Data.Show;
 import DataStructure.PerformerController;
 import javafx.geometry.Orientation;
@@ -11,11 +13,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.*;
 import java.util.ArrayList;
 
 public class MainScene extends StandardScene {
     ListView<String> performerList = new ListView<>();
-    PerformerController performerController = new PerformerController();
+    PerformerController performerController;
     //stage title and main borderpane
     BorderPane agendaBorderPane = new BorderPane();
     GridPane buttons = new GridPane();
@@ -37,7 +40,8 @@ public class MainScene extends StandardScene {
     ScrollPane agendaScroll = new ScrollPane();
 
 
-    public MainScene() {
+    public MainScene(PerformerController performerController, GuiCallback callback) {
+        this.performerController = performerController;
 
         performerList = new ListView();
         performerList.setOnMousePressed(e -> {
@@ -103,6 +107,61 @@ public class MainScene extends StandardScene {
         agendaBorderPane.setLeft(agendaHBox);
         this.scene = new Scene(agendaBorderPane);
 
+
+        //buttons
+        editPerformer.setOnAction(E -> {
+            if (!performerList.getSelectionModel().isEmpty()) {
+
+                for (Artist artist : performerController.getArtists()) {
+                    if (artist.getPerformerName().equals(performerList.getSelectionModel().getSelectedItem())) {
+                        callback.setStage(new AddPerformerScene(performerController,callback,artist));
+                        break;
+                    }
+                }
+                for (Band band : performerController.getBands()) {
+                    if (band.getPerformerName().equals(performerList.getSelectionModel().getSelectedItem())) {
+                        callback.setStage(new AddBandScene(performerController,callback,band));
+                    }
+                }
+
+            }
+        });
+
+        addPerformer.setOnAction(E -> {
+            callback.setStage(new AddPerformerScene(performerController,callback,null));
+        });
+
+        addLocation.setOnAction(e -> {
+            callback.setStage(new AddLocation(performerController).getScene());
+        });
+
+        loadButton.setOnAction(e -> {
+            try {
+                FileInputStream fis = new FileInputStream("Data.txt");
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                PerformerController newPerformerController = (PerformerController) ois.readObject();
+                performerController.loadFrom(newPerformerController);
+                fis.close();
+            } catch (FileNotFoundException e1) {
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } catch (ClassNotFoundException e1) {
+                e1.printStackTrace();
+            }
+        });
+        saveButton.setOnAction(e -> {
+            try {
+                FileOutputStream fileOutputStream = new FileOutputStream("Data.txt");
+                ObjectOutputStream oos = new ObjectOutputStream(fileOutputStream);
+                oos.writeObject(performerController);
+                fileOutputStream.close();
+            } catch (FileNotFoundException e1) {
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        });
     }
 
     public void updateShows() {
@@ -118,5 +177,9 @@ public class MainScene extends StandardScene {
 
         }
 
+    }
+
+    public void updatePerformerList() {
+        performerController.updateList(performerList);
     }
 }

@@ -11,6 +11,8 @@ import java.io.*;
 
 public class Gui extends Application implements GuiCallback {
     public Stage popUpStage;
+    PerformerController performerController = new PerformerController();
+    MainScene mainScene;
 
     public static void main(String[] args) {
         launch(args);
@@ -23,7 +25,7 @@ public class Gui extends Application implements GuiCallback {
         this.popUpStage = new Stage();
 
         // Make the mainScene
-        MainScene mainScene = new MainScene();
+        this.mainScene = new MainScene(performerController,this);
         primaryStage.setScene(mainScene.getScene());
 
 //        AddPerformerScene addPerformerScene = new AddPerformerScene();
@@ -47,67 +49,17 @@ public class Gui extends Application implements GuiCallback {
             addPerformanceStage.show();
 
         });
-        mainScene.saveButton.setOnAction(e -> {
-            try {
-                FileOutputStream fileOutputStream = new FileOutputStream("Data.txt");
-                ObjectOutputStream oos = new ObjectOutputStream(fileOutputStream);
-                oos.writeObject(mainScene.performerController);
-                fileOutputStream.close();
-            } catch (FileNotFoundException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        });
+        mainScene.
 
-        mainScene.loadButton.setOnAction(e -> {
-            try {
-                FileInputStream fis = new FileInputStream("Data.txt");
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                PerformerController newPerformerController = (PerformerController) ois.readObject();
-                mainScene.performerController.loadFrom(newPerformerController);
-                fis.close();
-            } catch (FileNotFoundException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            } catch (ClassNotFoundException e1) {
-                e1.printStackTrace();
-            }
-        });
 
         addShowScene.getSave().setOnAction(e -> {
             addShowScene.saveShow();
             mainScene.updateShows();
         });
-        mainScene.addLocation.setOnAction(e -> {
-            Stage addLoactionStage = new Stage();
-            addLoactionStage.setScene(new AddLocation(mainScene.performerController).getScene());
-            addLoactionStage.show();
-        });
+
 
         //Button eventhandling
-//        mainScene.editPerformer.setOnAction(E -> {
-//            if (!mainScene.performerList.getSelectionModel().isEmpty()) {
-//
-//                for (Artist artist : mainScene.performerController.getArtists()) {
-//                    editArtistScene.setOldArtist(mainScene.performerList.getSelectionModel().getSelectedItem());
-//                    if (artist.getPerformerName().equals(editArtistScene.getOldArtist())) {
-//                        editArtistScene.getArtistField().setText(mainScene.performerList.getSelectionModel().getSelectedItem());
-//                        editArtistStage.show();
-//                        break;
-//                    }
-//                }
-//                for (Band band : mainScene.performerController.getBands()) {
-//                    editBandScene.setOldArtist(mainScene.performerList.getSelectionModel().getSelectedItem());
-//                    if (band.getPerformerName().equals(editBandScene.getOldArtist())) {
-//                        editBandScene.getBandField().setText(mainScene.performerList.getSelectionModel().getSelectedItem());
-//                        editBandStage.show();
-//                    }
-//                }
-//
-//            }
-//        });
+
 //        editArtistScene.getSaveButton().setOnAction(E -> {
 //            for (Performer performer : mainScene.performerController.getPerformers()) {
 //                if (performer.getPerformerName().equals(editArtistScene.getOldArtist())) {
@@ -153,10 +105,8 @@ public class Gui extends Application implements GuiCallback {
 //                addBandScene.performerNameTextField.deleteText(0, addBandScene.performerNameTextField.getText().length());
 //            }
 //        });
-//
-//        mainScene.addPerformer.setOnAction(E -> {
-//            addPerformerStage.show();
-//        });
+
+
 
         primaryStage.setTitle("Festival planner agenda");
         primaryStage.setScene(mainScene.getScene());
@@ -180,6 +130,12 @@ public class Gui extends Application implements GuiCallback {
     @Override
     public void closeStage() {
         this.popUpStage.close();
+    }
+
+    @Override
+    public void updateLists() {
+        this.mainScene.updateShows();
+        this.mainScene.updatePerformerList();
     }
 
 }
