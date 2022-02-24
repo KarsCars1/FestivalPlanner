@@ -1,13 +1,10 @@
 package sample;
 
 import DataStructure.Data.Artist;
-import DataStructure.Data.Performer;
 import DataStructure.PerformerController;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -50,19 +47,19 @@ public class AddEditPerformerScene extends StandardScene {
         });
 
         switchToBandButton.setOnAction(e -> {
-            callback.setStage(new AddBandScene().getScene());
+            callback.setStage(new AddEditBandScene().getScene());
         });
 
         saveButton.setOnAction(e -> {
             artist.setPerformerName(performerNameTextField.getText());
             callback.updateLists();
-            editArtistStage.close();
+            callback.closeStage();
         });
 
         addButton.setOnAction(e -> {
             if (!performerNameTextField.getText().isEmpty()) {
                 controller.addArtist(performerNameTextField.getText());
-                callback.updateList();
+                callback.updateLists();
                 performerNameTextField.deleteText(0, performerNameTextField.getText().length());
             }
         });

@@ -114,21 +114,21 @@ public class MainScene extends StandardScene {
 
                 for (Artist artist : performerController.getArtists()) {
                     if (artist.getPerformerName().equals(performerList.getSelectionModel().getSelectedItem())) {
-                        callback.setStage(new AddPerformerScene(performerController,callback,artist));
+                        callback.setStage(new AddEditPerformerScene(performerController,artist,callback).getScene());
                         break;
                     }
                 }
                 for (Band band : performerController.getBands()) {
-                    if (band.getPerformerName().equals(performerList.getSelectionModel().getSelectedItem())) {
-                        callback.setStage(new AddBandScene(performerController,callback,band));
-                    }
+//                    if (band.getPerformerName().equals(performerList.getSelectionModel().getSelectedItem())) {
+//                        callback.setStage(new AddEditBandScene(performerController,band,callback).getScene());
+//                    }
                 }
 
             }
         });
 
         addPerformer.setOnAction(E -> {
-            callback.setStage(new AddPerformerScene(performerController,callback,null));
+            callback.setStage(new AddEditPerformerScene(performerController,null,callback).getScene());
         });
 
         addLocation.setOnAction(e -> {

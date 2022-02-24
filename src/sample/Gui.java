@@ -32,7 +32,7 @@ public class Gui extends Application implements GuiCallback {
 
 //        AddPerformerScene addPerformerScene = new AddPerformerScene();
 //
-//        AddBandScene addBandScene = new AddBandScene();
+//        AddEditBandScene addBandScene = new AddEditBandScene();
 //
 //        EditArtistScene editArtistScene = new EditArtistScene();
 
@@ -51,13 +51,11 @@ public class Gui extends Application implements GuiCallback {
             addPerformanceStage.show();
 
         });
-        mainScene.
 
-
-        addShowScene.getSave().setOnAction(e -> {
-            addShowScene.saveShow();
-            mainScene.updateShows();
-        });
+//        addShowScene.getSave().setOnAction(e -> {
+//            addShowScene.saveShow();
+//            mainScene.updateShows();
+//        });
 
 
         //Button eventhandling
@@ -110,8 +108,8 @@ public class Gui extends Application implements GuiCallback {
 
 
 
-        primaryStage.setTitle("Festival planner agenda");
         primaryStage.setScene(mainScene.getScene());
+        primaryStage.setTitle("Festival planner agenda");
         primaryStage.show();
     }
 
