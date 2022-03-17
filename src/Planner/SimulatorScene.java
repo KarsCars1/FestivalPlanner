@@ -10,8 +10,11 @@ public class SimulatorScene extends StandardScene {
     FXGraphics2D graphics;
     ResizableCanvas canvas;
 
+    private SimulationMap map;
+
     public SimulatorScene(Stage stage) throws Exception {
         BorderPane borderPane = new BorderPane();
+        map = new SimulationMap("TileMap1.json");
         canvas = new ResizableCanvas(g -> draw(g), borderPane);
         borderPane.setCenter(canvas);
         FXGraphics2D graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
@@ -24,6 +27,6 @@ public class SimulatorScene extends StandardScene {
     }
 
     private void draw(FXGraphics2D graphics) {
-
+        map.draw(graphics);
     }
 }
