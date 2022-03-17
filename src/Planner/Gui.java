@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 public class Gui extends Application implements GuiCallback {
     public Stage popUpStage;
     PerformerController performerController = new PerformerController();
+    SimulatorScene simulatorScene;
     MainScene mainScene;
 
     public static void main(String[] args) {
@@ -21,7 +22,7 @@ public class Gui extends Application implements GuiCallback {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
         this.popUpStage = new Stage();
-
+        this.simulatorScene = new SimulatorScene(new Stage());
         // Make the mainScene
         this.mainScene = new MainScene(performerController, this);
         primaryStage.setScene(mainScene.getScene());
