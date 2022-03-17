@@ -174,7 +174,6 @@ public class MainScene extends StandardScene {
                 showsTable.getItems().add(i, show);
                 agenda.addShowBlock(show);
             }
-            System.out.println("yet");
         }
     }
 

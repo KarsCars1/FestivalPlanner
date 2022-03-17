@@ -60,9 +60,7 @@ public class SimulationMap {
         for (int i = 0; i < root.getJsonArray("layers").size(); i++) {
             String layerType = root.getJsonArray("layers").getJsonObject(i).getJsonString("type").getString();
             String layerName = root.getJsonArray("layers").getJsonObject(i).getJsonString("name").getString();
-            System.out.println(layerName);
             if (layerType.equals("tilelayer") && !layerName.equals("Collision")) {
-                System.out.println("yo");
                 for (int y = 0; y < height; y++) {
                     for (int x = 0; x < width; x++) {
                         map[j][y][x] = root.getJsonArray("layers").getJsonObject(i).getJsonArray("data").getInt(x + y * width);

@@ -28,7 +28,7 @@ public class Agenda extends Canvas {
 
     //todo make proper base for agenda
     public void drawAgendaBase() {
-        System.out.println("hallo");//        graphics.setClip(null);
+        //        graphics.setClip(null);
         this.graphics.setBackground(Color.white);
         this.graphics.clearRect(0, 0, (int) getWidth(), (int) getHeight());
 
