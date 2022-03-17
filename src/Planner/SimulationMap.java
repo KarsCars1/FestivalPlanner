@@ -1,4 +1,5 @@
 package Planner;
+
 import javax.imageio.ImageIO;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -20,7 +21,9 @@ public class SimulationMap {
 
     private ArrayList<BufferedImage> tiles = new ArrayList<>();
 
-    private int[][] map;
+    private int[][][] map;
+
+    private int layers;
 
     public SimulationMap(String fileName) {
         JsonReader reader;
@@ -31,8 +34,6 @@ public class SimulationMap {
         this.width = root.getInt("width");
         this.height = root.getInt("height");
 
-        System.out.println(this.height + " " + this.width);
-
         //load the tilemap
         try {
             String a = root.getJsonArray("tilesets").getJsonObject(0).getString("source");
@@ -41,12 +42,9 @@ public class SimulationMap {
 
             tileHeight = root.getInt("tileheight");
             tileWidth = root.getInt("tilewidth");
-            System.out.println(tileHeight + " " + tileWidth);
 
-            for(int y = 0; y < tilemap.getHeight(); y += tileHeight)
-            {
-                for(int x = 0; x < tilemap.getWidth(); x += tileWidth)
-                {
+            for (int y = 0; y < tilemap.getHeight(); y += tileHeight) {
+                for (int x = 0; x < tilemap.getWidth(); x += tileWidth) {
                     tiles.add(tilemap.getSubimage(x, y, tileWidth, tileHeight));
                 }
             }
@@ -54,31 +52,46 @@ public class SimulationMap {
             e.printStackTrace();
         }
 
-        map = new int[height][width];
-        for(int y = 0; y < height; y++)
-        {
-            for(int x = 0; x < width; x++)
-            {
-                map[y][x] = root.getJsonArray("layers").getJsonObject(0).getJsonArray("data").getInt(x+y*width);
+        layers = root.getJsonArray("layers").size();
+
+        int j = 0;
+
+        map = new int[layers][height][width];
+        for (int i = 0; i < root.getJsonArray("layers").size(); i++) {
+            String layerType = root.getJsonArray("layers").getJsonObject(i).getJsonString("type").getString();
+            String layerName = root.getJsonArray("layers").getJsonObject(i).getJsonString("name").getString();
+            System.out.println(layerName);
+            if (layerType.equals("tilelayer") && !layerName.equals("Collision")) {
+                System.out.println("yo");
+                for (int y = 0; y < height; y++) {
+                    for (int x = 0; x < width; x++) {
+                        map[j][y][x] = root.getJsonArray("layers").getJsonObject(i).getJsonArray("data").getInt(x + y * width);
+                    }
+                }
+            } else {
+                j--;
+                layers--;
             }
+            j++;
         }
     }
 
-    void draw(Graphics2D g2d)
-    {
+    void draw(Graphics2D g2d) {
 
-        for(int y = 0; y < height; y++)
-        {
-            for(int x = 0; x < width; x++)
-            {
-                if(map[y][x] < 0)
-                    continue;
-
-                g2d.drawImage(
-                        tiles.get(map[y][x]-1),
-                        AffineTransform.getTranslateInstance(x*tileWidth, y*tileHeight),
-                        null);
+        for (int i = 0; i < layers; i++) {
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    if (map[i][y][x] < 0)
+                        continue;
+                    if (map[i][y][x] != 0) {
+                        g2d.drawImage(
+                                tiles.get(map[i][y][x] - 1),
+                                AffineTransform.getTranslateInstance(x * tileWidth, y * tileHeight),
+                                null);
+                    }
+                }
             }
         }
     }
 }
+//credits to johan talboom
