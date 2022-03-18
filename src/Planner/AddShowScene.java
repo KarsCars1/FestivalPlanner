@@ -1,5 +1,6 @@
-package sample;
+package Planner;
 
+import DataStructure.Data.Artist;
 import DataStructure.PerformerController;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,8 +16,10 @@ import java.util.ArrayList;
 
 public class AddShowScene extends StandardScene {
 
+
     private ArrayList<TextField> time;
 
+    private Artist selectedArtist;
     private TextField showName = new TextField();
     private ComboBox<String> performerName = new ComboBox<>();
     private ComboBox<String> locations = new ComboBox<>();
@@ -25,23 +28,26 @@ public class AddShowScene extends StandardScene {
     private TextField endTimeHour = new TextField("00");
     private TextField endTimeMinute = new TextField("00");
     private PerformerController controller;
-
-    public Button getSave() {
-        return save;
-    }
-
     private Button save = new Button("add show");
+    private GuiCallback callback;
 
-    public AddShowScene(PerformerController controller) {
+    public AddShowScene(PerformerController controller, GuiCallback callback, Artist artist) {
         this.controller = controller;
-        this.scene = createScene();
+        if (artist != null) {
+            this.scene = createScene(artist.getPerformerName());
+        }else{
+            this.scene = createScene("");
+        }
+        this.selectedArtist = artist;
+        this.callback = callback;
     }
+
 
     public PerformerController getController() {
         return controller;
     }
 
-    public Scene createScene() {
+    public Scene createScene(String selectedItem) {
         time = new ArrayList<>();
         time.add(beginTimeHour);
         time.add(endTimeHour);
@@ -71,7 +77,11 @@ public class AddShowScene extends StandardScene {
         Label performers = new Label("performer:");
         Label showNameText = new Label("show name:");
         Label location = new Label("location:");
-
+        performerName.getItems().removeAll(performerName.getSelectionModel().getSelectedItem());
+        performerName.getItems().addAll(this.controller.getPerformersString());
+        performerName.getSelectionModel().select(selectedItem);
+        locations.getItems().removeAll(locations.getSelectionModel().getSelectedItem());
+        locations.getItems().addAll(this.controller.getLocationsString());
 
 
         HBox times = new HBox();
@@ -89,6 +99,10 @@ public class AddShowScene extends StandardScene {
 
         Scene scene = new Scene(vBox);
         System.out.println(Integer.parseInt(beginTimeHour.getText()));
+        save.setOnAction(e -> {
+            saveShow();
+            callback.updateLists();
+        });
 
         return scene;
     }
@@ -109,7 +123,7 @@ public class AddShowScene extends StandardScene {
     }
 
 
-    public void saveShow(){
+    public void saveShow() {
         LocalTime theBeginTime = LocalTime.of(Integer.parseInt(beginTimeHour.getText()), Integer.parseInt(beginTimeMinute.getText()));
         LocalTime theEndTime = LocalTime.of(Integer.parseInt(endTimeHour.getText()), Integer.parseInt(endTimeMinute.getText()));
         controller.addShow(showName.getText(),
@@ -119,14 +133,4 @@ public class AddShowScene extends StandardScene {
                 theEndTime);
     }
 
-    public void setVariables(String selectedItem) {
-        performerName.getItems().removeAll(performerName.getSelectionModel().getSelectedItem());
-        performerName.getItems().addAll(this.controller.getPerformersString());
-        performerName.getSelectionModel().select(selectedItem);
-        locations.getItems().removeAll(locations.getSelectionModel().getSelectedItem());
-        locations.getItems().addAll(this.controller.getLocationsString());
-
-
-
-    }
 }

@@ -1,19 +1,19 @@
 package DataStructure.Data;
 
+import java.awt.geom.Point2D;
 import java.io.Serializable;
 
 public class Location implements Serializable {
 
-    private int xLocation = 0;
-    private int yLocation = 0;
+    Point2D location;
+    int[][]path;
+
     private int height = 0;
     private int width = 0;
     private int surfaceArea = 0;
     private String name = "";
 
     public Location(String name, int x, int y, int width, int height) {
-        this.xLocation = x;
-        this.yLocation = y;
         this.width = width;
         this.height = height;
         this.name = name;

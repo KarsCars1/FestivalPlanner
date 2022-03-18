@@ -21,6 +21,11 @@ public class Band extends Performer {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return performerName;
+	}
+
 	public ArrayList<Performer> getMembers() {
 		return members;
 	}
