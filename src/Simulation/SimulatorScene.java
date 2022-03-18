@@ -1,5 +1,6 @@
-package Planner;
+package Simulation;
 
+import Planner.StandardScene;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -24,13 +25,13 @@ public class SimulatorScene extends StandardScene implements Resizable {
 
     public SimulatorScene(Stage stage) throws Exception {
         time = 0;
-        fps = 60;
+        fps = 30;
         BorderPane borderPane = new BorderPane();
-        map = new SimulationMap("TileMap1.json");
+
         canvas = new ResizableCanvas(g -> draw(g), borderPane);
         borderPane.setCenter(canvas);
         graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
-
+        map = new SimulationMap("TileMap1.json", new Pathfinding(), graphics);
         canvas.setOnMouseDragged(e -> {
             camera.mouseDragged(e);
             graphics.setTransform(camera.getTransform());
