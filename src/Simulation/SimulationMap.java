@@ -77,7 +77,7 @@ public class SimulationMap {
                     }
                     pathfinding.addColisions(collisions);
                     //democode
-                    Point point = new Point(0, 0);
+                    Point point = new Point(25, 25);
                     path = pathfinding.path(point);
 
                 }
@@ -90,9 +90,10 @@ public class SimulationMap {
 
     void draw(Graphics2D g2d) {
 
-        for (int i = 0; i < layers; i++) {
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++) {
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                for (int i = 0; i < layers; i++) {
                     if (map[i][y][x] < 0)
                         continue;
                     if (map[i][y][x] != 0) {
@@ -101,8 +102,16 @@ public class SimulationMap {
                                 AffineTransform.getTranslateInstance(x * tileWidth, y * tileHeight),
                                 null);
                         g2d.setColor(Color.yellow);
-                        g2d.drawString(path[x][y] + "", x * tileWidth, y * tileHeight);
+
                     }
+
+                }
+                if (path[x][y] == 9999) {
+                    g2d.drawString( "X", x * tileWidth, y * tileHeight + tileHeight);
+                } else if (path[x][y] == 0){
+                    
+                }else {
+                    g2d.drawString(path[x][y] + "", x * tileWidth, y * tileHeight + tileHeight);
                 }
             }
         }
