@@ -69,7 +69,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
 	public void init() throws IOException {
 		this.npcs = new ArrayList<>();
 		while (this.npcs.size() < 40) {
-			Npc npc = new Npc(new Point2D.Double(Math.random() * 1000, Math.random() * 1000), 0);
+			Npc npc = new Npc(new Point2D.Double(832 ,1600), 0);
 			this.npcs.add(npc);
 
 		}
