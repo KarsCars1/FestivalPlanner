@@ -21,11 +21,12 @@ public class Gui extends Application implements GuiCallback {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-
+        Stage simulatorStage = new Stage();
         this.popUpStage = new Stage();
-        this.simulatorScene = new SimulatorScene(new Stage());
+        this.simulatorScene = new SimulatorScene();
+        simulatorStage.setScene(this.simulatorScene.getScene());
         // Make the mainScene
-        this.mainScene = new MainScene(performerController, this);
+        this.mainScene = new MainScene(performerController, this, simulatorScene);
         primaryStage.setScene(mainScene.getScene());
 
         primaryStage.setScene(mainScene.getScene());

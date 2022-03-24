@@ -1,5 +1,6 @@
 package Simulation;
 
+import Planner.GuiCallback;
 import Planner.StandardScene;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
@@ -23,7 +24,8 @@ public class SimulatorScene extends StandardScene implements Resizable {
     private double time;
     private double fps;
 
-    public SimulatorScene(Stage stage) throws Exception {
+    public SimulatorScene() throws Exception {
+
         time = 0;
         fps = 30;
         BorderPane borderPane = new BorderPane();
@@ -47,9 +49,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
 
 
         scene = new Scene(borderPane);
-        stage.setScene(scene);
-        stage.setTitle("Simulation");
-        stage.show();
+
         new AnimationTimer() {
             long last = -1;
 
