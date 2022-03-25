@@ -6,8 +6,6 @@ import org.jfree.fx.FXGraphics2D;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -16,7 +14,7 @@ import java.util.ArrayList;
 
 public class Npc {
 
-    private static double rotationSpeed = 1;
+    private static double rotationSpeed = 0.15;
     private BufferedImage fullImage;
     private Point2D position;
     private double angle;
@@ -56,10 +54,10 @@ public class Npc {
     }
 
     public void update() {
-
-        if (target.distanceSq(position) < 32)
+        this.frame++;
+        if (target.distanceSq(position) < 32) {
             getNewTarget();
-
+        }
         double targetAngle = Math.atan2(this.target.getY() - this.position.getY(), this.target.getX() - this.position.getX());
         double rotation = targetAngle - this.angle;
         while (rotation < -Math.PI) {
@@ -119,16 +117,15 @@ public class Npc {
         int centerY = sprites.get(0).getHeight() / 2;
         AffineTransform tx = new AffineTransform();
         tx.translate(position.getX() - centerX, position.getY() - centerY);
-        tx.rotate(angle + Math.PI / 2, centerX, centerY);
-        tx.translate(0, 20);
+        tx.rotate(angle, centerX, centerY);
 
 
         graphics.drawImage(this.sprites.get((int) Math.floor(frame) % this.sprites.size()), tx, null);
 
 
         graphics.setColor(Color.white);
-        graphics.draw(new Ellipse2D.Double(position.getX() - 32, position.getY() - 16, 25, 25));
-        graphics.draw(new Line2D.Double(position, target));
+//        graphics.draw(new Ellipse2D.Double(position.getX() - 12.5, position.getY() - 12.5, 25, 25));
+//        graphics.draw(new Line2D.Double(position, target));
 
     }
 
