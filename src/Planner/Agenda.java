@@ -1,5 +1,6 @@
 package Planner;
 
+import DataStructure.Data.Location;
 import DataStructure.Data.Show;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseEvent;
@@ -11,6 +12,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 
@@ -21,9 +23,11 @@ public class Agenda extends Canvas {
     private FXGraphics2D graphics = new FXGraphics2D(this.getGraphicsContext2D());
     private LinkedList<ShowBlock> shows = new LinkedList<>();
     private boolean clickedOnBlock = false;
+    private ArrayList<Location> locations;
 
 
-    public Agenda() {
+    public Agenda(ArrayList<Location> locations) {
+        this.locations = locations;
     }
 
     //todo make proper base for agenda
@@ -63,13 +67,29 @@ public class Agenda extends Canvas {
             graphics.draw(new Line2D.Double(i * 100 + 100, 105, i * 100 + 100, getHeight()));
         }
 
+        int i =0;
+        for (Location location : locations) {
+            AffineTransform transform = new AffineTransform();
+            transform.translate(20, 150 + i*100);
+            GlyphVector vector = font.createGlyphVector(graphics.getFontRenderContext(), location.getName());
+            Shape a = vector.getOutline();
+
+            a = transform.createTransformedShape(a);
+            graphics.fill(a);
+            i++;
+
+            graphics.draw(new Line2D.Double(100, 100.0 + 100*i, 2500, 100.0 + 100*i));
+        }
+
+
+
 
         //graphics.setClip(new Rectangle2D.Double(100, 100, 100, 100));
     }
 
-    public void addShowBlock(Show show) {
+    public void addShowBlock(Show show, int stage) {
         if (!this.shows.contains(show)) {
-            this.shows.add(new ShowBlock(show));
+            this.shows.add(new ShowBlock(show, stage));
         }
         drawShows();
     }
@@ -110,6 +130,16 @@ public class Agenda extends Canvas {
 //            graphics.fill(shows.get(i).getBlock());
 //
 //        }
+    }
+
+    public LinkedList<ShowBlock> getShows() {
+        return shows;
+    }
+
+    public void update(ArrayList<Show> shows) {
+
+        drawAgendaBase();
+        drawShows();
     }
 
 //    private double calculateX(ShowBlock show) {

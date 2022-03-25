@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class MainScene extends StandardScene {
     private ListView<String> performerList = new ListView<>();
@@ -37,7 +38,7 @@ public class MainScene extends StandardScene {
     private Button loadButton = new Button("Load");
     private Button startSimulation = new Button("Start Simulation");
     private Button removeShow = new Button("Remove Show");
-    private Agenda agenda = new Agenda();
+    private Agenda agenda;
     private String selectedPerformer;
     private TableView showsTable = new TableView<>();
     private ScrollPane agendaScroll = new ScrollPane();
@@ -55,6 +56,8 @@ public class MainScene extends StandardScene {
 
         TextField textField = new TextField();
 
+        agenda = new Agenda(performerController.getLocations());
+
         //schedule stuff
         agenda.setHeight(800);
         agenda.setWidth(2600);
@@ -68,8 +71,8 @@ public class MainScene extends StandardScene {
         agendaScroll.setContent(agenda);
         agendaScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         agendaScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        agendaScroll.fitToWidthProperty().setValue(false);
-        agendaScroll.fitToHeightProperty().setValue(false);
+        agendaScroll.fitToWidthProperty().setValue(true);
+        agendaScroll.fitToHeightProperty().setValue(true);
         agendaScroll.setMaxHeight(600);
         agendaScroll.setMaxWidth(400);
 
@@ -137,6 +140,7 @@ public class MainScene extends StandardScene {
                 PerformerController newPerformerController = (PerformerController) ois.readObject();
                 performerController.loadFrom(newPerformerController);
                 fis.close();
+                callback.updateLists();
             } catch (FileNotFoundException e1) {
                 e1.printStackTrace();
             } catch (IOException e1) {
@@ -189,10 +193,15 @@ public class MainScene extends StandardScene {
             Show show = shows.get(i);
             if (!showsTable.getItems().contains(show)) {
                 showsTable.getItems().add(i, show);
-                agenda.addShowBlock(show);
+                agenda.addShowBlock(show, performerController.getLocations().indexOf(show.getLocation()));
             }
         }
         showsTable.getItems().retainAll(shows);
+        agenda.getShows().clear();
+        for (Show show:shows) {
+            agenda.getShows().add(new ShowBlock(show, performerController.getLocations().indexOf(show.getLocation())));
+        }
+        agenda.update(shows);
     }
 
     public void updatePerformerList() {
