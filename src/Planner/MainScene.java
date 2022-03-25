@@ -61,9 +61,9 @@ public class MainScene extends StandardScene {
         agenda.drawAgendaBase();
         agenda.drawShows();
 
-        agenda.setOnMousePressed(e -> agenda.mousePressed(e));
-        agenda.setOnMouseReleased(e -> agenda.mouseReleased(e));
-        agenda.setOnMouseDragged(e -> agenda.moveOnMouse(e.getX(), e.getY()));
+//        agenda.setOnMousePressed(e -> agenda.mousePressed(e));
+//        agenda.setOnMouseReleased(e -> agenda.mouseReleased(e));
+//        agenda.setOnMouseDragged(e -> agenda.moveOnMouse(e.getX(), e.getY()));
 
         agendaScroll.setContent(agenda);
         agendaScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);

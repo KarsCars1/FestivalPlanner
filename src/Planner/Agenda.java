@@ -74,26 +74,26 @@ public class Agenda extends Canvas {
         drawShows();
     }
 
-    public void moveOnMouse(double X, double Y) {
-        //move the block you clicked on
-        if (clickedOnBlock) {
-            position = new Point2D.Double(X, Y);
-            int i = 0;
-            for (ShowBlock show : shows) {
-                i++;
-                if (show.getBlock().contains(position)) {
-                    show.setPosition(new Point2D.Double(calculateX(show), calculateY(show)));
-                    //put the show on the front so that it's drawn on top of the rest
-                    shows.addFirst(show);
-                    shows.remove(i);
-                    break;
-                }
-            }
-            oldPosition = position;
-
-            drawShows();
-        }
-    }
+//    public void moveOnMouse(double X, double Y) {
+//        //move the block you clicked on
+//        if (clickedOnBlock) {
+//            position = new Point2D.Double(X, Y);
+//            int i = 0;
+//            for (ShowBlock show : shows) {
+//                i++;
+//                if (show.getBlock().contains(position)) {
+//                    show.setPosition(new Point2D.Double(calculateX(show), calculateY(show)));
+//                    //put the show on the front so that it's drawn on top of the rest
+//                    shows.addFirst(show);
+//                    shows.remove(i);
+//                    break;
+//                }
+//            }
+//            oldPosition = position;
+//
+//            drawShows();
+//        }
+//    }
 
     public void drawShows() {
         drawAgendaBase();
@@ -103,11 +103,7 @@ public class Agenda extends Canvas {
         for (ShowBlock show : shows) {
             graphics.setColor(Color.green);
 
-            Rectangle.Double rectangle = show.getBlock();
-            System.out.println(rectangle.toString());
-            graphics.fill(rectangle);
-            graphics.setColor(Color.black);
-            graphics.drawString("Show: " + show.getShowName() + "\n" +  "Perfomer: " + show.getShowPerformer() + "\n" + show.getShowTime(), (int)show.getPosition().x, (int)show.getPosition().y + 10);
+            show.draw(graphics);
         }
 //        for (int i = shows.size() - 1; i >= 0; i--) {
 //            System.out.println("??");
@@ -116,29 +112,29 @@ public class Agenda extends Canvas {
 //        }
     }
 
-    private double calculateX(ShowBlock show) {
-        return show.getPosition().getX() + position.getX() - oldPosition.getX();
-    }
-
-    private double calculateY(ShowBlock show) {
-        return show.getPosition().getY() + position.getY() - oldPosition.getY();
-    }
-
-    public void mousePressed(MouseEvent e) {
-        position = new Point2D.Double(e.getX(), e.getY());
-        //only move a block if you originally clicked on a block
-        for (ShowBlock show : shows) {
-            if (show.getBlock().contains(position)) {
-                clickedOnBlock = true;
-                break;
-            }
-        }
-
-        oldPosition = new Point2D.Double(e.getX(), e.getY());
-    }
-
-    public void mouseReleased(MouseEvent e) {
-        clickedOnBlock = false;
-        oldPosition = null;
-    }
+//    private double calculateX(ShowBlock show) {
+//        return show.getPosition().getX() + position.getX() - oldPosition.getX();
+//    }
+//
+//    private double calculateY(ShowBlock show) {
+//        return show.getPosition().getY() + position.getY() - oldPosition.getY();
+//    }
+//
+//    public void mousePressed(MouseEvent e) {
+//        position = new Point2D.Double(e.getX(), e.getY());
+//        //only move a block if you originally clicked on a block
+//        for (ShowBlock show : shows) {
+//            if (show.getBlock().contains(position)) {
+//                clickedOnBlock = true;
+//                break;
+//            }
+//        }
+//
+//        oldPosition = new Point2D.Double(e.getX(), e.getY());
+//    }
+//
+//    public void mouseReleased(MouseEvent e) {
+//        clickedOnBlock = false;
+//        oldPosition = null;
+//    }
 }
