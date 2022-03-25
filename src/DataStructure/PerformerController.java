@@ -127,7 +127,7 @@ public class PerformerController implements Serializable {
                 location1 = location2;
             }
         }
-        Show newShow = new Show(name, location1, performer1, beginTime, endTime);
+        Show newShow = new Show(name, location1, performer1, beginTime, endTime, Math.random());
         shows.add(newShow);
         System.out.println(newShow.toString());
     }

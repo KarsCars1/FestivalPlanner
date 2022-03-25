@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class Npc {
 
-    private static double rotationSpeed = 0.15;
+    private static double rotationSpeed = 0.5;
     private BufferedImage fullImage;
     private Point2D position;
     private double angle;
