@@ -15,6 +15,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class SimulatorScene extends StandardScene implements Resizable {
     private final Color backgroundColor = new Color(44, 139, 42, 255);
@@ -68,10 +69,10 @@ public class SimulatorScene extends StandardScene implements Resizable {
 
     public void init(PerformerController performerController) throws IOException {
         this.npcs = new ArrayList<>();
-        while (this.npcs.size() < 40) {
+        while (this.npcs.size() < 500) {
             Npc npc = new Npc(new Point2D.Double(832, 1600), 0);
             this.npcs.add(npc);
-            npc.setPathfinding(performerController.getLocations().get(0).getPath());
+            npc.setPathfinding(performerController.getLocations().get(new Random().nextInt(performerController.getLocations().size())).getPath());
         }
 
         timer = 0;
@@ -96,7 +97,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
         //System.out.println(transform.getScaleX() + " " + transform.getScaleY() + " " + transform.getTranslateX() + " " + transform.getTranslateY());
         graphics.setTransform(transform);
         graphics.setBackground(backgroundColor);
-        map.draw(graphics);
+        map.draw(graphics, canvas.getHeight(), canvas.getWidth());
         if (!npcs.isEmpty()) {
             for (Npc npc : npcs) {
                 npc.draw(graphics);
