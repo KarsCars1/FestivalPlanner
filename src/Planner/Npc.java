@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class Npc {
 
-    private static double rotationSpeed = 0.1;
+    private static double rotationSpeed = 1;
     private BufferedImage fullImage;
     private Point2D position;
     private double angle;
@@ -49,19 +49,16 @@ public class Npc {
     }
 
     public void setPathfinding(int[][] pathfinding) {
-        for (int i = 0; i < 100; i++) {
-            for (int j = 0; j < 100; j++) {
-                System.out.print(pathfinding[i][j] + "-");
-            }
-            System.out.println("");
+        if (pathfinding != null) {
+            this.pathfinding = pathfinding;
         }
-        this.pathfinding = pathfinding;
+
     }
 
     public void update() {
-        getNewTarget();
+
         if (target.distanceSq(position) < 32)
-            return;
+            getNewTarget();
 
         double targetAngle = Math.atan2(this.target.getY() - this.position.getY(), this.target.getX() - this.position.getX());
         double rotation = targetAngle - this.angle;
@@ -88,7 +85,8 @@ public class Npc {
     }
 
     private void getNewTarget() {
-        if ((int) position.getX() / 16 == (int) smallTarget.getX() && (int) position.getY() / 16 == (int) smallTarget.getY()) {
+        if (pathfinding != null) {
+
             int x = (int) smallTarget.getX();
             int y = (int) smallTarget.getY();
             Point2D lowest = smallTarget;
@@ -98,7 +96,7 @@ public class Npc {
 
                 for (int x1 = -1; x1 < 2; x1++) {
                     for (int y1 = -1; y1 < 2; y1++) {
-                        if ((x + x1 > 0 && x + x1 < 100) || (y + y1 > 0 && y + y1 < 100)) {
+                        if (!(x + x1 < 0 || x + x1 > 100 || y + y1 < 0 || y + y1 > 100)) {
                             int newNumber = pathfinding[x + x1 - 1][y + y1 - 1];
                             if (newNumber < lowestNumber) {
                                 lowestNumber = newNumber;
@@ -108,8 +106,9 @@ public class Npc {
                     }
                 }
                 smallTarget = lowest;
-                target = new Point2D.Double((smallTarget.getX() - 1) * 16, (smallTarget.getY() - 1) * 16);
+                target = new Point2D.Double((smallTarget.getX()) * 16, (smallTarget.getY()) * 16);
             }
+
 
         }
     }

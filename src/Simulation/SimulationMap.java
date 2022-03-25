@@ -26,6 +26,7 @@ public class SimulationMap {
     private int[][] path;
     private int layers;
 
+
     public SimulationMap(String fileName, Pathfinding pathfinding, Graphics2D graphics2D, PerformerController performerController) {
         this.performerController = performerController;
         JsonReader reader;
@@ -60,6 +61,24 @@ public class SimulationMap {
 
         map = new int[layers][height][width];
         for (int i = 0; i < root.getJsonArray("layers").size(); i++) {
+            //String layerType = root.getJsonArray("layers").getJsonObject(i).getJsonString("type").getString();
+            String layerName = root.getJsonArray("layers").getJsonObject(i).getJsonString("name").getString();
+            if (layerName.equals("Collision")) {
+                System.out.println("hallo");
+                boolean[][] collisions = new boolean[height][width];
+                for (int y = 0; y < height; y++) {
+                    for (int x = 0; x < width; x++) {
+                        collisions[y][x] = (root.getJsonArray("layers").getJsonObject(i).getJsonArray("data").getInt(x + y * width) == 85);
+                    }
+                }
+                pathfinding.addColisions(collisions);
+                //democode
+                Point point = new Point(25, 25);
+                path = pathfinding.path(point);
+
+            }
+        }
+        for (int i = 0; i < root.getJsonArray("layers").size(); i++) {
             String layerType = root.getJsonArray("layers").getJsonObject(i).getJsonString("type").getString();
             String layerName = root.getJsonArray("layers").getJsonObject(i).getJsonString("name").getString();
             if (layerType.equals("tilelayer") && !layerName.equals("Collision")) {
@@ -69,24 +88,13 @@ public class SimulationMap {
                     }
                 }
             } else {
-                if (layerName.equals("Collision")) {
-                    boolean[][] collisions = new boolean[height][width];
-                    for (int y = 0; y < height; y++) {
-                        for (int x = 0; x < width; x++) {
-                            collisions[y][x] = (root.getJsonArray("layers").getJsonObject(i).getJsonArray("data").getInt(x + y * width) == 85);
-                        }
-                    }
-                    pathfinding.addColisions(collisions);
-                    //democode
-                    Point point = new Point(25, 25);
-                    path = pathfinding.path(point);
-
-                }
                 if (layerType.equals("objectgroup")) {
                     JsonArray jsonArray = root.getJsonArray("layers").getJsonObject(i).getJsonArray("objects");
                     for (int i1 = 0; i1 < jsonArray.size(); i1++) {
+                        Point point = new Point(jsonArray.getJsonObject(i1).getInt("x") / 16 + (jsonArray.getJsonObject(i1).getInt("width") / 32), jsonArray.getJsonObject(i1).getInt("y") / 16 + (jsonArray.getJsonObject(i1).getInt("height") / 32));
+                        System.out.println(point);
 
-                        performerController.addLocation(pathfinding.path(new Point(jsonArray.getJsonObject(i1).getInt("x") - 1, jsonArray.getJsonObject(i1).getInt("y") - 1)), jsonArray.getJsonObject(i1).getString("name"));
+                        performerController.addLocation(pathfinding.path(point), jsonArray.getJsonObject(i1).getString("name"));
                     }
                 }
                 j--;
@@ -97,6 +105,7 @@ public class SimulationMap {
     }
 
     void draw(Graphics2D g2d) {
+        path = performerController.getLocations().get(0).getPath();
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 for (int i = 0; i < layers; i++) {
