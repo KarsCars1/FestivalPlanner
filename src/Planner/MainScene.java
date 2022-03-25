@@ -4,6 +4,7 @@ import DataStructure.Data.Artist;
 import DataStructure.Data.Band;
 import DataStructure.Data.Show;
 import DataStructure.PerformerController;
+import Simulation.SimulatorScene;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -34,12 +35,13 @@ public class MainScene extends StandardScene {
     private Button editLocation = new Button("Edit Location");
     private Button saveButton = new Button("Save");
     private Button loadButton = new Button("Load");
+    private Button startSimulation = new Button("Start Simulation");
     private Agenda agenda = new Agenda();
     private String selectedPerformer;
     private TableView showsTable = new TableView<>();
     private ScrollPane agendaScroll = new ScrollPane();
-
-    public MainScene(PerformerController performerController, GuiCallback callback) {
+    private boolean buttonToggle = true;
+    public MainScene(PerformerController performerController, GuiCallback callback, SimulatorScene scene) {
         this.performerController = performerController;
 
         performerList = new ListView();
@@ -86,7 +88,7 @@ public class MainScene extends StandardScene {
 
         buttons.addColumn(0, addPerformer, editPerformer, removePerformer);
         buttons.addColumn(1, addShow, saveButton, loadButton);
-        buttons.addColumn(2, addLocation, editLocation, removeLocation);
+        buttons.addColumn(2, editLocation, removeLocation, startSimulation);
         performerVBox.getChildren().addAll(performerLabel, performerList, buttons);
         agendaBorderPane.setRight(performerVBox);
 
@@ -163,6 +165,9 @@ public class MainScene extends StandardScene {
                 }
             }
             callback.setStage(new AddShowScene(performerController, callback, null).getScene());
+        });
+        startSimulation.setOnAction(e -> {
+            callback.setStage(scene.getScene());
         });
     }
 

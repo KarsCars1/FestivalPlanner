@@ -23,9 +23,9 @@ public class AddLocation extends StandardScene {
         pane.add(loactionNameField, 0, 0);
         pane.add(saveButton, 0, 1);
 
-        saveButton.setOnAction(e -> {
-            controller.addLocation(loactionNameField.getText());
-        });
+//        saveButton.setOnAction(e -> {
+//            controller.addLocation(loactionNameField.getText());
+//        });
 
 
         scene = new Scene(pane);

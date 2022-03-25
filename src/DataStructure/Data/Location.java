@@ -6,27 +6,33 @@ import java.io.Serializable;
 public class Location implements Serializable {
 
     Point2D location;
-    int[][]path;
+    int[][] path;
+    int maxNPC;
 
     private int height = 0;
     private int width = 0;
     private int surfaceArea = 0;
     private String name = "";
 
-    public Location(String name, int x, int y, int width, int height) {
-        this.width = width;
-        this.height = height;
-        this.name = name;
-        this.surfaceArea = this.height * this.width;
-    }
-
-    public Location(String name) {
+    public Location(int[][]location,String name) {
+        this.path = location;
         this.name = name;
     }
 
+    public void setPath(int[][] path) {
+        this.path = path;
+    }
+
+    public int[][] getPath() {
+        return path;
+    }
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getSurfaceArea() {
