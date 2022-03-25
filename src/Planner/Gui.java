@@ -23,7 +23,7 @@ public class Gui extends Application implements GuiCallback {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         Stage simulatorStage = new Stage();
         this.popUpStage = new Stage();
-        this.simulatorScene = new SimulatorScene();
+        this.simulatorScene = new SimulatorScene(performerController);
         simulatorStage.setScene(this.simulatorScene.getScene());
         // Make the mainScene
         this.mainScene = new MainScene(performerController, this, simulatorScene);

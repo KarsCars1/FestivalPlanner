@@ -1,7 +1,10 @@
 package Simulation;
 
+import DataStructure.PerformerController;
+
 import javax.imageio.ImageIO;
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import java.awt.*;
@@ -13,20 +16,18 @@ import java.util.ArrayList;
 
 
 public class SimulationMap {
+    PerformerController performerController;
     private int width;
     private int height;
-
     private int tileHeight;
     private int tileWidth;
-
     private ArrayList<BufferedImage> tiles = new ArrayList<>();
-
     private int[][][] map;
     private int[][] path;
-
     private int layers;
 
-    public SimulationMap(String fileName, Pathfinding pathfinding, Graphics2D graphics2D) {
+    public SimulationMap(String fileName, Pathfinding pathfinding, Graphics2D graphics2D, PerformerController performerController) {
+        this.performerController = performerController;
         JsonReader reader;
         InputStream stream = getClass().getClassLoader().getResourceAsStream(fileName);
         reader = Json.createReader(stream);
@@ -81,6 +82,13 @@ public class SimulationMap {
                     path = pathfinding.path(point);
 
                 }
+                if (layerType.equals("objectgroup")) {
+                    JsonArray jsonArray = root.getJsonArray("layers").getJsonObject(i).getJsonArray("objects");
+                    for (int i1 = 0; i1 < jsonArray.size(); i1++) {
+
+                        performerController.addLocation(pathfinding.path(new Point(jsonArray.getJsonObject(i1).getInt("x") - 1, jsonArray.getJsonObject(i1).getInt("y") - 1)), jsonArray.getJsonObject(i1).getString("name"));
+                    }
+                }
                 j--;
                 layers--;
             }
@@ -89,8 +97,6 @@ public class SimulationMap {
     }
 
     void draw(Graphics2D g2d) {
-
-
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 for (int i = 0; i < layers; i++) {
@@ -107,10 +113,10 @@ public class SimulationMap {
 
                 }
                 if (path[x][y] == 9999) {
-                    g2d.drawString( "X", x * tileWidth, y * tileHeight + tileHeight);
-                } else if (path[x][y] == 0){
-                    
-                }else {
+                    g2d.drawString("X", x * tileWidth, y * tileHeight + tileHeight);
+                } else if (path[x][y] == 0) {
+
+                } else {
                     g2d.drawString(path[x][y] + "", x * tileWidth, y * tileHeight + tileHeight);
                 }
             }

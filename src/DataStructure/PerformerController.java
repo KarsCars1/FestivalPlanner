@@ -104,15 +104,10 @@ public class PerformerController implements Serializable {
         }
     }
 
-    public void addLocation(String name) {
-        for (Location location : locations) {
-            if (location.getName().equals(name)) {
-                return;
-            }
-        }
-        locations.add(new Location(name));
-        System.out.println(locations.toString());
+    public void addLocation(int[][]path, String name) {
+        locations.add(new Location(path,name));
     }
+
 
     public void addShow(String name, String location, String performer, LocalTime beginTime, LocalTime endTime) {
         for (Show show : shows) {

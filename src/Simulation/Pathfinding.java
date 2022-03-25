@@ -41,6 +41,7 @@ public class Pathfinding {
                         if (collisions[y][x]) {
                             path[(int) next.getX()][(int) next.getY()] = 9999;
                         } else {
+                            System.out.println(distance);
                             path[(int) next.getX()][(int) next.getY()] = distance;
                             frontier.add(next);
                             reached.put(check, next);
