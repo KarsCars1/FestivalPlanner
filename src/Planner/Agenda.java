@@ -1,5 +1,6 @@
 package Planner;
 
+import DataStructure.Data.Location;
 import DataStructure.Data.Show;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseEvent;
@@ -11,6 +12,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 
@@ -21,9 +23,11 @@ public class Agenda extends Canvas {
     private FXGraphics2D graphics = new FXGraphics2D(this.getGraphicsContext2D());
     private LinkedList<ShowBlock> shows = new LinkedList<>();
     private boolean clickedOnBlock = false;
+    private ArrayList<Location> locations;
 
 
-    public Agenda() {
+    public Agenda(ArrayList<Location> locations) {
+        this.locations = locations;
     }
 
     //todo make proper base for agenda
@@ -63,49 +67,63 @@ public class Agenda extends Canvas {
             graphics.draw(new Line2D.Double(i * 100 + 100, 105, i * 100 + 100, getHeight()));
         }
 
+        int i =0;
+        for (Location location : locations) {
+            AffineTransform transform = new AffineTransform();
+            transform.translate(20, 150 + i*100);
+            GlyphVector vector = font.createGlyphVector(graphics.getFontRenderContext(), location.getName());
+            Shape a = vector.getOutline();
+
+            a = transform.createTransformedShape(a);
+            graphics.fill(a);
+            i++;
+
+            graphics.draw(new Line2D.Double(100, 100.0 + 100*i, 2500, 100.0 + 100*i));
+        }
+
+
+
 
         //graphics.setClip(new Rectangle2D.Double(100, 100, 100, 100));
     }
 
-    public void addShowBlock(Show show) {
+    public void addShowBlock(Show show, int stage) {
         if (!this.shows.contains(show)) {
-            this.shows.add(new ShowBlock(show));
+            this.shows.add(new ShowBlock(show, stage));
         }
         drawShows();
     }
 
-    public void moveOnMouse(double X, double Y) {
-        //move the block you clicked on
-        if (clickedOnBlock) {
-            position = new Point2D.Double(X, Y);
-            int i = 0;
-            for (ShowBlock show : shows) {
-                i++;
-                if (show.getBlock().contains(position)) {
-                    show.setPosition(new Point2D.Double(calculateX(show), calculateY(show)));
-                    //put the show on the front so that it's drawn on top of the rest
-                    shows.addFirst(show);
-                    shows.remove(i);
-                    break;
-                }
-            }
-            oldPosition = position;
-
-            drawShows();
-        }
-    }
+//    public void moveOnMouse(double X, double Y) {
+//        //move the block you clicked on
+//        if (clickedOnBlock) {
+//            position = new Point2D.Double(X, Y);
+//            int i = 0;
+//            for (ShowBlock show : shows) {
+//                i++;
+//                if (show.getBlock().contains(position)) {
+//                    show.setPosition(new Point2D.Double(calculateX(show), calculateY(show)));
+//                    //put the show on the front so that it's drawn on top of the rest
+//                    shows.addFirst(show);
+//                    shows.remove(i);
+//                    break;
+//                }
+//            }
+//            oldPosition = position;
+//
+//            drawShows();
+//        }
+//    }
 
     public void drawShows() {
         drawAgendaBase();
         //draw the shows
 
 
-        graphics.setColor(Color.green);
         for (ShowBlock show : shows) {
+            graphics.setColor(Color.green);
 
-            Rectangle.Double rectangle = show.getBlock();
-            System.out.println(rectangle.toString());
-            graphics.fill(rectangle);
+            show.draw(graphics);
         }
 //        for (int i = shows.size() - 1; i >= 0; i--) {
 //            System.out.println("??");
@@ -114,29 +132,39 @@ public class Agenda extends Canvas {
 //        }
     }
 
-    private double calculateX(ShowBlock show) {
-        return show.getPosition().getX() + position.getX() - oldPosition.getX();
+    public LinkedList<ShowBlock> getShows() {
+        return shows;
     }
 
-    private double calculateY(ShowBlock show) {
-        return show.getPosition().getY() + position.getY() - oldPosition.getY();
+    public void update(ArrayList<Show> shows) {
+
+        drawAgendaBase();
+        drawShows();
     }
 
-    public void mousePressed(MouseEvent e) {
-        position = new Point2D.Double(e.getX(), e.getY());
-        //only move a block if you originally clicked on a block
-        for (ShowBlock show : shows) {
-            if (show.getBlock().contains(position)) {
-                clickedOnBlock = true;
-                break;
-            }
-        }
-
-        oldPosition = new Point2D.Double(e.getX(), e.getY());
-    }
-
-    public void mouseReleased(MouseEvent e) {
-        clickedOnBlock = false;
-        oldPosition = null;
-    }
+//    private double calculateX(ShowBlock show) {
+//        return show.getPosition().getX() + position.getX() - oldPosition.getX();
+//    }
+//
+//    private double calculateY(ShowBlock show) {
+//        return show.getPosition().getY() + position.getY() - oldPosition.getY();
+//    }
+//
+//    public void mousePressed(MouseEvent e) {
+//        position = new Point2D.Double(e.getX(), e.getY());
+//        //only move a block if you originally clicked on a block
+//        for (ShowBlock show : shows) {
+//            if (show.getBlock().contains(position)) {
+//                clickedOnBlock = true;
+//                break;
+//            }
+//        }
+//
+//        oldPosition = new Point2D.Double(e.getX(), e.getY());
+//    }
+//
+//    public void mouseReleased(MouseEvent e) {
+//        clickedOnBlock = false;
+//        oldPosition = null;
+//    }
 }

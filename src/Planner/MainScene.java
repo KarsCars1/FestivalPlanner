@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class MainScene extends StandardScene {
     private ListView<String> performerList = new ListView<>();
@@ -36,7 +37,8 @@ public class MainScene extends StandardScene {
     private Button saveButton = new Button("Save");
     private Button loadButton = new Button("Load");
     private Button startSimulation = new Button("Start Simulation");
-    private Agenda agenda = new Agenda();
+    private Button removeShow = new Button("Remove Show");
+    private Agenda agenda;
     private String selectedPerformer;
     private TableView showsTable = new TableView<>();
     private ScrollPane agendaScroll = new ScrollPane();
@@ -54,21 +56,23 @@ public class MainScene extends StandardScene {
 
         TextField textField = new TextField();
 
+        agenda = new Agenda(performerController.getLocations());
+
         //schedule stuff
-        agenda.setHeight(800);
+        agenda.setHeight(100 + performerController.getLocations().size()*100);
         agenda.setWidth(2600);
         agenda.drawAgendaBase();
         agenda.drawShows();
 
-        agenda.setOnMousePressed(e -> agenda.mousePressed(e));
-        agenda.setOnMouseReleased(e -> agenda.mouseReleased(e));
-        agenda.setOnMouseDragged(e -> agenda.moveOnMouse(e.getX(), e.getY()));
+//        agenda.setOnMousePressed(e -> agenda.mousePressed(e));
+//        agenda.setOnMouseReleased(e -> agenda.mouseReleased(e));
+//        agenda.setOnMouseDragged(e -> agenda.moveOnMouse(e.getX(), e.getY()));
 
         agendaScroll.setContent(agenda);
         agendaScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         agendaScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        agendaScroll.fitToWidthProperty().setValue(false);
-        agendaScroll.fitToHeightProperty().setValue(false);
+        agendaScroll.fitToWidthProperty().setValue(true);
+        agendaScroll.fitToHeightProperty().setValue(true);
         agendaScroll.setMaxHeight(600);
         agendaScroll.setMaxWidth(400);
 
@@ -88,7 +92,7 @@ public class MainScene extends StandardScene {
 
         buttons.addColumn(0, addPerformer, editPerformer, removePerformer);
         buttons.addColumn(1, addShow, saveButton, loadButton);
-        buttons.addColumn(2, editLocation, removeLocation, startSimulation);
+        buttons.addColumn(2, removeShow, startSimulation);
         performerVBox.getChildren().addAll(performerLabel, performerList, buttons);
         agendaBorderPane.setRight(performerVBox);
 
@@ -136,6 +140,7 @@ public class MainScene extends StandardScene {
                 PerformerController newPerformerController = (PerformerController) ois.readObject();
                 performerController.loadFrom(newPerformerController);
                 fis.close();
+                callback.updateLists();
             } catch (FileNotFoundException e1) {
                 e1.printStackTrace();
             } catch (IOException e1) {
@@ -169,6 +174,17 @@ public class MainScene extends StandardScene {
         startSimulation.setOnAction(e -> {
             callback.setStage(scene.getScene());
         });
+
+        removeShow.setOnAction(e -> {
+            String name = "";
+            for (Show show : performerController.getShows()) {
+                if (showsTable.getSelectionModel().getSelectedItem().toString().contains("name='" + show.getName())){
+                    name = show.getName();
+                }
+            }
+            performerController.removeShow(performerController.getShow(name));
+            callback.updateLists();
+        });
     }
 
     public void updateShows() {
@@ -177,9 +193,15 @@ public class MainScene extends StandardScene {
             Show show = shows.get(i);
             if (!showsTable.getItems().contains(show)) {
                 showsTable.getItems().add(i, show);
-                agenda.addShowBlock(show);
+                agenda.addShowBlock(show, performerController.getLocations().indexOf(show.getLocation()));
             }
         }
+        showsTable.getItems().retainAll(shows);
+        agenda.getShows().clear();
+        for (Show show:shows) {
+            agenda.getShows().add(new ShowBlock(show, performerController.getLocations().indexOf(show.getLocation())));
+        }
+        agenda.update(shows);
     }
 
     public void updatePerformerList() {

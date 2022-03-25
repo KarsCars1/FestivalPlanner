@@ -50,8 +50,8 @@ public class Show implements Serializable {
         this.performer = performer;
     }
 
-    public String getLocation() {
-        return this.name + ": " + this.location;
+    public Location getLocation() {
+        return this.location;
     }
 
     public void setLocation(Location location) {
