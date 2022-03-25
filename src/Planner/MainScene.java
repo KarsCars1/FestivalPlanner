@@ -36,6 +36,7 @@ public class MainScene extends StandardScene {
     private Button saveButton = new Button("Save");
     private Button loadButton = new Button("Load");
     private Button startSimulation = new Button("Start Simulation");
+    private Button removeShow = new Button("Remove Show");
     private Agenda agenda = new Agenda();
     private String selectedPerformer;
     private TableView showsTable = new TableView<>();
@@ -88,7 +89,7 @@ public class MainScene extends StandardScene {
 
         buttons.addColumn(0, addPerformer, editPerformer, removePerformer);
         buttons.addColumn(1, addShow, saveButton, loadButton);
-        buttons.addColumn(2, editLocation, removeLocation, startSimulation);
+        buttons.addColumn(2, removeShow, startSimulation);
         performerVBox.getChildren().addAll(performerLabel, performerList, buttons);
         agendaBorderPane.setRight(performerVBox);
 
@@ -169,6 +170,17 @@ public class MainScene extends StandardScene {
         startSimulation.setOnAction(e -> {
             callback.setStage(scene.getScene());
         });
+
+        removeShow.setOnAction(e -> {
+            String name = "";
+            for (Show show : performerController.getShows()) {
+                if (showsTable.getSelectionModel().getSelectedItem().toString().contains("name='" + show.getName())){
+                    name = show.getName();
+                }
+            }
+            performerController.removeShow(performerController.getShow(name));
+            callback.updateLists();
+        });
     }
 
     public void updateShows() {
@@ -180,6 +192,7 @@ public class MainScene extends StandardScene {
                 agenda.addShowBlock(show);
             }
         }
+        showsTable.getItems().retainAll(shows);
     }
 
     public void updatePerformerList() {
