@@ -2,12 +2,24 @@ package Planner;
 
 import DataStructure.Data.Show;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 public class ShowBlock {
     private Rectangle2D.Double block;
     private Point2D.Double position;
+
+    public String getShowName() {
+        return show.getName();
+    }
+    public String getShowPerformer(){
+        return show.getPerformerName();
+    }
+    public String getShowTime(){
+        return show.getBeginTime() + " - " + show.getEndTime();
+    }
+
     private Show show;
 
 

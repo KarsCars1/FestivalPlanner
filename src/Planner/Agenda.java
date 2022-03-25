@@ -100,12 +100,14 @@ public class Agenda extends Canvas {
         //draw the shows
 
 
-        graphics.setColor(Color.green);
         for (ShowBlock show : shows) {
+            graphics.setColor(Color.green);
 
             Rectangle.Double rectangle = show.getBlock();
             System.out.println(rectangle.toString());
             graphics.fill(rectangle);
+            graphics.setColor(Color.black);
+            graphics.drawString("Show: " + show.getShowName() + "\n" +  "Perfomer: " + show.getShowPerformer() + "\n" + show.getShowTime(), (int)show.getPosition().x, (int)show.getPosition().y + 10);
         }
 //        for (int i = shows.size() - 1; i >= 0; i--) {
 //            System.out.println("??");
