@@ -59,7 +59,7 @@ public class MainScene extends StandardScene {
         agenda = new Agenda(performerController.getLocations());
 
         //schedule stuff
-        agenda.setHeight(800);
+        agenda.setHeight(100 + performerController.getLocations().size()*100);
         agenda.setWidth(2600);
         agenda.drawAgendaBase();
         agenda.drawShows();
