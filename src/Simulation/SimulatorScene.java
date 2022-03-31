@@ -64,7 +64,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
                 if (last == -1)
                     last = now;
                 timer.setText(agendaFollower.getCurrentTime().toString().substring(0,5));
-                System.out.println(timer.getText());
+//                System.out.println(timer.getText());
                 update((now - last) / 1000000000.0);
                 last = now;
             }

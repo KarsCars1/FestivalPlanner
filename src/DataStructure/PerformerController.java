@@ -114,6 +114,12 @@ public class PerformerController implements Serializable {
             if (show.getName().equals(name)) {
                 return;
             }
+
+            //control if the time is already occupied at the given stage
+            if(((beginTime.isAfter(show.getBeginTime()) && beginTime.isBefore(show.getEndTime()) || (endTime.isAfter(show.getBeginTime()) && endTime.isBefore(show.getEndTime())) || (beginTime.compareTo(show.getBeginTime()) == 0) || (endTime.compareTo(show.getEndTime())==0)) && location.equals(show.getLocation().getName()))){
+                System.out.println("2 shows cant be at the same time on the same stage!");
+                return;
+            }
         }
         Performer performer1 = null;
         for (Performer performer2 : performers) {
