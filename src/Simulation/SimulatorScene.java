@@ -5,6 +5,7 @@ import Planner.Npc;
 import Planner.StandardScene;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.Resizable;
@@ -52,8 +53,8 @@ public class SimulatorScene extends StandardScene implements Resizable {
         });
 
         camera = new Camera(canvas, this, graphics);
-
-
+        Label timer = new Label("00:00:00");
+        borderPane.getChildren().add(timer);
         scene = new Scene(borderPane);
         new AnimationTimer() {
             long last = -1;
@@ -62,6 +63,8 @@ public class SimulatorScene extends StandardScene implements Resizable {
             public void handle(long now) {
                 if (last == -1)
                     last = now;
+                timer.setText(agendaFollower.getCurrentTime().toString().substring(0,5));
+                System.out.println(timer.getText());
                 update((now - last) / 1000000000.0);
                 last = now;
             }
@@ -86,6 +89,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
             for (Npc npc : npcs) {
                 npc.update();
             }
+            if (agendaFollower.isRunning())
             agendaFollower.setCurrentTime(agendaFollower.getCurrentTime().plusSeconds((long) (deltaTime * 180)));
             draw(graphics);
 
@@ -105,6 +109,14 @@ public class SimulatorScene extends StandardScene implements Resizable {
                 npc.draw(graphics);
             }
         }
+    }
+
+    public AgendaFollower getAgendaFollower() {
+        return agendaFollower;
+    }
+
+    public void setAgendaFollower(AgendaFollower agendaFollower) {
+        this.agendaFollower = agendaFollower;
     }
 }
 

@@ -124,9 +124,9 @@ public class SimulationMap {
                         continue;
                     if (map[i][y][x] != 0) {
                         //System.out.println(g2d.getTransform().getTranslateX());
-                        //if (x * 16 + g2d.getTransform().getTranslateX() < width && y * 16 + g2d.getTransform().getTranslateY() < height  && x * 16 + g2d.getTransform().getTranslateX() > 0 && y * 16 + g2d.getTransform().getTranslateY() > 0){
+                        if (x * 16 + g2d.getTransform().getTranslateX() < width && y * 16 + g2d.getTransform().getTranslateY() < height  && x * 16 + g2d.getTransform().getTranslateX() > 0 && y * 16 + g2d.getTransform().getTranslateY() > 0){
                             g2d.drawImage(tiles[(map[i][y][x] - 1)], AffineTransform.getTranslateInstance(x * tileWidth, y * tileHeight), null);
-                        //}
+                        }
 
 
 
