@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class SimulationMap {
@@ -113,6 +114,9 @@ public class SimulationMap {
             }
             j++;
         }
+
+        //sort the locations by name
+        Collections.sort(performerController.getLocations());
     }
 
     void draw(Graphics2D g2d, double height, double width) {

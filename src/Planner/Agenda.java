@@ -45,9 +45,9 @@ public class Agenda extends Canvas {
         this.graphics.setStroke(new BasicStroke(10));
         graphics.draw(new Rectangle2D.Double(5, 5, 90, getHeight()));
         graphics.setColor(Color.gray);
-        graphics.fill(new Rectangle2D.Double(5, 5, getWidth(), 100));
+        graphics.fill(new Rectangle2D.Double(5, 5, getWidth(), 90));
         graphics.setColor(Color.black);
-        graphics.draw(new Rectangle2D.Double(5, 5, getWidth(), 100));
+        graphics.draw(new Rectangle2D.Double(5, 5, getWidth(), 90));
 
         this.graphics.setStroke(new BasicStroke(2));
         Font font = new Font("Dialog", Font.PLAIN, 20);
@@ -64,7 +64,7 @@ public class Agenda extends Canvas {
             Shape text = transform.createTransformedShape(agendaText.getOutline());
             graphics.fill(text);
 
-            graphics.draw(new Line2D.Double(i * 100 + 100, 105, i * 100 + 100, getHeight()));
+            graphics.draw(new Line2D.Double(i * 100 + 100, 95, i * 100 + 100, getHeight()));
         }
 
         int i =0;

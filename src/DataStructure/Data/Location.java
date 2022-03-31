@@ -3,7 +3,7 @@ package DataStructure.Data;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 
-public class Location implements Serializable {
+public class Location implements Serializable, Comparable<Location> {
 
     Point2D location;
     int[][] path;
@@ -42,5 +42,10 @@ public class Location implements Serializable {
     @Override
     public String toString() {
         return this.name;
+    }
+
+    @Override
+    public int compareTo(Location o) {
+        return this.name.compareTo(o.name);
     }
 }

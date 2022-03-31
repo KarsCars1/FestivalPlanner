@@ -55,7 +55,7 @@ public class ShowBlock {
     }
 
     public void draw(FXGraphics2D graphics) {
-        System.out.println(position.x + " " + position.y);
+//        System.out.println(position.x + " " + position.y);
         Font font = new Font(Font.MONOSPACED, 5, 16);
         graphics.setColor(Color.CYAN);
         graphics.fill(block);
