@@ -173,6 +173,7 @@ public class MainScene extends StandardScene {
         });
         startSimulation.setOnAction(e -> {
             callback.setStage(scene.getScene());
+            scene.getAgendaFollower().setRunning(true);
         });
 
         removeShow.setOnAction(e -> {

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class Npc {
 
-    private static double rotationSpeed = 0.15;
+    private static double rotationSpeed = 0.5;
     private BufferedImage fullImage;
     private Point2D position;
     private double angle;
@@ -25,6 +25,9 @@ public class Npc {
     private Point2D smallTarget;
     private int[][] pathfinding;
 
+    public int[][] getPathfinding() {
+        return pathfinding;
+    }
 
     public Npc(Point2D position, double angle) throws IOException {
 
@@ -34,7 +37,7 @@ public class Npc {
         this.target = position;
         this.smallTarget = new Point2D.Double(position.getX() / 16, position.getY() / 16);
         this.angle = angle;
-        this.speed = 2 + 3 * Math.random();
+        this.speed = 3 + 3 * Math.random();
         this.target = position;
         this.frame = Math.random() * 8;
 

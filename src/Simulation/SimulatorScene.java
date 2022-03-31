@@ -5,6 +5,7 @@ import Planner.Npc;
 import Planner.StandardScene;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.Resizable;
@@ -15,7 +16,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class SimulatorScene extends StandardScene implements Resizable {
     private final Color backgroundColor = new Color(44, 139, 42, 255);
@@ -29,6 +29,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
     private Camera camera;
     private double time;
     private double fps;
+    private AgendaFollower agendaFollower;
 
     public SimulatorScene(PerformerController performerController) throws Exception {
         time = 0;
@@ -39,6 +40,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
         borderPane.setCenter(canvas);
         graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
         init(performerController);
+        this.agendaFollower = new AgendaFollower(performerController, npcs);
 
         canvas.setOnMouseDragged(e -> {
             camera.mouseDragged(e);
@@ -51,8 +53,8 @@ public class SimulatorScene extends StandardScene implements Resizable {
         });
 
         camera = new Camera(canvas, this, graphics);
-
-
+        Label timer = new Label("00:00:00");
+        borderPane.getChildren().add(timer);
         scene = new Scene(borderPane);
         new AnimationTimer() {
             long last = -1;
@@ -61,6 +63,8 @@ public class SimulatorScene extends StandardScene implements Resizable {
             public void handle(long now) {
                 if (last == -1)
                     last = now;
+                timer.setText(agendaFollower.getCurrentTime().toString().substring(0,5));
+                System.out.println(timer.getText());
                 update((now - last) / 1000000000.0);
                 last = now;
             }
@@ -72,7 +76,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
         while (this.npcs.size() < 500) {
             Npc npc = new Npc(new Point2D.Double(832, 1600), 0);
             this.npcs.add(npc);
-            npc.setPathfinding(performerController.getLocations().get(new Random().nextInt(performerController.getLocations().size())).getPath());
+            //npc.setPathfinding(performerController.getLocations().get(new Random().nextInt(performerController.getLocations().size())).getPath());
         }
 
         timer = 0;
@@ -85,6 +89,8 @@ public class SimulatorScene extends StandardScene implements Resizable {
             for (Npc npc : npcs) {
                 npc.update();
             }
+            if (agendaFollower.isRunning())
+            agendaFollower.setCurrentTime(agendaFollower.getCurrentTime().plusSeconds((long) (deltaTime * 180)));
             draw(graphics);
 
         }
@@ -103,6 +109,14 @@ public class SimulatorScene extends StandardScene implements Resizable {
                 npc.draw(graphics);
             }
         }
+    }
+
+    public AgendaFollower getAgendaFollower() {
+        return agendaFollower;
+    }
+
+    public void setAgendaFollower(AgendaFollower agendaFollower) {
+        this.agendaFollower = agendaFollower;
     }
 }
 
