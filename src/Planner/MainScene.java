@@ -13,6 +13,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.jfree.fx.Resizable;
 
 import java.io.*;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class MainScene extends StandardScene {
+    private FileChooser fileChooser = new FileChooser();
     private ListView<String> performerList = new ListView<>();
     private PerformerController performerController;
     //stage title and main borderpane
@@ -97,11 +100,13 @@ public class MainScene extends StandardScene {
         showsTable.getColumns().addAll(showName, performer, beginTime, endTime, location);
 
         updateShows();
-
+        TextField saveTextField = new TextField("filename");
+        HBox fileIOHBOX = new HBox();
+        fileIOHBOX.getChildren().addAll(saveTextField , saveButton, loadButton);
         buttons.addColumn(0, addPerformer, editPerformer, removePerformer);
-        buttons.addColumn(1, addShow, saveButton, loadButton);
+        buttons.addColumn(1, addShow);
         buttons.addColumn(2, removeShow, startSimulation);
-        performerVBox.getChildren().addAll(performerLabel, performerList, buttons);
+        performerVBox.getChildren().addAll(performerLabel, performerList, buttons, fileIOHBOX);
         agendaBorderPane.setRight(performerVBox);
 
         removePerformer.setOnAction(E -> {
@@ -143,12 +148,15 @@ public class MainScene extends StandardScene {
 
         loadButton.setOnAction(e -> {
             try {
-                FileInputStream fis = new FileInputStream("Data.txt");
+                configureFileChooser(fileChooser);
+                File file = fileChooser.showOpenDialog(new Stage());
+
+                FileInputStream fis = new FileInputStream(file);
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 PerformerController newPerformerController = (PerformerController) ois.readObject();
                 performerController.loadFrom(newPerformerController);
-                fis.close();
                 callback.updateLists();
+                fis.close();
             } catch (FileNotFoundException e1) {
                 e1.printStackTrace();
             } catch (IOException e1) {
@@ -160,7 +168,7 @@ public class MainScene extends StandardScene {
 
         saveButton.setOnAction(e -> {
             try {
-                FileOutputStream fileOutputStream = new FileOutputStream("Data.txt");
+                FileOutputStream fileOutputStream = new FileOutputStream(saveTextField.getText()+".txt");
                 ObjectOutputStream oos = new ObjectOutputStream(fileOutputStream);
                 oos.writeObject(performerController);
                 fileOutputStream.close();
@@ -195,7 +203,15 @@ public class MainScene extends StandardScene {
             callback.updateLists();
         });
     }
-
+    private void configureFileChooser(final FileChooser fileChooser) {
+        fileChooser.setTitle("Select Songs");
+        fileChooser.setInitialDirectory(
+                new File("C:\\JavaProjects\\FestivalPlanner\\src")
+        );
+        if (fileChooser.getExtensionFilters().size() == 0) {
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(".txt", "*.txt"));
+        }
+    }
     public void updateShows() {
         ArrayList<Show> shows = performerController.getShows();
         for (int i = 0; i < shows.size(); i++) {
