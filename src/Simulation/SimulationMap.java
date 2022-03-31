@@ -10,7 +10,6 @@ import javax.json.JsonReader;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -28,6 +27,7 @@ public class SimulationMap {
     private int[][] path;
     private int layers;
     private boolean loaded = false;
+    private BufferedImage mapLayer;
 
 
     public SimulationMap(String fileName, Pathfinding pathfinding, PerformerController performerController) {
@@ -115,6 +115,19 @@ public class SimulationMap {
             }
             j++;
         }
+        mapLayer = new BufferedImage(16 * width, 16 * height, 1);
+        Graphics2D graphics2D1 = mapLayer.createGraphics();
+        for (int i = 0; i < layers; i++) {
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    if (map[i][y][x] < 0)
+                        continue;
+                    if (map[i][y][x] != 0) {
+                        graphics2D1.drawImage(tiles[(map[i][y][x]-1)], AffineTransform.getTranslateInstance(x * tileWidth, y * tileHeight), null);
+                    }
+                }
+            }
+        }
 
         //sort the locations by name
         Collections.sort(performerController.getLocations());
@@ -122,6 +135,7 @@ public class SimulationMap {
 
     void draw(Graphics2D g2d, double height, double width) {
         path = performerController.getLocations().get(0).getPath();
+        g2d.drawImage(mapLayer, 0, 0, null);
         for (int y = 0; y < this.height; y++) {
             for (int x = 0; x < this.width; x++) {
                 for (int i = 0; i < layers; i++) {
@@ -130,9 +144,9 @@ public class SimulationMap {
                     if (map[i][y][x] != 0) {
                         //System.out.println(g2d.getTransform().getTranslateX());
                         //if (x * 16 + g2d.getTransform().getTranslateX() < width && y * 16 + g2d.getTransform().getTranslateY() < height  && x * 16 + g2d.getTransform().getTranslateX() > 0 && y * 16 + g2d.getTransform().getTranslateY() > 0){
-                            g2d.drawImage(tiles[(map[i][y][x] - 1)], AffineTransform.getTranslateInstance(x * tileWidth, y * tileHeight), null);
-                        //}
 
+                        //g2d.drawImage(tiles[(map[i][y][x] - 1)], AffineTransform.getTranslateInstance(x * tileWidth, y * tileHeight), null);
+                        //}
 
 
 //                        g2d.setColor(Color.yellow);

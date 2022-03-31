@@ -73,7 +73,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
 
     public void init() throws IOException {
         this.npcs = new ArrayList<>();
-        while (this.npcs.size() < 500) {
+        while (this.npcs.size() < 1000) {
             Npc npc = new Npc(new Point2D.Double(832, 1600), 0);
             this.npcs.add(npc);
             //npc.setPathfinding(performerController.getLocations().get(new Random().nextInt(performerController.getLocations().size())).getPath());
