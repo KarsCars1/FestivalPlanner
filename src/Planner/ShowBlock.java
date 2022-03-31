@@ -33,10 +33,10 @@ public class ShowBlock {
         this.show = show;
         position = new Point2D.Double((this.show.getBeginTime().getHour()*100) + (this.show.getBeginTime().getMinute()/60.0*100.0)+100, (((this.show.getEndTime().getHour()*100) + (this.show.getEndTime().getMinute()/60.0*100.0))-((this.show.getBeginTime().getHour()*100))));
         block = new Rectangle2D.Double((this.show.getBeginTime().getHour()*100) + (this.show.getBeginTime().getMinute()/60.0*100.0)+100, 100 + 100*row, (((this.show.getEndTime().getHour()*100) + (this.show.getEndTime().getMinute()/60.0*100.0))-((this.show.getBeginTime().getHour()*100) + (this.show.getBeginTime().getMinute()/60.0*100.0))) , 100);
-        System.out.println(this.show.getBeginTime().getMinute() / 100 + 100 - this.show.getEndTime().getMinute() / 100 + 100);
+//        System.out.println(this.show.getBeginTime().getMinute() / 100 + 100 - this.show.getEndTime().getMinute() / 100 + 100);
         this.text = "Show: " + this.show.getName() + "\n" +  "Perfomer: " + this.show.getPerformerName() + "\n" + this.show.getBeginTime();
 
-        System.out.println(row);
+//        System.out.println(row);
 
     }
 
@@ -64,8 +64,8 @@ public class ShowBlock {
         AffineTransform transform = new AffineTransform();
         transform.translate(block.x+5, block.y+20);
         GlyphVector vector;
-        System.out.println(("Show: " + this.show.getName()).length());
-        System.out.println(this.block.width/10);
+//        System.out.println(("Show: " + this.show.getName()).length());
+//        System.out.println(this.block.width/10);
         if(("Show: " + this.show.getName()).length() > this.block.width/10){
             vector = font.createGlyphVector(graphics.getFontRenderContext(), ("Show: " + this.show.getName()).substring(0, (int)this.block.width/10));
 
@@ -78,11 +78,11 @@ public class ShowBlock {
         graphics.fill(a);
 
         transform.translate(0, 20);
-        if(("Show: " + this.show.getPerformer()).length() > this.block.width/10){
-            vector = font.createGlyphVector(graphics.getFontRenderContext(), ("Show: " + this.show.getName()).substring(0, (int)this.block.width/10));
+        if(("By: " + this.show.getPerformerName()).length() > this.block.width/10){
+            vector = font.createGlyphVector(graphics.getFontRenderContext(), ("By: " + this.show.getPerformerName()).substring(0, (int)this.block.width/10));
 
         }  else {
-            vector = font.createGlyphVector(graphics.getFontRenderContext(), "Show: " + this.show.getName());
+            vector = font.createGlyphVector(graphics.getFontRenderContext(), "By: " + this.show.getPerformerName());
         }
         a = vector.getOutline();
 
@@ -91,7 +91,12 @@ public class ShowBlock {
 
 
         transform.translate(0, 20);
-        vector = font.createGlyphVector(graphics.getFontRenderContext(), this.show.getBeginTime() + " - " + this.show.getEndTime());
+        if((this.show.getBeginTime() + " - " + this.show.getEndTime()).length() > this.block.width/10){
+            vector = font.createGlyphVector(graphics.getFontRenderContext(), (this.show.getBeginTime() + " - " + this.show.getEndTime()).substring(0, (int)this.block.width/10));
+
+        }  else {
+            vector = font.createGlyphVector(graphics.getFontRenderContext(), this.show.getBeginTime() + " - " + this.show.getEndTime());
+        }
         a = vector.getOutline();
 
 
