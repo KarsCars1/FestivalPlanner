@@ -49,15 +49,15 @@ public class PerformerController implements Serializable {
     }
 
 
-    public ArrayList<Performer> getPerformers() {
-        System.out.println(this.performers);
-        return this.performers;
-    }
-
-    public void addBandMember(String performerName) {
-        Artist newArtist = new Artist(performerName);
-        artists.add(newArtist);
-    }
+//    public ArrayList<Performer> getPerformers() {
+//        System.out.println(this.performers);
+//        return this.performers;
+//    }
+//
+//    public void addBandMember(String performerName) {
+//        Artist newArtist = new Artist(performerName);
+//        artists.add(newArtist);
+//    }
 
     public boolean artistAlreadyExists(String performerName) {
         for (Artist artist : artists) {
@@ -176,19 +176,19 @@ public class PerformerController implements Serializable {
         }
     }
 
-    public void editPerformer(String oldArtistName, Band newArtist) {
-
-        for (int i = 0; i < performers.size(); i++) {
-            if (performers.get(i).getPerformerName().equals(oldArtistName)) {
-                performers.set(i, newArtist);
-            }
-        }
-        for (int i = 0; i < bands.size(); i++) {
-            if (bands.get(i).getPerformerName().equals(oldArtistName)) {
-                bands.set(i, newArtist);
-            }
-        }
-    }
+//    public void editPerformer(String oldArtistName, Band newArtist) {
+//
+//        for (int i = 0; i < performers.size(); i++) {
+//            if (performers.get(i).getPerformerName().equals(oldArtistName)) {
+//                performers.set(i, newArtist);
+//            }
+//        }
+//        for (int i = 0; i < bands.size(); i++) {
+//            if (bands.get(i).getPerformerName().equals(oldArtistName)) {
+//                bands.set(i, newArtist);
+//            }
+//        }
+//    }
 
     public void removePerformer(String performerName) {
         for (int i = 0; i < performers.size(); i++) {

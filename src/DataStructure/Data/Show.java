@@ -26,9 +26,9 @@ public class Show implements Serializable {
         return performer.getPerformerName();
     }
 
-    public String getLocationName() {
-        return location.getName();
-    }
+//    public String getLocationName() {
+//        return location.getName();
+//    }
 
     public String getName() {
         return name;
@@ -46,17 +46,17 @@ public class Show implements Serializable {
         return this.performer;
     }
 
-    public void setPerformer(Performer performer) {
-        this.performer = performer;
-    }
+//    public void setPerformer(Performer performer) {
+//        this.performer = performer;
+//    }
 
     public Location getLocation() {
         return this.location;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
-    }
+//    public void setLocation(Location location) {
+//        this.location = location;
+//    }
 
     @Override
     public String toString() {

@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
 
 public class AddEditPerformerScene extends StandardScene {
 
-    private PerformerController controller;
+//    private PerformerController controller;
 
     public AddEditPerformerScene(PerformerController controller, Artist artist, GuiCallback callback) {
 
@@ -25,7 +25,7 @@ public class AddEditPerformerScene extends StandardScene {
         Button backButton = new Button("Back");
         Button addButton = new Button("Add to list");
         Button saveButton = new Button("Save Changes");
-        this.controller = controller;
+//        this.controller = controller;
 
         if (artist == null) {
             buttonHBox.getChildren().addAll(backButton, addButton);

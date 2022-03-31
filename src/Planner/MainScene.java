@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.jfree.fx.Resizable;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -32,8 +33,8 @@ public class MainScene extends StandardScene {
     private Button editPerformer = new Button("Edit performer");
     private Button addShow = new Button("Add show");
     private Button addLocation = new Button("Add Location");
-    private Button removeLocation = new Button("Remove Location");
-    private Button editLocation = new Button("Edit Location");
+//    private Button removeLocation = new Button("Remove Location");
+//    private Button editLocation = new Button("Edit Location");
     private Button saveButton = new Button("Save");
     private Button loadButton = new Button("Load");
     private Button startSimulation = new Button("Start Simulation");
@@ -42,7 +43,7 @@ public class MainScene extends StandardScene {
     private String selectedPerformer;
     private TableView showsTable = new TableView<>();
     private ScrollPane agendaScroll = new ScrollPane();
-    private boolean buttonToggle = true;
+//    private boolean buttonToggle = true;
     public MainScene(PerformerController performerController, GuiCallback callback, SimulatorScene scene) {
         this.performerController = performerController;
 
@@ -71,10 +72,17 @@ public class MainScene extends StandardScene {
         agendaScroll.setContent(agenda);
         agendaScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         agendaScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        agendaScroll.fitToWidthProperty().setValue(true);
-        agendaScroll.fitToHeightProperty().setValue(true);
-        agendaScroll.setMaxHeight(600);
-        agendaScroll.setMaxWidth(400);
+        agendaScroll.fitToWidthProperty().setValue(false);
+        agendaScroll.fitToHeightProperty().setValue(false);
+        agendaScroll.setPrefSize(1000, 500);
+//        agendaScroll.setMaxHeight(600);
+//        agendaScroll.setMaxWidth(400);
+//        agendaScroll.setFitToHeight(true);
+//        agendaScroll.heightProperty().addListener(
+//                e->{
+//                    agendaScroll.setMaxWidth(agendaScroll.-400);
+//                }
+//        );
 
         TableColumn showName = new TableColumn("Show");
         showName.setCellValueFactory(new PropertyValueFactory<>("name"));

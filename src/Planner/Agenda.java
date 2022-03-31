@@ -18,11 +18,11 @@ import java.util.LinkedList;
 
 public class Agenda extends Canvas {
 
-    public Point2D position = new Point2D.Double(0, 0);
-    public Point2D oldPosition;
+//    public Point2D position = new Point2D.Double(0, 0);
+//    public Point2D oldPosition;
     private FXGraphics2D graphics = new FXGraphics2D(this.getGraphicsContext2D());
     private LinkedList<ShowBlock> shows = new LinkedList<>();
-    private boolean clickedOnBlock = false;
+//    private boolean clickedOnBlock = false;
     private ArrayList<Location> locations;
 
 

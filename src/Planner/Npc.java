@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class Npc {
 
     private static double rotationSpeed = 0.5;
-    private BufferedImage fullImage;
+//    private BufferedImage fullImage;
     private Point2D position;
     private double angle;
     private ArrayList<BufferedImage> sprites;
@@ -70,7 +70,7 @@ public class Npc {
             rotation -= 2 * Math.PI;
         }
 
-        double oldAngle = this.angle;
+//        double oldAngle = this.angle;
         if (rotation < -rotationSpeed) {
             this.angle -= rotationSpeed;
         } else if (rotation > rotationSpeed) {
@@ -79,7 +79,7 @@ public class Npc {
             this.angle = targetAngle;
         }
 
-        Point2D oldposition = this.position;
+//        Point2D oldposition = this.position;
 
         this.position = new Point2D.Double(this.position.getX() + this.speed * Math.cos(this.angle), this.position.getY() + this.speed * Math.sin(this.angle));
 
@@ -132,8 +132,8 @@ public class Npc {
 
     }
 
-    public void setTarget(Point2D newTarget) {
-        this.target = newTarget;
-    }
+//    public void setTarget(Point2D newTarget) {
+//        this.target = newTarget;
+//    }
 
 }

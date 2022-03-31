@@ -43,9 +43,9 @@ public class AddShowScene extends StandardScene {
     }
 
 
-    public PerformerController getController() {
-        return controller;
-    }
+//    public PerformerController getController() {
+//        return controller;
+//    }
 
     public Scene createScene(String selectedItem) {
         time = new ArrayList<>();

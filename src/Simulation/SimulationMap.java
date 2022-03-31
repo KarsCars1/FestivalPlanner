@@ -30,7 +30,7 @@ public class SimulationMap {
     private boolean loaded = false;
 
 
-    public SimulationMap(String fileName, Pathfinding pathfinding, Graphics2D graphics2D, PerformerController performerController) {
+    public SimulationMap(String fileName, Pathfinding pathfinding, PerformerController performerController) {
         this.performerController = performerController;
         JsonReader reader;
         InputStream stream = getClass().getClassLoader().getResourceAsStream(fileName);

@@ -15,15 +15,15 @@ public class ShowBlock {
     private String text;
     private int row;
 
-    public String getShowName() {
-        return show.getName();
-    }
-    public String getShowPerformer(){
-        return show.getPerformerName();
-    }
-    public String getShowTime(){
-        return show.getBeginTime() + " - " + show.getEndTime();
-    }
+//    public String getShowName() {
+//        return show.getName();
+//    }
+//    public String getShowPerformer(){
+//        return show.getPerformerName();
+//    }
+//    public String getShowTime(){
+//        return show.getBeginTime() + " - " + show.getEndTime();
+//    }
 
     private Show show;
 
@@ -40,19 +40,19 @@ public class ShowBlock {
 
     }
 
-    public Rectangle2D.Double getBlock() {
-        System.out.println(block.x + "," + block.y);
-        return block;
-    }
+//    public Rectangle2D.Double getBlock() {
+//        System.out.println(block.x + "," + block.y);
+//        return block;
+//    }
+//
+//    public Point2D.Double getPosition() {
+//        return position;
+//    }
 
-    public Point2D.Double getPosition() {
-        return position;
-    }
-
-    public void setPosition(Point2D.Double position) {
-        this.position = position;
-        block.setRect(position.getX(), position.getY(), block.getWidth(), block.getHeight());
-    }
+//    public void setPosition(Point2D.Double position) {
+//        this.position = position;
+//        block.setRect(position.getX(), position.getY(), block.getWidth(), block.getHeight());
+//    }
 
     public void draw(FXGraphics2D graphics) {
 //        System.out.println(position.x + " " + position.y);
@@ -63,14 +63,27 @@ public class ShowBlock {
 
         AffineTransform transform = new AffineTransform();
         transform.translate(block.x+5, block.y+20);
-        GlyphVector vector = font.createGlyphVector(graphics.getFontRenderContext(), "Show: " + this.show.getName());
+        GlyphVector vector;
+        System.out.println(("Show: " + this.show.getName()).length());
+        System.out.println(this.block.width/10);
+        if(("Show: " + this.show.getName()).length() > this.block.width/10){
+            vector = font.createGlyphVector(graphics.getFontRenderContext(), ("Show: " + this.show.getName()).substring(0, (int)this.block.width/10));
+
+        }  else {
+            vector = font.createGlyphVector(graphics.getFontRenderContext(), "Show: " + this.show.getName());
+        }
         Shape a = vector.getOutline();
 
         a = transform.createTransformedShape(a);
         graphics.fill(a);
 
         transform.translate(0, 20);
-        vector = font.createGlyphVector(graphics.getFontRenderContext(), "Perfomer: " + this.show.getPerformerName());
+        if(("Show: " + this.show.getPerformer()).length() > this.block.width/10){
+            vector = font.createGlyphVector(graphics.getFontRenderContext(), ("Show: " + this.show.getName()).substring(0, (int)this.block.width/10));
+
+        }  else {
+            vector = font.createGlyphVector(graphics.getFontRenderContext(), "Show: " + this.show.getName());
+        }
         a = vector.getOutline();
 
         a = transform.createTransformedShape(a);

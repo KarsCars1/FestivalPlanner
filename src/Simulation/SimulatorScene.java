@@ -25,7 +25,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
     ArrayList<Npc> npcs;
     double timer;
     private SimulationMap map;
-    private int count = 0;
+//    private int count = 0;
     private Camera camera;
     private double time;
     private double fps;
@@ -35,11 +35,11 @@ public class SimulatorScene extends StandardScene implements Resizable {
         time = 0;
         fps = 60;
         BorderPane borderPane = new BorderPane();
-        map = new SimulationMap("TileMap1.json", new Pathfinding(), graphics, performerController);
+        map = new SimulationMap("TileMap1.json", new Pathfinding(), performerController);
         canvas = new ResizableCanvas(g -> draw(g), borderPane);
         borderPane.setCenter(canvas);
         graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
-        init(performerController);
+        init();
         this.agendaFollower = new AgendaFollower(performerController, npcs);
 
         canvas.setOnMouseDragged(e -> {
@@ -71,7 +71,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
         }.start();
     }
 
-    public void init(PerformerController performerController) throws IOException {
+    public void init() throws IOException {
         this.npcs = new ArrayList<>();
         while (this.npcs.size() < 500) {
             Npc npc = new Npc(new Point2D.Double(832, 1600), 0);
@@ -115,9 +115,9 @@ public class SimulatorScene extends StandardScene implements Resizable {
         return agendaFollower;
     }
 
-    public void setAgendaFollower(AgendaFollower agendaFollower) {
-        this.agendaFollower = agendaFollower;
-    }
+//    public void setAgendaFollower(AgendaFollower agendaFollower) {
+//        this.agendaFollower = agendaFollower;
+//    }
 }
 
 
