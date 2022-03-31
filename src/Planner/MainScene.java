@@ -204,10 +204,8 @@ public class MainScene extends StandardScene {
         });
     }
     private void configureFileChooser(final FileChooser fileChooser) {
-        fileChooser.setTitle("Select Songs");
-        fileChooser.setInitialDirectory(
-                new File("C:\\JavaProjects\\FestivalPlanner\\src")
-        );
+        fileChooser.setTitle("Select file");
+        fileChooser.setInitialDirectory(new File("."));
         if (fileChooser.getExtensionFilters().size() == 0) {
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(".txt", "*.txt"));
         }
