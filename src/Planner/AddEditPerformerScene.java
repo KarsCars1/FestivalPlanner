@@ -20,6 +20,8 @@ public class AddEditPerformerScene extends StandardScene {
         VBox addPerformerVBox = new VBox();
         Label name = new Label("Artist name:");
         TextField performerNameTextField = new TextField();
+        Label popularityLabel = new Label("Popularity (0 to 100)");
+        TextField popularityTextField = new TextField();
         Button switchToBandButton = new Button("Switch to Band");
         HBox buttonHBox = new HBox();
         Button backButton = new Button("Back");
@@ -30,7 +32,7 @@ public class AddEditPerformerScene extends StandardScene {
         if (artist == null) {
             buttonHBox.getChildren().addAll(backButton, addButton);
             buttonHBox.setSpacing(140);
-            addPerformerVBox.getChildren().addAll(name, performerNameTextField, switchToBandButton);
+            addPerformerVBox.getChildren().addAll(name, performerNameTextField, popularityLabel, popularityTextField, switchToBandButton);
             popUpBorderPane.setTop(addPerformerVBox);
             popUpBorderPane.setBottom(buttonHBox);
         } else {
@@ -57,10 +59,11 @@ public class AddEditPerformerScene extends StandardScene {
         });
 
         addButton.setOnAction(e -> {
-            if (!performerNameTextField.getText().isEmpty()) {
-                controller.addArtist(performerNameTextField.getText());
+                        if (!performerNameTextField.getText().isEmpty() && !popularityTextField.getText().isEmpty()) {
+                controller.addArtist(performerNameTextField.getText(), Double.parseDouble(popularityTextField.getText()));
                 callback.updateLists();
                 performerNameTextField.deleteText(0, performerNameTextField.getText().length());
+                popularityTextField.deleteText(0, popularityTextField.getText().length());
             }
         });
 

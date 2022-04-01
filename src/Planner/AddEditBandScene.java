@@ -28,6 +28,8 @@ public class AddEditBandScene extends StandardScene {
         VBox addPerformerVBox = new VBox();
         Label name = new Label("Band name:");
         TextField performerNameTextField = new TextField();
+        Label popularityLabel = new Label("Popularity (0 to 100): ");
+        TextField popularityTextField = new TextField();
         Button switchToArtistButton = new Button("Switch to Artist");
         HBox buttonHBox = new HBox();
         Button backButton = new Button("Back");
@@ -39,7 +41,7 @@ public class AddEditBandScene extends StandardScene {
             BandMemberList.setMaxSize(175, 150);
             buttonHBox.getChildren().addAll(backButton, addButton);
             buttonHBox.setSpacing(140);
-            addPerformerVBox.getChildren().addAll(name, performerNameTextField, switchToArtistButton, buttonHBox, members, membersHBox, BandMemberList);
+            addPerformerVBox.getChildren().addAll(name, performerNameTextField, popularityLabel, popularityTextField, switchToArtistButton, buttonHBox, members, membersHBox, BandMemberList);
             popUpBorderPane.setTop(addPerformerVBox);
             popUpBorderPane.setBottom(buttonHBox);
         } else {
@@ -68,7 +70,7 @@ public class AddEditBandScene extends StandardScene {
         addMemberButton.setOnAction(E -> {
             if (!addMemberField.getText().trim().equals("")) {
                 if (band != null) {
-                    band.addMember(new Performer(addMemberField.getText()));
+                    band.addMember(new Performer(addMemberField.getText(), 0));
                 }
                 BandMemberList.getItems().add(addMemberField.getText());
             }
@@ -76,12 +78,13 @@ public class AddEditBandScene extends StandardScene {
         });
 
         addButton.setOnAction(E -> {
-            if (!performerNameTextField.getText().isEmpty()) {
-                controller.addBand(performerNameTextField.getText());
+            if (!performerNameTextField.getText().isEmpty() && !popularityTextField.getText().isEmpty()) {
+                controller.addBand(performerNameTextField.getText(), Double.parseDouble(popularityTextField.getText()));
                 controller.addBandMembers(BandMemberList, performerNameTextField.getText());
                 callback.updateLists();
                 BandMemberList.getItems().clear();
                 performerNameTextField.deleteText(0, performerNameTextField.getText().length());
+                popularityTextField.deleteText(0, popularityTextField.getText().length());
             }
         });
 
