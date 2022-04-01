@@ -45,15 +45,17 @@ public class AddEditBandScene extends StandardScene {
             popUpBorderPane.setTop(addPerformerVBox);
             popUpBorderPane.setBottom(buttonHBox);
         } else {
+            int popularityNumber = band.getPopularity();
             performerNameTextField.setText(band.getPerformerName());
-            membersHBox.getChildren().addAll(addMemberField, addMemberButton);
+            popularityTextField.setText(Integer.toString(popularityNumber));
+            membersHBox.getChildren().addAll( addMemberField, addMemberButton);
             BandMemberList.setMaxSize(175, 150);
             for (Performer member : band.getMembers()) {
                 BandMemberList.getItems().add(member.getPerformerName());
             }
             buttonHBox.getChildren().addAll(backButton, saveButton);
             buttonHBox.setSpacing(140);
-            addPerformerVBox.getChildren().addAll(name, performerNameTextField, buttonHBox, members, membersHBox, BandMemberList);
+            addPerformerVBox.getChildren().addAll(name, performerNameTextField, popularityLabel, popularityTextField, buttonHBox, members, membersHBox, BandMemberList);
             popUpBorderPane.setTop(addPerformerVBox);
             popUpBorderPane.setBottom(buttonHBox);
         }
@@ -79,7 +81,7 @@ public class AddEditBandScene extends StandardScene {
 
         addButton.setOnAction(E -> {
             if (!performerNameTextField.getText().isEmpty() && !popularityTextField.getText().isEmpty()) {
-                controller.addBand(performerNameTextField.getText(), Double.parseDouble(popularityTextField.getText()));
+                controller.addBand(performerNameTextField.getText(), Integer.parseInt(popularityTextField.getText()));
                 controller.addBandMembers(BandMemberList, performerNameTextField.getText());
                 callback.updateLists();
                 BandMemberList.getItems().clear();

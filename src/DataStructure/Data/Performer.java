@@ -6,7 +6,7 @@ public class Performer implements Serializable {
     protected String performerName;
     private double popularity;
     
-    public Performer(String performerName, double popularity) {
+    public Performer(String performerName, int popularity) {
         this.popularity = popularity/100.0;
         this.performerName = performerName;
     }
@@ -17,15 +17,16 @@ public class Performer implements Serializable {
         return performerName;
     }
 
-    public double getPopularity(){
-    return popularity * 100;
+    public int getPopularity(){
+        int convertedPopularity = (int) (popularity * 100);
+        return convertedPopularity;
     }
 
     public void setPerformerName(String performerName) {
         this.performerName = performerName;
     }
 
-    public void setPopularity(double popularity){
+    public void setPopularity(int popularity){
         this.popularity = popularity/100.0;
     }
 }

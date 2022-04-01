@@ -36,10 +36,12 @@ public class AddEditPerformerScene extends StandardScene {
             popUpBorderPane.setTop(addPerformerVBox);
             popUpBorderPane.setBottom(buttonHBox);
         } else {
+            int popularityNumber = artist.getPopularity();
             performerNameTextField.setText(artist.getPerformerName());
+            popularityTextField.setText(Integer.toString(popularityNumber));
             buttonHBox.getChildren().addAll(backButton, saveButton);
             buttonHBox.setSpacing(140);
-            addPerformerVBox.getChildren().addAll(name, performerNameTextField);
+            addPerformerVBox.getChildren().addAll(name, performerNameTextField, popularityLabel, popularityTextField);
             popUpBorderPane.setTop(addPerformerVBox);
             popUpBorderPane.setBottom(buttonHBox);
         }
@@ -60,7 +62,7 @@ public class AddEditPerformerScene extends StandardScene {
 
         addButton.setOnAction(e -> {
                         if (!performerNameTextField.getText().isEmpty() && !popularityTextField.getText().isEmpty()) {
-                controller.addArtist(performerNameTextField.getText(), Double.parseDouble(popularityTextField.getText()));
+                controller.addArtist(performerNameTextField.getText(), Integer.parseInt(popularityTextField.getText()));
                 callback.updateLists();
                 performerNameTextField.deleteText(0, performerNameTextField.getText().length());
                 popularityTextField.deleteText(0, popularityTextField.getText().length());

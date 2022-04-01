@@ -4,7 +4,7 @@ public class Artist extends Performer {
 
 	private String name;
 
-	public Artist(String name, double popularity) {
+	public Artist(String name, int popularity) {
 		super(name, popularity);
 		this.name = name;
 	}
@@ -14,7 +14,7 @@ public class Artist extends Performer {
 		this.name = name;
 	}
 
-	public Artist(String performerName, String name, double popularity) {
+	public Artist(String performerName, String name, int popularity) {
 		super(performerName, popularity);
 		this.name = name;
 	}
