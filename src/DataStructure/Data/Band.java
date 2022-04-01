@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class Band extends Performer {
 	private ArrayList<Performer> members = new ArrayList<>();
 
-	public Band(String performerName) {
-		super(performerName);
+	public Band(String performerName, double popularity) {
+		super(performerName, popularity);
 	}
 
 	public void addMember(Performer member) {

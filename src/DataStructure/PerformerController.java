@@ -32,9 +32,9 @@ public class PerformerController implements Serializable {
         return shows;
     }
 
-    public void addArtist(String performerName) {
+    public void addArtist(String performerName, double popularity) {
         if (!performerAlreadyExists(performerName) && !artistAlreadyExists(performerName)) {
-            Artist newArtist = new Artist(performerName);
+            Artist newArtist = new Artist(performerName, popularity);
             performers.add(newArtist);
             artists.add(newArtist);
         } else if (artistAlreadyExists(performerName) && !performerAlreadyExists(performerName)) {
@@ -159,9 +159,9 @@ public class PerformerController implements Serializable {
         }
     }
 
-    public void addBand(String performerName) {
+    public void addBand(String performerName, double popularity) {
         if (!performerAlreadyExists(performerName) && !bandAlreadyExists(performerName)) {
-            Band newBand = new Band(performerName);
+            Band newBand = new Band(performerName, popularity);
             performers.add(newBand);
             bands.add(newBand);
         } else if (bandAlreadyExists(performerName) && !performerAlreadyExists(performerName)) {
