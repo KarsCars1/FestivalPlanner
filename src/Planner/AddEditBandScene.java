@@ -15,43 +15,67 @@ import javafx.scene.layout.VBox;
 public class AddEditBandScene extends StandardScene {
 
     private PerformerController controller;
+    private Label members;
+    private HBox membersHBox;
+    private Button addMemberButton;
+    private TextField addMemberField;
+    private BorderPane popUpBorderPane;
+    private ListView<String> BandMemberList;
+    private VBox addPerformerVBox;
+    private Label name;
+    private TextField performerNameTextField;
+    private Label popularityLabel;
+    private TextField popularityTextField;
+    private Button switchToArtistButton;
+    private HBox buttonHBox;
+    private Button backButton;
+    private Button addButton;
+    private Button saveButton;
 
     public AddEditBandScene(PerformerController controller, Band band, GuiCallback callback) {
 
         this.controller = controller;
-        Label members = new Label("Members");
-        HBox membersHBox = new HBox();
-        Button addMemberButton = new Button("+");
-        TextField addMemberField = new TextField();
-        BorderPane popUpBorderPane = new BorderPane();
-        ListView<String> BandMemberList = new ListView<>();
-        VBox addPerformerVBox = new VBox();
-        Label name = new Label("Band name:");
-        TextField performerNameTextField = new TextField();
-        Button switchToArtistButton = new Button("Switch to Artist");
-        HBox buttonHBox = new HBox();
-        Button backButton = new Button("Back");
-        Button addButton = new Button("Add to list");
-        Button saveButton = new Button("Save Changes");
+        members = new Label("Members");
+        membersHBox = new HBox();
+        addMemberButton = new Button("+");
+        addMemberField = new TextField();
+        popUpBorderPane = new BorderPane();
+        BandMemberList = new ListView<>();
+        addPerformerVBox = new VBox();
+        name = new Label("Band name:");
+        performerNameTextField = new TextField();
+        popularityLabel = new Label("Popularity (0 to 100): ");
+        popularityTextField = new TextField();
+        switchToArtistButton = new Button("Switch to Artist");
+        buttonHBox = new HBox();
+        backButton = new Button("Back");
+        addButton = new Button("Add to list");
+        saveButton = new Button("Save Changes");
+
+        popularityTextField.setOnKeyReleased(E -> {
+            checkPopularity();
+        });
 
         if (band == null) {
             membersHBox.getChildren().addAll(addMemberField, addMemberButton);
             BandMemberList.setMaxSize(175, 150);
             buttonHBox.getChildren().addAll(backButton, addButton);
             buttonHBox.setSpacing(140);
-            addPerformerVBox.getChildren().addAll(name, performerNameTextField, switchToArtistButton, buttonHBox, members, membersHBox, BandMemberList);
+            addPerformerVBox.getChildren().addAll(name, performerNameTextField, popularityLabel, popularityTextField, switchToArtistButton, buttonHBox, members, membersHBox, BandMemberList);
             popUpBorderPane.setTop(addPerformerVBox);
             popUpBorderPane.setBottom(buttonHBox);
         } else {
+            int popularityNumber = band.getPopularity();
             performerNameTextField.setText(band.getPerformerName());
-            membersHBox.getChildren().addAll(addMemberField, addMemberButton);
+            popularityTextField.setText(Integer.toString(popularityNumber));
+            membersHBox.getChildren().addAll( addMemberField, addMemberButton);
             BandMemberList.setMaxSize(175, 150);
             for (Performer member : band.getMembers()) {
                 BandMemberList.getItems().add(member.getPerformerName());
             }
             buttonHBox.getChildren().addAll(backButton, saveButton);
             buttonHBox.setSpacing(140);
-            addPerformerVBox.getChildren().addAll(name, performerNameTextField, buttonHBox, members, membersHBox, BandMemberList);
+            addPerformerVBox.getChildren().addAll(name, performerNameTextField, popularityLabel, popularityTextField, buttonHBox, members, membersHBox, BandMemberList);
             popUpBorderPane.setTop(addPerformerVBox);
             popUpBorderPane.setBottom(buttonHBox);
         }
@@ -68,7 +92,7 @@ public class AddEditBandScene extends StandardScene {
         addMemberButton.setOnAction(E -> {
             if (!addMemberField.getText().trim().equals("")) {
                 if (band != null) {
-                    band.addMember(new Performer(addMemberField.getText()));
+                    band.addMember(new Performer(addMemberField.getText(), 0));
                 }
                 BandMemberList.getItems().add(addMemberField.getText());
             }
@@ -76,12 +100,13 @@ public class AddEditBandScene extends StandardScene {
         });
 
         addButton.setOnAction(E -> {
-            if (!performerNameTextField.getText().isEmpty()) {
-                controller.addBand(performerNameTextField.getText());
+            if (!performerNameTextField.getText().isEmpty() && !popularityTextField.getText().isEmpty()) {
+                controller.addBand(performerNameTextField.getText(), Integer.parseInt(popularityTextField.getText()));
                 controller.addBandMembers(BandMemberList, performerNameTextField.getText());
                 callback.updateLists();
                 BandMemberList.getItems().clear();
                 performerNameTextField.deleteText(0, performerNameTextField.getText().length());
+                popularityTextField.deleteText(0, popularityTextField.getText().length());
             }
         });
 
@@ -98,5 +123,18 @@ public class AddEditBandScene extends StandardScene {
 
 
         scene = new Scene(popUpBorderPane);
+    }
+
+    public void checkPopularity() {
+        String text = popularityTextField.getText();
+            try {
+                int value = Integer.parseInt(text);
+               if(value > 100 || value < 0){
+                   popularityTextField.setText("");
+               }
+            } catch (NumberFormatException e) {
+                popularityTextField.setText("");
+            }
+
     }
 }

@@ -12,32 +12,49 @@ import javafx.scene.layout.VBox;
 
 public class AddEditPerformerScene extends StandardScene {
 
-//    private PerformerController controller;
+    private BorderPane popUpBorderPane;
+    private VBox addPerformerVBox;
+    private Label name;
+    private Label popularityLabel;
+    private TextField performerNameTextField;
+    private TextField popularityTextField;
+    private Button switchToBandButton;
+    private HBox buttonHBox;
+    private Button backButton;
+    private Button addButton;
+    private Button saveButton;
 
     public AddEditPerformerScene(PerformerController controller, Artist artist, GuiCallback callback) {
 
-        BorderPane popUpBorderPane = new BorderPane();
-        VBox addPerformerVBox = new VBox();
-        Label name = new Label("Artist name:");
-        TextField performerNameTextField = new TextField();
-        Button switchToBandButton = new Button("Switch to Band");
-        HBox buttonHBox = new HBox();
-        Button backButton = new Button("Back");
-        Button addButton = new Button("Add to list");
-        Button saveButton = new Button("Save Changes");
-//        this.controller = controller;
+        popUpBorderPane = new BorderPane();
+        addPerformerVBox = new VBox();
+        name = new Label("Artist name:");
+        performerNameTextField = new TextField();
+        popularityLabel = new Label("Popularity (0 to 100)");
+        popularityTextField = new TextField();
+        switchToBandButton = new Button("Switch to Band");
+        buttonHBox = new HBox();
+        backButton = new Button("Back");
+        addButton = new Button("Add to list");
+        saveButton = new Button("Save Changes");
 
+        popularityTextField.setOnKeyReleased(E -> {
+            checkPopularity();
+        });
+        
         if (artist == null) {
             buttonHBox.getChildren().addAll(backButton, addButton);
             buttonHBox.setSpacing(140);
-            addPerformerVBox.getChildren().addAll(name, performerNameTextField, switchToBandButton);
+            addPerformerVBox.getChildren().addAll(name, performerNameTextField, popularityLabel, popularityTextField, switchToBandButton);
             popUpBorderPane.setTop(addPerformerVBox);
             popUpBorderPane.setBottom(buttonHBox);
         } else {
+            int popularityNumber = artist.getPopularity();
             performerNameTextField.setText(artist.getPerformerName());
+            popularityTextField.setText(Integer.toString(popularityNumber));
             buttonHBox.getChildren().addAll(backButton, saveButton);
             buttonHBox.setSpacing(140);
-            addPerformerVBox.getChildren().addAll(name, performerNameTextField);
+            addPerformerVBox.getChildren().addAll(name, performerNameTextField, popularityLabel, popularityTextField);
             popUpBorderPane.setTop(addPerformerVBox);
             popUpBorderPane.setBottom(buttonHBox);
         }
@@ -57,13 +74,27 @@ public class AddEditPerformerScene extends StandardScene {
         });
 
         addButton.setOnAction(e -> {
-            if (!performerNameTextField.getText().isEmpty()) {
-                controller.addArtist(performerNameTextField.getText());
+                        if (!performerNameTextField.getText().isEmpty() && !popularityTextField.getText().isEmpty()) {
+                controller.addArtist(performerNameTextField.getText(), Integer.parseInt(popularityTextField.getText()));
                 callback.updateLists();
                 performerNameTextField.deleteText(0, performerNameTextField.getText().length());
+                popularityTextField.deleteText(0, popularityTextField.getText().length());
             }
         });
 
         scene = new Scene(popUpBorderPane);
+    }
+
+    public void checkPopularity() {
+        String text = popularityTextField.getText();
+        try {
+            int value = Integer.parseInt(text);
+            if(value > 100 || value < 0){
+                popularityTextField.setText("");
+            }
+        } catch (NumberFormatException e) {
+            popularityTextField.setText("");
+        }
+
     }
 }
