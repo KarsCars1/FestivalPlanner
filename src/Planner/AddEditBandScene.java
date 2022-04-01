@@ -15,26 +15,46 @@ import javafx.scene.layout.VBox;
 public class AddEditBandScene extends StandardScene {
 
     private PerformerController controller;
+    private Label members;
+    private HBox membersHBox;
+    private Button addMemberButton;
+    private TextField addMemberField;
+    private BorderPane popUpBorderPane;
+    private ListView<String> BandMemberList;
+    private VBox addPerformerVBox;
+    private Label name;
+    private TextField performerNameTextField;
+    private Label popularityLabel;
+    private TextField popularityTextField;
+    private Button switchToArtistButton;
+    private HBox buttonHBox;
+    private Button backButton;
+    private Button addButton;
+    private Button saveButton;
 
     public AddEditBandScene(PerformerController controller, Band band, GuiCallback callback) {
 
         this.controller = controller;
-        Label members = new Label("Members");
-        HBox membersHBox = new HBox();
-        Button addMemberButton = new Button("+");
-        TextField addMemberField = new TextField();
-        BorderPane popUpBorderPane = new BorderPane();
-        ListView<String> BandMemberList = new ListView<>();
-        VBox addPerformerVBox = new VBox();
-        Label name = new Label("Band name:");
-        TextField performerNameTextField = new TextField();
-        Label popularityLabel = new Label("Popularity (0 to 100): ");
-        TextField popularityTextField = new TextField();
-        Button switchToArtistButton = new Button("Switch to Artist");
-        HBox buttonHBox = new HBox();
-        Button backButton = new Button("Back");
-        Button addButton = new Button("Add to list");
-        Button saveButton = new Button("Save Changes");
+        members = new Label("Members");
+        membersHBox = new HBox();
+        addMemberButton = new Button("+");
+        addMemberField = new TextField();
+        popUpBorderPane = new BorderPane();
+        BandMemberList = new ListView<>();
+        addPerformerVBox = new VBox();
+        name = new Label("Band name:");
+        performerNameTextField = new TextField();
+        popularityLabel = new Label("Popularity (0 to 100): ");
+        popularityTextField = new TextField();
+        switchToArtistButton = new Button("Switch to Artist");
+        buttonHBox = new HBox();
+        backButton = new Button("Back");
+        addButton = new Button("Add to list");
+        saveButton = new Button("Save Changes");
+
+        popularityTextField.setOnKeyReleased(E -> {
+            checkPopularity();
+        });
 
         if (band == null) {
             membersHBox.getChildren().addAll(addMemberField, addMemberButton);
@@ -103,5 +123,18 @@ public class AddEditBandScene extends StandardScene {
 
 
         scene = new Scene(popUpBorderPane);
+    }
+
+    public void checkPopularity() {
+        String text = popularityTextField.getText();
+            try {
+                int value = Integer.parseInt(text);
+               if(value > 100 || value < 0){
+                   popularityTextField.setText("");
+               }
+            } catch (NumberFormatException e) {
+                popularityTextField.setText("");
+            }
+
     }
 }
