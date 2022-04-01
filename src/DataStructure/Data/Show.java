@@ -25,9 +25,9 @@ public class Show implements Serializable {
         return performer.getPerformerName();
     }
 
-//    public String getLocationName() {
-//        return location.getName();
-//    }
+    public String getLocationName() {
+        return location.getName();
+    }
 
     public String getName() {
         return name;
