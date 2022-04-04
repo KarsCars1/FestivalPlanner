@@ -1,8 +1,8 @@
 package DataStructure;
-
 import DataStructure.Data.*;
 import javafx.scene.control.ListView;
 
+import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class PerformerController implements Serializable {
 
     public void addArtist(String performerName, int popularity) {
         if (!performerAlreadyExists(performerName) && !artistAlreadyExists(performerName)) {
-            Artist newArtist = new Artist(performerName, popularity);
+            Artist newArtist = new Artist(performerName);
             performers.add(newArtist);
             artists.add(newArtist);
         } else if (artistAlreadyExists(performerName) && !performerAlreadyExists(performerName)) {
@@ -47,7 +47,6 @@ public class PerformerController implements Serializable {
             System.out.println("Cannot add duplicates (" + performerName + ")");
         }
     }
-
 
 //    public ArrayList<Performer> getPerformers() {
 //        System.out.println(this.performers);
@@ -104,10 +103,9 @@ public class PerformerController implements Serializable {
         }
     }
 
-    public void addLocation(int[][]path, String name) {
-        locations.add(new Location(path,name));
+    public void addLocation(int[][]path, String name, Point2D size) {
+        locations.add(new Location(path,name, size));
     }
-
 
     public void addShow(String name, String location, String performer, LocalTime beginTime, LocalTime endTime) {
         for (Show show : shows) {
@@ -161,7 +159,7 @@ public class PerformerController implements Serializable {
 
     public void addBand(String performerName, int popularity) {
         if (!performerAlreadyExists(performerName) && !bandAlreadyExists(performerName)) {
-            Band newBand = new Band(performerName, popularity);
+            Band newBand = new Band(performerName, 100);
             performers.add(newBand);
             bands.add(newBand);
         } else if (bandAlreadyExists(performerName) && !performerAlreadyExists(performerName)) {

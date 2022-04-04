@@ -1,5 +1,6 @@
 package Simulation;
-
+import DataStructure.Data.Performer;
+import DataStructure.Data.Show;
 import DataStructure.PerformerController;
 import Planner.Npc;
 import Planner.StandardScene;
@@ -15,6 +16,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class SimulatorScene extends StandardScene implements Resizable {
@@ -25,11 +27,13 @@ public class SimulatorScene extends StandardScene implements Resizable {
     ArrayList<Npc> npcs;
     double timer;
     private SimulationMap map;
-//    private int count = 0;
+    //    private int count = 0;
     private Camera camera;
     private double time;
     private double fps;
     private AgendaFollower agendaFollower;
+    private PerformerController performerController;
+    private AnimationTimer animationTimer;
 
     public SimulatorScene(PerformerController performerController) throws Exception {
         time = 0;
@@ -40,6 +44,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
         borderPane.setCenter(canvas);
         graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
         init();
+        this.performerController = performerController;
         this.agendaFollower = new AgendaFollower(performerController, npcs);
 
         canvas.setOnMouseDragged(e -> {
@@ -56,7 +61,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
         Label timer = new Label("00:00:00");
         borderPane.getChildren().add(timer);
         scene = new Scene(borderPane);
-        new AnimationTimer() {
+        this.animationTimer = new AnimationTimer() {
             long last = -1;
 
             @Override
@@ -68,7 +73,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
                 update((now - last) / 1000000000.0);
                 last = now;
             }
-        }.start();
+        };
     }
 
     public void init() throws IOException {
@@ -89,10 +94,35 @@ public class SimulatorScene extends StandardScene implements Resizable {
             for (Npc npc : npcs) {
                 npc.update();
             }
-            if (agendaFollower.isRunning())
-            agendaFollower.setCurrentTime(agendaFollower.getCurrentTime().plusSeconds((long) (deltaTime * 180)));
+            //if (agendaFollower.isRunning())
+            LocalTime newTime = agendaFollower.getCurrentTime().plusSeconds((long) (deltaTime * 180));
+            this.searchShows(agendaFollower.getCurrentTime(), newTime);
+            agendaFollower.setCurrentTime(newTime);
             draw(graphics);
 
+        }
+    }
+
+    public AnimationTimer getAnimationTimer(){
+        return this.animationTimer;
+    }
+
+    public void searchShows(LocalTime oldTime, LocalTime newtime){
+        for (Show show: this.performerController.getShows()) {
+//            System.out.println(oldTime);
+//            System.out.println(newtime);
+//            System.out.println("showToNew " + (show.getBeginTime().minusMinutes(15).compareTo(newtime) <= 0));
+//            System.out.println("showToOld: " + (show.getBeginTime().minusMinutes(15).compareTo(oldTime) >= 0));
+//            System.out.println(show.getBeginTime().minusMinutes(15));
+            if(show.getBeginTime().minusMinutes(15).compareTo(newtime) <= 0 && show.getBeginTime().minusMinutes(15).compareTo(oldTime) >= 0){
+                for (Npc npc : this.npcs) {
+                    npc.setPathfinding(show.getLocation());
+                    //System.out.println(npc.getPathfinding());
+//                    if (show.getPopularity() > Math.random() || npc.getPathfinding() != null){
+//                        npc.setPathfinding(show.getLocation().getPath());
+//                    }
+                }
+            }
         }
     }
 
@@ -104,6 +134,8 @@ public class SimulatorScene extends StandardScene implements Resizable {
         graphics.setTransform(transform);
         graphics.setBackground(backgroundColor);
         map.draw(graphics, canvas.getHeight(), canvas.getWidth());
+        graphics.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
+        graphics.drawString(agendaFollower.getCurrentTime().toString(), 30, 30);
         if (!npcs.isEmpty()) {
             for (Npc npc : npcs) {
                 npc.draw(graphics);
@@ -119,7 +151,6 @@ public class SimulatorScene extends StandardScene implements Resizable {
 //        this.agendaFollower = agendaFollower;
 //    }
 }
-
 
 //    private final Color backgroundColor = new Color(44, 139, 42, 255);
 //    FXGraphics2D graphics;
@@ -187,3 +218,4 @@ public class SimulatorScene extends StandardScene implements Resizable {
 //        graphics.setBackground(backgroundColor);
 //        map.draw(graphics);
 //    }
+

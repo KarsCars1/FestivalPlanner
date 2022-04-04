@@ -1,5 +1,4 @@
 package Planner;
-
 import DataStructure.Data.Artist;
 import DataStructure.Data.Band;
 import DataStructure.Data.Show;
@@ -18,6 +17,7 @@ import javafx.stage.Stage;
 import org.jfree.fx.Resizable;
 
 import java.io.*;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -36,7 +36,7 @@ public class MainScene extends StandardScene {
     private Button editPerformer = new Button("Edit performer");
     private Button addShow = new Button("Add show");
     private Button addLocation = new Button("Add Location");
-//    private Button removeLocation = new Button("Remove Location");
+    //    private Button removeLocation = new Button("Remove Location");
 //    private Button editLocation = new Button("Edit Location");
     private Button saveButton = new Button("Save");
     private Button loadButton = new Button("Load");
@@ -46,7 +46,7 @@ public class MainScene extends StandardScene {
     private String selectedPerformer;
     private TableView showsTable = new TableView<>();
     private ScrollPane agendaScroll = new ScrollPane();
-//    private boolean buttonToggle = true;
+    //    private boolean buttonToggle = true;
     public MainScene(PerformerController performerController, GuiCallback callback, SimulatorScene scene) {
         this.performerController = performerController;
 
@@ -189,6 +189,8 @@ public class MainScene extends StandardScene {
         });
         startSimulation.setOnAction(e -> {
             callback.setStage(scene.getScene());
+            scene.getAgendaFollower().setCurrentTime(scene.getAgendaFollower().getBeginTime());
+            scene.getAnimationTimer().start();
             scene.getAgendaFollower().setRunning(true);
         });
 

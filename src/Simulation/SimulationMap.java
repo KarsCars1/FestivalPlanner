@@ -1,5 +1,4 @@
 package Simulation;
-
 import DataStructure.PerformerController;
 
 import javax.imageio.ImageIO;
@@ -15,7 +14,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
 public class SimulationMap {
     PerformerController performerController;
     private int width;
@@ -28,7 +26,6 @@ public class SimulationMap {
     private int layers;
     private boolean loaded = false;
     private BufferedImage mapLayer;
-
 
     public SimulationMap(String fileName, Pathfinding pathfinding, PerformerController performerController) {
         this.performerController = performerController;
@@ -105,9 +102,10 @@ public class SimulationMap {
                     JsonArray jsonArray = root.getJsonArray("layers").getJsonObject(i).getJsonArray("objects");
                     for (int i1 = 0; i1 < jsonArray.size(); i1++) {
                         Point point = new Point(jsonArray.getJsonObject(i1).getInt("x") / 16 + (jsonArray.getJsonObject(i1).getInt("width") / 32), jsonArray.getJsonObject(i1).getInt("y") / 16 + (jsonArray.getJsonObject(i1).getInt("height") / 32));
+                        Point size = new Point((jsonArray.getJsonObject(i1).getInt("width")), jsonArray.getJsonObject(i1).getInt("height"));
                         System.out.println(point);
 
-                        performerController.addLocation(pathfinding.path(point), jsonArray.getJsonObject(i1).getString("name"));
+                        performerController.addLocation(pathfinding.path(point), jsonArray.getJsonObject(i1).getString("name"), size);
                     }
                 }
                 j--;
@@ -148,10 +146,8 @@ public class SimulationMap {
                         //g2d.drawImage(tiles[(map[i][y][x] - 1)], AffineTransform.getTranslateInstance(x * tileWidth, y * tileHeight), null);
                         //}
 
-
 //                        g2d.setColor(Color.yellow);
 //                        g2d.fill(new Rectangle2D.Double(x * tileWidth, y * tileHeight, tileWidth, tileHeight));
-
 
                     }
 
@@ -168,6 +164,6 @@ public class SimulationMap {
         loaded = true;
     }
 
-
 }
-//credits to johan talboom
+//credits to johan shortboom
+
