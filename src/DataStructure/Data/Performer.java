@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Performer implements Serializable {
     protected String performerName;
     private double popularity;
-    
+
     public Performer(String performerName, int popularity) {
         this.popularity = popularity/100.0;
         this.performerName = performerName;

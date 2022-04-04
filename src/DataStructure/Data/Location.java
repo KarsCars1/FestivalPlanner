@@ -1,5 +1,4 @@
 package DataStructure.Data;
-
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 
@@ -9,14 +8,16 @@ public class Location implements Serializable, Comparable<Location> {
     int[][] path;
 //    int maxNPC;
 
-//    private int height = 0;
+    //    private int height = 0;
 //    private int width = 0;
     private int surfaceArea = 0;
     private String name = "";
+    private Point2D size;
 
-    public Location(int[][]location,String name) {
+    public Location(int[][]location,String name, Point2D size) {
         this.path = location;
         this.name = name;
+        this.size = size;
     }
 
 //    public void setPath(int[][] path) {
@@ -25,6 +26,10 @@ public class Location implements Serializable, Comparable<Location> {
 
     public int[][] getPath() {
         return path;
+    }
+
+    public Point2D getSize(){
+        return this.size;
     }
 
     public String getName() {
@@ -49,3 +54,4 @@ public class Location implements Serializable, Comparable<Location> {
         return this.name.compareTo(o.name);
     }
 }
+
