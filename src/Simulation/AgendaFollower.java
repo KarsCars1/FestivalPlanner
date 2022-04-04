@@ -43,15 +43,15 @@ public class AgendaFollower {
         ArrayList<Show> shows = performerController.getShows();
 
         //System.out.println(newTime.toString());
-//        for (Show show: shows) {
-//            if(show.getBeginTime().minusMinutes(15).compareTo(newTime) <= 0 && show.getBeginTime().minusMinutes(15).compareTo(this.currentTime) >= 0){
-//                for (Npc npc : this.npcs) {
-//                    if (show.getPopularity() > Math.random() || npc.getPathfinding() != null){
-//                        npc.setPathfinding(show.getLocation().getPath());
-//                    }
-//                }
-//            }
-//        }
+        for (Show show: shows) {
+            if(show.getBeginTime().minusMinutes(15).compareTo(newTime) <= 0 && show.getBeginTime().minusMinutes(15).compareTo(this.currentTime) >= 0){
+                for (Npc npc : this.npcs) {
+                    if (show.getPerformer().getPopularity() > Math.random()){
+                        npc.setPathfinding(show.getLocation());
+                    }
+                }
+            }
+        }
 
         this.currentTime = newTime;
 
