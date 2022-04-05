@@ -46,20 +46,14 @@ public class SimulatorScene extends StandardScene implements Resizable {
         this.performerController = performerController;
         this.agendaFollower = new AgendaFollower(performerController, npcs);
 
-        canvas.setOnMouseDragged(e -> {
-            camera.mouseDragged(e);
-            graphics.setTransform(camera.getTransform());
-        });
-
-        canvas.setOnScroll(e -> {
-            camera.mouseScroll(e);
-            graphics.setTransform(camera.getTransform());
-        });
-
         camera = new Camera(canvas, this, graphics);
+
+
         Label timer = new Label("00:00:00");
         borderPane.getChildren().add(timer);
+
         scene = new Scene(borderPane);
+
         this.animationTimer = new AnimationTimer() {
             long last = -1;
 
@@ -74,6 +68,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
         };
     }
 
+    //create the amount of npc's you want to use
     public void init() throws IOException {
         this.npcs = new ArrayList<>();
         while (this.npcs.size() < 1000) {
@@ -84,6 +79,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
         timer = 0;
     }
 
+    //update all npc's and simulation time on a timer
     public void update(double deltaTime) {
         time += deltaTime;
         if (time >= 1.0 / fps) {
@@ -98,29 +94,31 @@ public class SimulatorScene extends StandardScene implements Resizable {
         }
     }
 
+    //get the animation timer
     public AnimationTimer getAnimationTimer(){
         return this.animationTimer;
     }
 
-    public void searchShows(LocalTime oldTime, LocalTime newtime){
-        for (Show show: this.performerController.getShows()) {
-            if(show.getBeginTime().minusMinutes(15).compareTo(newtime) <= 0 && show.getBeginTime().minusMinutes(15).compareTo(oldTime) >= 0){
-                for (Npc npc : this.npcs) {
-                    npc.setPathfinding(show.getLocation());
-                }
-            }
-        }
-    }
-
+    //draw the map and all npc's
     public void draw(FXGraphics2D graphics) {
         graphics.setTransform(new AffineTransform());
         graphics.clearRect(0, 0, (int) canvas.getHeight() * 2, (int) canvas.getWidth() * 2);
+
+        //transform with the camera
         transform.setTransform(camera.getTransform());
         graphics.setTransform(transform);
+
+        //set the background green like the map
         graphics.setBackground(backgroundColor);
-        map.draw(graphics, canvas.getHeight(), canvas.getWidth());
+
+        //draw the map
+        map.draw(graphics);
+
+        //draw the timer
         graphics.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
         graphics.drawString(agendaFollower.getCurrentTime().toString(), 30, 30);
+
+        //draw the npc's
         if (!npcs.isEmpty()) {
             for (Npc npc : npcs) {
                 npc.draw(graphics);
@@ -128,6 +126,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
         }
     }
 
+    //get the agenda follower
     public AgendaFollower getAgendaFollower() {
         return agendaFollower;
     }

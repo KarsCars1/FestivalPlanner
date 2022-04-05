@@ -20,8 +20,11 @@ public class Gui extends Application implements GuiCallback {
     public void start(Stage primaryStage) throws Exception {
         Stage simulatorStage = new Stage();
         this.popUpStage = new Stage();
+
+        //make the simulator scene on startup to generate the map image
         this.simulatorScene = new SimulatorScene(performerController);
         simulatorStage.setScene(this.simulatorScene.getScene());
+
         // Make the mainScene
         this.mainScene = new MainScene(performerController, this, simulatorScene);
         primaryStage.setScene(mainScene.getScene());

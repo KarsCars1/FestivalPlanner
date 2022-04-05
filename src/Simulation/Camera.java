@@ -27,13 +27,15 @@ public class Camera {
         this.canvas = canvas;
         this.resizable = resizable;
         this.g2d = g2d;
+
+        //check where you clicked
         canvas.setOnMousePressed(e -> {lastMousePos = new Point2D.Double(e.getX(), e.getY());});
+
         canvas.setOnMouseDragged(e -> mouseDragged(e));
         canvas.setOnScroll(e-> mouseScroll(e));
     }
 
-
-
+    //return the current transform
     public AffineTransform getTransform()  {
         AffineTransform tx = new AffineTransform();
         tx.scale(zoom, zoom);
@@ -42,6 +44,7 @@ public class Camera {
         return tx;
     }
 
+    //react to a dragging mouse
     public void mouseDragged(MouseEvent e) {
         if(e.getButton() == MouseButton.PRIMARY) {
             centerPoint = new Point2D.Double(
@@ -53,6 +56,7 @@ public class Camera {
         }
     }
 
+    //change the zoom on scroll
     public void mouseScroll(ScrollEvent e) {
         zoom *= (1 + e.getDeltaY()/250.0f);
 

@@ -15,7 +15,6 @@ import java.util.Random;
 public class Npc {
 
     private static double rotationSpeed = 1;
-    //    private BufferedImage fullImage;
     private boolean atStage = false;
     private Point2D position;
     private double angle;
@@ -27,6 +26,7 @@ public class Npc {
     private int[][] pathfinding;
     private Location location;
 
+    //Constructor
     public Npc(Point2D position, double angle) throws IOException {
 
         BufferedImage fullImage = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Npc_template.png"));
@@ -35,10 +35,13 @@ public class Npc {
         this.target = position;
         this.smallTarget = new Point2D.Double(position.getX() / 16, position.getY() / 16);
         this.angle = angle;
+
+        //Give npc's a random speed
         this.speed = 3 + 3 * Math.random();
         this.target = position;
         this.frame = Math.random() * 8;
 
+        //get the sprites out of the image
         this.sprites = new ArrayList<>();
         int width = fullImage.getWidth() / 10;
         int height = fullImage.getHeight();
@@ -51,6 +54,7 @@ public class Npc {
         return pathfinding;
     }
 
+    //set where the npc needs to go
     public void setPathfinding(Location location) {
         if (location.getPath() != null) {
             this.pathfinding = location.getPath();
@@ -60,8 +64,11 @@ public class Npc {
 
     }
 
+    //update the npc
     public void update() {
         this.frame++;
+
+        //check if the next tile has been reached and if the stage has been reached
         if (target.distanceSq(position) < 32) {
             if (atStage) {
                 target = new Point2D.Double(new Random().nextInt((int) this.location.getSize().getX() - 32),
@@ -73,6 +80,7 @@ public class Npc {
             }
         }
 
+        //check if the next target is the stage
         if (this.pathfinding != null && this.pathfinding[(int) this.smallTarget.getX() - 1][(int) this.smallTarget.getY() - 1] == 0 && !atStage) {
             atStage = true;
         }
@@ -86,7 +94,7 @@ public class Npc {
             rotation -= 2 * Math.PI;
         }
 
-//        double oldAngle = this.angle;
+
         if (rotation < -rotationSpeed) {
             this.angle -= rotationSpeed;
         } else if (rotation > rotationSpeed) {
@@ -95,12 +103,12 @@ public class Npc {
             this.angle = targetAngle;
         }
 
-//        Point2D oldposition = this.position;
 
         this.position = new Point2D.Double(this.position.getX() + this.speed * Math.cos(this.angle), this.position.getY() + this.speed * Math.sin(this.angle));
 
     }
 
+    //get the new target to the tile with the smallest distance
     private void getNewTarget() {
         if (pathfinding != null) {
 
@@ -129,6 +137,7 @@ public class Npc {
         }
     }
 
+    //draw the npc at the correct location
     public void draw(FXGraphics2D graphics) {
         int centerX = sprites.get(0).getWidth() / 2;
         int centerY = sprites.get(0).getHeight() / 2;

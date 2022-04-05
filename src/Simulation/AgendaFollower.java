@@ -19,6 +19,7 @@ public class AgendaFollower {
         this.running = false;
     }
 
+    //start the simulation 20 minutes before the first show
     public LocalTime getBeginTime(){
         if(performerController.getShows().size() > 0){
             Show earliest = performerController.getShows().get(0);
@@ -35,10 +36,12 @@ public class AgendaFollower {
 
     }
 
+    //return the current time in the simulation
     public LocalTime getCurrentTime(){
         return this.currentTime;
     }
 
+    //set the current time
     public void setCurrentTime(LocalTime newTime){
         ArrayList<Show> shows = performerController.getShows();
         for (Show show: shows) {
@@ -55,10 +58,12 @@ public class AgendaFollower {
 
     }
 
+    //check if the simulation is running
     public boolean isRunning() {
         return running;
     }
 
+    //turn on the simulation
     public void setRunning(boolean running) {
         this.running = running;
     }

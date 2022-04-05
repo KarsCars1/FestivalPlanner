@@ -15,16 +15,19 @@ public class Pathfinding {
 
         LinkedList<Point> frontier = new LinkedList<>();
         LinkedList<Point> currentNeighbors = new LinkedList<>();
-        //LinkedList<Point> frontier = new LinkedList<>();
         frontier.add(point);
         HashMap<String, Point> reached = new HashMap<String, Point>();
         String stringPoint = String.valueOf(point.getX()) + String.valueOf(point.getY());
         reached.put(stringPoint, point);
+
+        //make sure there are collisions
         if (collisions != null) {
+            
             while (!frontier.isEmpty()) {
                 currentNeighbors = frontier;
                 frontier = new LinkedList<>();
                 distance++;
+
                 while (!currentNeighbors.isEmpty()) {
                     Point current = currentNeighbors.remove(0);
                     Point left = new Point((int) current.getX() - 1, (int) current.getY());
@@ -38,6 +41,7 @@ public class Pathfinding {
                         int x = (int) next.getX();
                         int y = (int) next.getY();
                         if (!reached.containsKey(check) && x >= 0 && x <= 99 && y >= 0 && y <= 99) {
+
 
                             if (collisions[y][x]) {
                                 path[(int) next.getX()][(int) next.getY()] = 9999;
@@ -57,6 +61,7 @@ public class Pathfinding {
         return null;
     }
 
+    //add collisions
     public void addColisions(boolean[][] collisions) {
         this.collisions = collisions;
     }

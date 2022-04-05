@@ -47,12 +47,8 @@ public class SimulationMap {
             tileHeight = root.getInt("tileheight");
             tileWidth = root.getInt("tilewidth");
             ArrayList<BufferedImage> arrayList = new ArrayList<>();
-            GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            GraphicsDevice device = env.getDefaultScreenDevice();
-            GraphicsConfiguration config = device.getDefaultConfiguration();
-            BufferedImage buffy = config.createCompatibleImage(width, height, Transparency.TRANSLUCENT);
-            Graphics g = buffy.getGraphics();
 
+            //get all tiles form the tilemap
             for (int y = 0; y < tilemap.getHeight(); y += tileHeight) {
                 for (int x = 0; x < tilemap.getWidth(); x += tileWidth) {
                     arrayList.add(tilemap.getSubimage(x, y, tileWidth, tileHeight));
@@ -66,11 +62,15 @@ public class SimulationMap {
             e.printStackTrace();
         }
 
+
+        //get the tiles for each layer
         layers = root.getJsonArray("layers").size();
 
         int j = 0;
 
         map = new int[layers][height][width];
+
+        //add collision layer
         for (int i = 0; i < root.getJsonArray("layers").size(); i++) {
             String layerName = root.getJsonArray("layers").getJsonObject(i).getJsonString("name").getString();
             if (layerName.equals("Collision")) {
@@ -81,12 +81,10 @@ public class SimulationMap {
                     }
                 }
                 pathfinding.addColisions(collisions);
-                //democode
-                Point point = new Point(25, 25);
-                path = pathfinding.path(point);
 
             }
         }
+        //Get teh non collision layers and objects
         for (int i = 0; i < root.getJsonArray("layers").size(); i++) {
             String layerType = root.getJsonArray("layers").getJsonObject(i).getJsonString("type").getString();
             String layerName = root.getJsonArray("layers").getJsonObject(i).getJsonString("name").getString();
@@ -111,6 +109,8 @@ public class SimulationMap {
             }
             j++;
         }
+
+        //create the map as an image
         mapLayer = new BufferedImage(16 * width, 16 * height, 1);
         Graphics2D graphics2D1 = mapLayer.createGraphics();
         for (int i = 0; i < layers; i++) {
@@ -129,21 +129,10 @@ public class SimulationMap {
         Collections.sort(performerController.getLocations());
     }
 
-    void draw(Graphics2D g2d, double height, double width) {
+    //draw the map
+    void draw(Graphics2D g2d) {
         path = performerController.getLocations().get(0).getPath();
         g2d.drawImage(mapLayer, 0, 0, null);
-        for (int y = 0; y < this.height; y++) {
-            for (int x = 0; x < this.width; x++) {
-                for (int i = 0; i < layers; i++) {
-                    if (map[i][y][x] < 0)
-                        continue;
-                    if (map[i][y][x] != 0) {
-                    }
-                }
-                loaded = true;
-            }
-
-        }
     }
 }
 
