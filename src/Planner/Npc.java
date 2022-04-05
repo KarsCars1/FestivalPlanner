@@ -9,7 +9,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -27,10 +26,6 @@ public class Npc {
     private Point2D smallTarget;
     private int[][] pathfinding;
     private Location location;
-
-    public int[][] getPathfinding() {
-        return pathfinding;
-    }
 
     public Npc(Point2D position, double angle) throws IOException {
 
@@ -52,6 +47,10 @@ public class Npc {
         }
     }
 
+    public int[][] getPathfinding() {
+        return pathfinding;
+    }
+
     public void setPathfinding(Location location) {
         if (location.getPath() != null) {
             this.pathfinding = location.getPath();
@@ -64,18 +63,20 @@ public class Npc {
     public void update() {
         this.frame++;
         if (target.distanceSq(position) < 32) {
-            getNewTarget();
+            if (atStage) {
+                target = new Point2D.Double(new Random().nextInt((int) this.location.getSize().getX() - 32),
+                        new Random().nextInt((int) this.location.getSize().getY() - 32));
+                target.setLocation( target.getX() - this.location.getSize().getX() / 2 + smallTarget.getX() * 16, 16 + target.getY() - this.location.getSize().getY() / 2 + smallTarget.getY() * 16);
+                //rotationSpeed = Math.random() - 0.5;
+            } else {
+                getNewTarget();
+            }
         }
 
-        if(this.pathfinding != null && this.pathfinding[(int) this.smallTarget.getX() - 1][(int) this.smallTarget.getY() - 1] == 0 && !atStage){
+        if (this.pathfinding != null && this.pathfinding[(int) this.smallTarget.getX() - 1][(int) this.smallTarget.getY() - 1] == 0 && !atStage) {
             atStage = true;
         }
-        if(atStage){
-            target = new Point2D.Double(new Random().nextInt((int) this.location.getSize().getX() - 32),
-                    new Random().nextInt((int) this.location.getSize().getY() - 32));
-            target.setLocation(16 + target.getX() - this.location.getSize().getX() / 2 + smallTarget.getX() * 16, 16 + target.getY() - this.location.getSize().getY() / 2 + smallTarget.getY() * 16);
-            //rotationSpeed = Math.random() - 0.5;
-        }
+
         double targetAngle = Math.atan2(this.target.getY() - this.position.getY(), this.target.getX() - this.position.getX());
         double rotation = targetAngle - this.angle;
         while (rotation < -Math.PI) {
