@@ -139,14 +139,7 @@ public class Npc {
         graphics.drawImage(this.sprites.get((int) Math.floor(frame) % this.sprites.size()), tx, null);
 
         graphics.setColor(Color.white);
-//        graphics.draw(new Ellipse2D.Double(position.getX() - 12.5, position.getY() - 12.5, 25, 25));
-//        graphics.draw(new Line2D.Double(position, target));
-
     }
-
-//    public void setTarget(Point2D newTarget) {
-//        this.target = newTarget;
-//    }
 
 }
 

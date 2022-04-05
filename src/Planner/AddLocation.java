@@ -1,15 +1,11 @@
 package Planner;
 
-//import javafx.*;
-//import javafx.application.Application;
-
 import DataStructure.PerformerController;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-//import javax.swing.*;
 
 public class AddLocation extends StandardScene {
     private TextField loactionNameField;
@@ -22,11 +18,6 @@ public class AddLocation extends StandardScene {
         Button saveButton = new Button("Add Location");
         pane.add(loactionNameField, 0, 0);
         pane.add(saveButton, 0, 1);
-
-//        saveButton.setOnAction(e -> {
-//            controller.addLocation(loactionNameField.getText());
-//        });
-
 
         scene = new Scene(pane);
     }

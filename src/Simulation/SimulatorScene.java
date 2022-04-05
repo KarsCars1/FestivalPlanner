@@ -27,7 +27,6 @@ public class SimulatorScene extends StandardScene implements Resizable {
     ArrayList<Npc> npcs;
     double timer;
     private SimulationMap map;
-    //    private int count = 0;
     private Camera camera;
     private double time;
     private double fps;
@@ -69,7 +68,6 @@ public class SimulatorScene extends StandardScene implements Resizable {
                 if (last == -1)
                     last = now;
                 timer.setText(agendaFollower.getCurrentTime().toString().substring(0,5));
-//                System.out.println(timer.getText());
                 update((now - last) / 1000000000.0);
                 last = now;
             }
@@ -81,7 +79,6 @@ public class SimulatorScene extends StandardScene implements Resizable {
         while (this.npcs.size() < 1000) {
             Npc npc = new Npc(new Point2D.Double(832, 1600), 0);
             this.npcs.add(npc);
-            //npc.setPathfinding(performerController.getLocations().get(new Random().nextInt(performerController.getLocations().size())).getPath());
         }
 
         timer = 0;
@@ -94,9 +91,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
             for (Npc npc : npcs) {
                 npc.update();
             }
-            //if (agendaFollower.isRunning())
             LocalTime newTime = agendaFollower.getCurrentTime().plusSeconds((long) (1));
-//            this.searchShows(agendaFollower.getCurrentTime(), newTime);
             agendaFollower.setCurrentTime(newTime);
             draw(graphics);
 
@@ -109,18 +104,9 @@ public class SimulatorScene extends StandardScene implements Resizable {
 
     public void searchShows(LocalTime oldTime, LocalTime newtime){
         for (Show show: this.performerController.getShows()) {
-//            System.out.println(oldTime);
-//            System.out.println(newtime);
-//            System.out.println("showToNew " + (show.getBeginTime().minusMinutes(15).compareTo(newtime) <= 0));
-//            System.out.println("showToOld: " + (show.getBeginTime().minusMinutes(15).compareTo(oldTime) >= 0));
-//            System.out.println(show.getBeginTime().minusMinutes(15));
             if(show.getBeginTime().minusMinutes(15).compareTo(newtime) <= 0 && show.getBeginTime().minusMinutes(15).compareTo(oldTime) >= 0){
                 for (Npc npc : this.npcs) {
                     npc.setPathfinding(show.getLocation());
-                    //System.out.println(npc.getPathfinding());
-//                    if (show.getPopularity() > Math.random() || npc.getPathfinding() != null){
-//                        npc.setPathfinding(show.getLocation().getPath());
-//                    }
                 }
             }
         }
@@ -130,7 +116,6 @@ public class SimulatorScene extends StandardScene implements Resizable {
         graphics.setTransform(new AffineTransform());
         graphics.clearRect(0, 0, (int) canvas.getHeight() * 2, (int) canvas.getWidth() * 2);
         transform.setTransform(camera.getTransform());
-        //System.out.println(transform.getScaleX() + " " + transform.getScaleY() + " " + transform.getTranslateX() + " " + transform.getTranslateY());
         graphics.setTransform(transform);
         graphics.setBackground(backgroundColor);
         map.draw(graphics, canvas.getHeight(), canvas.getWidth());
@@ -147,75 +132,4 @@ public class SimulatorScene extends StandardScene implements Resizable {
         return agendaFollower;
     }
 
-//    public void setAgendaFollower(AgendaFollower agendaFollower) {
-//        this.agendaFollower = agendaFollower;
-//    }
 }
-
-//    private final Color backgroundColor = new Color(44, 139, 42, 255);
-//    FXGraphics2D graphics;
-//    ResizableCanvas canvas;
-//    AffineTransform transform = new AffineTransform();
-//    private SimulationMap map;
-//    private int count = 0;
-//    private Camera camera;
-//    private double time;
-//    private double fps;
-//
-//    public SimulatorScene() throws Exception {
-//
-//        time = 0;
-//        fps = 30;
-//        BorderPane borderPane = new BorderPane();
-//
-//        canvas = new ResizableCanvas(g -> draw(g), borderPane);
-//        borderPane.setCenter(canvas);
-//        graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
-//        map = new SimulationMap("TileMap1.json", new Pathfinding(), graphics);
-//        canvas.setOnMouseDragged(e -> {
-//            camera.mouseDragged(e);
-//            graphics.setTransform(camera.getTransform());
-//        });
-//
-//        canvas.setOnScroll(e -> {
-//            camera.mouseScroll(e);
-//            graphics.setTransform(camera.getTransform());
-//            draw(graphics);
-//        });
-//
-//        camera = new Camera(canvas, this, graphics);
-//
-//
-//        scene = new Scene(borderPane);
-//
-//        new AnimationTimer() {
-//            long last = -1;
-//
-//            @Override
-//            public void handle(long now) {
-//                if (last == -1)
-//                    last = now;
-//                update((now - last) / 1000000000.0);
-//                last = now;
-//            }
-//        }.start();
-//    }
-//
-//    public void update(double deltaTime) {
-//        time += deltaTime;
-//        if (time >= 1.0 / fps) {
-//            time = 0;
-//            draw(graphics);
-//        }
-//    }
-//
-//    public void draw(FXGraphics2D graphics) {
-//        graphics.setTransform(new AffineTransform());
-//        graphics.clearRect(0, 0, (int) canvas.getHeight() * 2, (int) canvas.getWidth() * 2);
-//        transform.setTransform(camera.getTransform());
-//        //System.out.println(transform.getScaleX() + " " + transform.getScaleY() + " " + transform.getTranslateX() + " " + transform.getTranslateY());
-//        graphics.setTransform(transform);
-//        graphics.setBackground(backgroundColor);
-//        map.draw(graphics);
-//    }
-

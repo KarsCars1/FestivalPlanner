@@ -45,17 +45,9 @@ public class Show implements Serializable {
         return this.performer;
     }
 
-//    public void setPerformer(Performer performer) {
-//        this.performer = performer;
-//    }
-
     public Location getLocation() {
         return this.location;
     }
-
-//    public void setLocation(Location location) {
-//        this.location = location;
-//    }
 
     @Override
     public String toString() {

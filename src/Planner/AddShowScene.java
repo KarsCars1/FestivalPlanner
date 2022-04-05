@@ -42,11 +42,6 @@ public class AddShowScene extends StandardScene {
         this.callback = callback;
     }
 
-
-//    public PerformerController getController() {
-//        return controller;
-//    }
-
     public Scene createScene(String selectedItem) {
         time = new ArrayList<>();
         time.add(beginTimeHour);
@@ -98,7 +93,6 @@ public class AddShowScene extends StandardScene {
         vBox.getChildren().addAll(showNameText, showName, names, times, save);
 
         Scene scene = new Scene(vBox);
-        System.out.println(Integer.parseInt(beginTimeHour.getText()));
         save.setOnAction(e -> {
             saveShow();
             callback.updateLists();

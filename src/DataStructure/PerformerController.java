@@ -48,16 +48,6 @@ public class PerformerController implements Serializable {
         }
     }
 
-//    public ArrayList<Performer> getPerformers() {
-//        System.out.println(this.performers);
-//        return this.performers;
-//    }
-//
-//    public void addBandMember(String performerName) {
-//        Artist newArtist = new Artist(performerName);
-//        artists.add(newArtist);
-//    }
-
     public boolean artistAlreadyExists(String performerName) {
         for (Artist artist : artists) {
             if (artist.getName().equals(performerName)) {
@@ -133,7 +123,6 @@ public class PerformerController implements Serializable {
         }
         Show newShow = new Show(name, location1, performer1, beginTime, endTime);
         shows.add(newShow);
-        System.out.println(newShow.toString());
     }
 
     public Show getShow(String name) {
@@ -166,27 +155,12 @@ public class PerformerController implements Serializable {
             for (Band artist : bands) {
                 if (artist.getPerformerName().equals(performerName)) {
                     performers.add(artist);
-                    System.out.println(performerName);
                 }
             }
         } else {
             System.out.println("Cannot add duplicates (" + performerName + ")");
         }
     }
-
-//    public void editPerformer(String oldArtistName, Band newArtist) {
-//
-//        for (int i = 0; i < performers.size(); i++) {
-//            if (performers.get(i).getPerformerName().equals(oldArtistName)) {
-//                performers.set(i, newArtist);
-//            }
-//        }
-//        for (int i = 0; i < bands.size(); i++) {
-//            if (bands.get(i).getPerformerName().equals(oldArtistName)) {
-//                bands.set(i, newArtist);
-//            }
-//        }
-//    }
 
     public void removePerformer(String performerName) {
         for (int i = 0; i < performers.size(); i++) {

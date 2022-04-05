@@ -62,31 +62,21 @@ public class MainScene extends StandardScene {
 
         agenda = new Agenda(performerController.getLocations());
 
-        //schedule stuff
+        //set the agenda's height to the number of locations and with to the hours in a day
         agenda.setHeight(100 + performerController.getLocations().size()*100);
         agenda.setWidth(2600);
         agenda.drawAgendaBase();
         agenda.drawShows();
 
-//        agenda.setOnMousePressed(e -> agenda.mousePressed(e));
-//        agenda.setOnMouseReleased(e -> agenda.mouseReleased(e));
-//        agenda.setOnMouseDragged(e -> agenda.moveOnMouse(e.getX(), e.getY()));
-
+        //make the agenda scrollable
         agendaScroll.setContent(agenda);
         agendaScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         agendaScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         agendaScroll.fitToWidthProperty().setValue(false);
         agendaScroll.fitToHeightProperty().setValue(false);
         agendaScroll.setPrefSize(1000, 500);
-//        agendaScroll.setMaxHeight(600);
-//        agendaScroll.setMaxWidth(400);
-//        agendaScroll.setFitToHeight(true);
-//        agendaScroll.heightProperty().addListener(
-//                e->{
-//                    agendaScroll.setMaxWidth(agendaScroll.-400);
-//                }
-//        );
 
+        //make all the collumns used to display shows
         TableColumn showName = new TableColumn("Show");
         showName.setCellValueFactory(new PropertyValueFactory<>("name"));
         TableColumn performer = new TableColumn("Performer");
@@ -98,8 +88,11 @@ public class MainScene extends StandardScene {
         TableColumn location = new TableColumn("Location");
         location.setCellValueFactory(new PropertyValueFactory<>("locationName"));
         showsTable.getColumns().addAll(showName, performer, beginTime, endTime, location);
-
         updateShows();
+
+        HBox agendaHBox = new HBox();
+        agendaHBox.getChildren().addAll(showsTable, agendaScroll);
+
         TextField saveTextField = new TextField("filename");
         HBox fileIOHBOX = new HBox();
         fileIOHBOX.getChildren().addAll(saveTextField , saveButton, loadButton);
@@ -110,14 +103,10 @@ public class MainScene extends StandardScene {
         agendaBorderPane.setRight(performerVBox);
 
         removePerformer.setOnAction(E -> {
-            System.out.println(performerList.getSelectionModel().getSelectedItem());
             performerController.removePerformer(performerList.getSelectionModel().getSelectedItem() + "");
             performerController.updateList(performerList);
         });
-
-        HBox agendaHBox = new HBox();
-        agendaHBox.getChildren().addAll(showsTable, agendaScroll);
-
+        
         agendaBorderPane.setLeft(agendaHBox);
         this.scene = new Scene(agendaBorderPane);
 
@@ -212,6 +201,8 @@ public class MainScene extends StandardScene {
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(".txt", "*.txt"));
         }
     }
+
+    //updates where all the shows are displayed and used
     public void updateShows() {
         ArrayList<Show> shows = performerController.getShows();
         for (int i = 0; i < shows.size(); i++) {
@@ -226,9 +217,10 @@ public class MainScene extends StandardScene {
         for (Show show:shows) {
             agenda.getShows().add(new ShowBlock(show, performerController.getLocations().indexOf(show.getLocation())));
         }
-        agenda.update(shows);
+        agenda.update();
     }
 
+    //updates where the performerList is used and displayes
     public void updatePerformerList() {
         performerController.updateList(performerList);
     }

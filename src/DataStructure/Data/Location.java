@@ -6,11 +6,6 @@ public class Location implements Serializable, Comparable<Location> {
 
     Point2D location;
     int[][] path;
-//    int maxNPC;
-
-    //    private int height = 0;
-//    private int width = 0;
-    private int surfaceArea = 0;
     private String name = "";
     private Point2D size;
 
@@ -19,10 +14,6 @@ public class Location implements Serializable, Comparable<Location> {
         this.name = name;
         this.size = size;
     }
-
-//    public void setPath(int[][] path) {
-//        this.path = path;
-//    }
 
     public int[][] getPath() {
         return path;
@@ -39,10 +30,6 @@ public class Location implements Serializable, Comparable<Location> {
     public void setName(String name) {
         this.name = name;
     }
-
-//    public int getSurfaceArea() {
-//        return this.surfaceArea;
-//    }
 
     @Override
     public String toString() {

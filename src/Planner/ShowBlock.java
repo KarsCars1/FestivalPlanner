@@ -15,16 +15,6 @@ public class ShowBlock {
     private String text;
     private int row;
 
-//    public String getShowName() {
-//        return show.getName();
-//    }
-//    public String getShowPerformer(){
-//        return show.getPerformerName();
-//    }
-//    public String getShowTime(){
-//        return show.getBeginTime() + " - " + show.getEndTime();
-//    }
-
     private Show show;
 
 
@@ -33,29 +23,13 @@ public class ShowBlock {
         this.show = show;
         position = new Point2D.Double((this.show.getBeginTime().getHour()*100) + (this.show.getBeginTime().getMinute()/60.0*100.0)+100, (((this.show.getEndTime().getHour()*100) + (this.show.getEndTime().getMinute()/60.0*100.0))-((this.show.getBeginTime().getHour()*100))));
         block = new Rectangle2D.Double((this.show.getBeginTime().getHour()*100) + (this.show.getBeginTime().getMinute()/60.0*100.0)+100, 100 + 100*row, (((this.show.getEndTime().getHour()*100) + (this.show.getEndTime().getMinute()/60.0*100.0))-((this.show.getBeginTime().getHour()*100) + (this.show.getBeginTime().getMinute()/60.0*100.0))) , 100);
-//        System.out.println(this.show.getBeginTime().getMinute() / 100 + 100 - this.show.getEndTime().getMinute() / 100 + 100);
         this.text = "Show: " + this.show.getName() + "\n" +  "Perfomer: " + this.show.getPerformerName() + "\n" + this.show.getBeginTime();
 
-//        System.out.println(row);
 
     }
 
-//    public Rectangle2D.Double getBlock() {
-//        System.out.println(block.x + "," + block.y);
-//        return block;
-//    }
-//
-//    public Point2D.Double getPosition() {
-//        return position;
-//    }
-
-//    public void setPosition(Point2D.Double position) {
-//        this.position = position;
-//        block.setRect(position.getX(), position.getY(), block.getWidth(), block.getHeight());
-//    }
-
+    //draw the block on the right spot with cropped text
     public void draw(FXGraphics2D graphics) {
-//        System.out.println(position.x + " " + position.y);
         Font font = new Font(Font.MONOSPACED, 5, 16);
         graphics.setColor(Color.CYAN);
         graphics.fill(block);
@@ -64,8 +38,8 @@ public class ShowBlock {
         AffineTransform transform = new AffineTransform();
         transform.translate(block.x+5, block.y+20);
         GlyphVector vector;
-//        System.out.println(("Show: " + this.show.getName()).length());
-//        System.out.println(this.block.width/10);
+
+        //draw the shows name within the block
         if(("Show: " + this.show.getName()).length() > this.block.width/10){
             vector = font.createGlyphVector(graphics.getFontRenderContext(), ("Show: " + this.show.getName()).substring(0, (int)this.block.width/10));
 
@@ -77,6 +51,7 @@ public class ShowBlock {
         a = transform.createTransformedShape(a);
         graphics.fill(a);
 
+        //draw the performer's name withing the block
         transform.translate(0, 20);
         if(("By: " + this.show.getPerformerName()).length() > this.block.width/10){
             vector = font.createGlyphVector(graphics.getFontRenderContext(), ("By: " + this.show.getPerformerName()).substring(0, (int)this.block.width/10));
@@ -89,7 +64,7 @@ public class ShowBlock {
         a = transform.createTransformedShape(a);
         graphics.fill(a);
 
-
+        //draw the show's time within the block
         transform.translate(0, 20);
         if((this.show.getBeginTime() + " - " + this.show.getEndTime()).length() > this.block.width/10){
             vector = font.createGlyphVector(graphics.getFontRenderContext(), (this.show.getBeginTime() + " - " + this.show.getEndTime()).substring(0, (int)this.block.width/10));

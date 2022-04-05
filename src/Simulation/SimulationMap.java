@@ -1,4 +1,5 @@
 package Simulation;
+
 import DataStructure.PerformerController;
 
 import javax.imageio.ImageIO;
@@ -71,10 +72,8 @@ public class SimulationMap {
 
         map = new int[layers][height][width];
         for (int i = 0; i < root.getJsonArray("layers").size(); i++) {
-            //String layerType = root.getJsonArray("layers").getJsonObject(i).getJsonString("type").getString();
             String layerName = root.getJsonArray("layers").getJsonObject(i).getJsonString("name").getString();
             if (layerName.equals("Collision")) {
-                System.out.println("hallo");
                 boolean[][] collisions = new boolean[height][width];
                 for (int y = 0; y < height; y++) {
                     for (int x = 0; x < width; x++) {
@@ -103,7 +102,6 @@ public class SimulationMap {
                     for (int i1 = 0; i1 < jsonArray.size(); i1++) {
                         Point point = new Point(jsonArray.getJsonObject(i1).getInt("x") / 16 + (jsonArray.getJsonObject(i1).getInt("width") / 32), jsonArray.getJsonObject(i1).getInt("y") / 16 + (jsonArray.getJsonObject(i1).getInt("height") / 32));
                         Point size = new Point((jsonArray.getJsonObject(i1).getInt("width")), jsonArray.getJsonObject(i1).getInt("height"));
-                        System.out.println(point);
 
                         performerController.addLocation(pathfinding.path(point), jsonArray.getJsonObject(i1).getString("name"), size);
                     }
@@ -121,7 +119,7 @@ public class SimulationMap {
                     if (map[i][y][x] < 0)
                         continue;
                     if (map[i][y][x] != 0) {
-                        graphics2D1.drawImage(tiles[(map[i][y][x]-1)], AffineTransform.getTranslateInstance(x * tileWidth, y * tileHeight), null);
+                        graphics2D1.drawImage(tiles[(map[i][y][x] - 1)], AffineTransform.getTranslateInstance(x * tileWidth, y * tileHeight), null);
                     }
                 }
             }
@@ -140,30 +138,12 @@ public class SimulationMap {
                     if (map[i][y][x] < 0)
                         continue;
                     if (map[i][y][x] != 0) {
-                        //System.out.println(g2d.getTransform().getTranslateX());
-                        //if (x * 16 + g2d.getTransform().getTranslateX() < width && y * 16 + g2d.getTransform().getTranslateY() < height  && x * 16 + g2d.getTransform().getTranslateX() > 0 && y * 16 + g2d.getTransform().getTranslateY() > 0){
-
-                        //g2d.drawImage(tiles[(map[i][y][x] - 1)], AffineTransform.getTranslateInstance(x * tileWidth, y * tileHeight), null);
-                        //}
-
-//                        g2d.setColor(Color.yellow);
-//                        g2d.fill(new Rectangle2D.Double(x * tileWidth, y * tileHeight, tileWidth, tileHeight));
-
                     }
-
                 }
-//                if (path[x][y] == 9999) {
-//                    g2d.drawString("X", x * tileWidth, y * tileHeight + tileHeight);
-//                } else if (path[x][y] == 0) {
-//
-//                } else {
-//                    g2d.drawString(path[x][y] + "", x * tileWidth, y * tileHeight + tileHeight);
-//                }
+                loaded = true;
             }
-        }
-        loaded = true;
-    }
 
+        }
+    }
 }
-//credits to johan shortboom
 
