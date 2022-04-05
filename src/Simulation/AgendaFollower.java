@@ -46,7 +46,7 @@ public class AgendaFollower {
         for (Show show: shows) {
             if(show.getBeginTime().minusMinutes(15).compareTo(newTime) <= 0 && show.getBeginTime().minusMinutes(15).compareTo(this.currentTime) >= 0){
                 for (Npc npc : this.npcs) {
-                    System.out.println(show.getPerformer().getPopularity());
+//                    System.out.println(show.getPerformer().getPopularity());
                     if (show.getPerformer().getPopularity() > Math.random()*100){
                         npc.setPathfinding(show.getLocation());
                     }

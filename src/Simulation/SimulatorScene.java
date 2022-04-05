@@ -95,7 +95,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
                 npc.update();
             }
             //if (agendaFollower.isRunning())
-            LocalTime newTime = agendaFollower.getCurrentTime().plusSeconds((long) (deltaTime * 180));
+            LocalTime newTime = agendaFollower.getCurrentTime().plusSeconds((long) (1));
 //            this.searchShows(agendaFollower.getCurrentTime(), newTime);
             agendaFollower.setCurrentTime(newTime);
             draw(graphics);
