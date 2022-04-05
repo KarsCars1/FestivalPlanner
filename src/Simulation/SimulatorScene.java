@@ -73,7 +73,6 @@ public class SimulatorScene extends StandardScene implements Resizable {
             }
         };
     }
-
     public void init() throws IOException {
         this.npcs = new ArrayList<>();
         while (this.npcs.size() < 1000) {
