@@ -41,7 +41,7 @@ public class AddEditPerformerScene extends StandardScene {
         popularityTextField.setOnKeyReleased(E -> {
             checkPopularity();
         });
-        
+
         if (artist == null) {
             buttonHBox.getChildren().addAll(backButton, addButton);
             buttonHBox.setSpacing(140);
@@ -74,7 +74,7 @@ public class AddEditPerformerScene extends StandardScene {
         });
 
         addButton.setOnAction(e -> {
-                        if (!performerNameTextField.getText().isEmpty() && !popularityTextField.getText().isEmpty()) {
+            if (!performerNameTextField.getText().isEmpty() && !popularityTextField.getText().isEmpty()) {
                 controller.addArtist(performerNameTextField.getText(), Integer.parseInt(popularityTextField.getText()));
                 callback.updateLists();
                 performerNameTextField.deleteText(0, performerNameTextField.getText().length());
@@ -89,7 +89,7 @@ public class AddEditPerformerScene extends StandardScene {
         String text = popularityTextField.getText();
         try {
             int value = Integer.parseInt(text);
-            if(value > 100 || value < 0){
+            if (value > 100 || value < 0) {
                 popularityTextField.setText("");
             }
         } catch (NumberFormatException e) {

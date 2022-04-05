@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 public class Performer implements Serializable {
     protected String performerName;
-    private double popularity;
+    private int popularity;
 
     public Performer(String performerName, int popularity) {
-        this.popularity = popularity/100.0;
+        this.popularity = popularity;
         this.performerName = performerName;
     }
 
@@ -18,7 +18,7 @@ public class Performer implements Serializable {
     }
 
     public int getPopularity(){
-        int convertedPopularity = (int) (popularity * 100);
+        int convertedPopularity = (int) (popularity);
         return convertedPopularity;
     }
 
@@ -27,6 +27,6 @@ public class Performer implements Serializable {
     }
 
     public void setPopularity(int popularity){
-        this.popularity = popularity/100.0;
+        this.popularity = popularity;
     }
 }
