@@ -36,8 +36,6 @@ public class MainScene extends StandardScene {
     private Button editPerformer = new Button("Edit performer");
     private Button addShow = new Button("Add show");
     private Button addLocation = new Button("Add Location");
-    //    private Button removeLocation = new Button("Remove Location");
-//    private Button editLocation = new Button("Edit Location");
     private Button saveButton = new Button("Save");
     private Button loadButton = new Button("Load");
     private Button startSimulation = new Button("Start Simulation");
@@ -46,14 +44,14 @@ public class MainScene extends StandardScene {
     private String selectedPerformer;
     private TableView showsTable = new TableView<>();
     private ScrollPane agendaScroll = new ScrollPane();
-    //    private boolean buttonToggle = true;
+
+
     public MainScene(PerformerController performerController, GuiCallback callback, SimulatorScene scene) {
         this.performerController = performerController;
 
         performerList = new ListView();
         performerList.setOnMousePressed(e -> {
             selectedPerformer = performerList.getSelectionModel().getSelectedItem();
-            //performerController.editPerformer(e.g);
         });
         //List components
         performerList.setOrientation(Orientation.VERTICAL);
@@ -90,27 +88,39 @@ public class MainScene extends StandardScene {
         showsTable.getColumns().addAll(showName, performer, beginTime, endTime, location);
         updateShows();
 
+        //add the scrollable agenda and shows table
         HBox agendaHBox = new HBox();
         agendaHBox.getChildren().addAll(showsTable, agendaScroll);
+        agendaBorderPane.setLeft(agendaHBox);
 
+
+        //add GUI components for saving and loading
         TextField saveTextField = new TextField("filename");
         HBox fileIOHBOX = new HBox();
         fileIOHBOX.getChildren().addAll(saveTextField , saveButton, loadButton);
+
+        //add all buttons to the Gridpane
         buttons.addColumn(0, addPerformer, editPerformer, removePerformer);
         buttons.addColumn(1, addShow);
         buttons.addColumn(2, removeShow, startSimulation);
         performerVBox.getChildren().addAll(performerLabel, performerList, buttons, fileIOHBOX);
         agendaBorderPane.setRight(performerVBox);
 
+        //get the selected performer and remove it, then update the change
         removePerformer.setOnAction(E -> {
             performerController.removePerformer(performerList.getSelectionModel().getSelectedItem() + "");
             performerController.updateList(performerList);
         });
-        
-        agendaBorderPane.setLeft(agendaHBox);
+
+        //put all components in the scene
         this.scene = new Scene(agendaBorderPane);
 
-        //buttons
+        //show the addPreformer scene
+        addPerformer.setOnAction(E -> {
+            callback.setStage(new AddEditPerformerScene(performerController, null, callback).getScene());
+        });
+
+        //show the editPerformer scene
         editPerformer.setOnAction(E -> {
             if (!performerList.getSelectionModel().isEmpty()) {
                 for (Artist artist : performerController.getArtists()) {
@@ -127,14 +137,26 @@ public class MainScene extends StandardScene {
             }
         });
 
-        addPerformer.setOnAction(E -> {
-            callback.setStage(new AddEditPerformerScene(performerController, null, callback).getScene());
-        });
-
+        //UNUSED show addLocation scene
         addLocation.setOnAction(e -> {
             callback.setStage(new AddLocation(performerController).getScene());
         });
 
+        //Save the current performerController to a txt file
+        saveButton.setOnAction(e -> {
+            try {
+                FileOutputStream fileOutputStream = new FileOutputStream(saveTextField.getText()+".txt");
+                ObjectOutputStream oos = new ObjectOutputStream(fileOutputStream);
+                oos.writeObject(performerController);
+                fileOutputStream.close();
+            } catch (FileNotFoundException e1) {
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        });
+
+        //Open a filechooser to load a chosen performercontroller txt file
         loadButton.setOnAction(e -> {
             try {
                 configureFileChooser(fileChooser);
@@ -155,18 +177,7 @@ public class MainScene extends StandardScene {
             }
         });
 
-        saveButton.setOnAction(e -> {
-            try {
-                FileOutputStream fileOutputStream = new FileOutputStream(saveTextField.getText()+".txt");
-                ObjectOutputStream oos = new ObjectOutputStream(fileOutputStream);
-                oos.writeObject(performerController);
-                fileOutputStream.close();
-            } catch (FileNotFoundException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        });
+        //show the addShow scene
         addShow.setOnAction(e -> {
             for (Artist artist : performerController.getArtists()) {
                 if (artist.getPerformerName().equals(performerList.getSelectionModel().getSelectedItem())) {
@@ -176,6 +187,8 @@ public class MainScene extends StandardScene {
             }
             callback.setStage(new AddShowScene(performerController, callback, null).getScene());
         });
+
+        //Start the simulation 20 minutes before the first show
         startSimulation.setOnAction(e -> {
             callback.setStage(scene.getScene());
             scene.getAgendaFollower().setCurrentTime(scene.getAgendaFollower().getBeginTime());
@@ -183,6 +196,7 @@ public class MainScene extends StandardScene {
             scene.getAgendaFollower().setRunning(true);
         });
 
+        //Remove the selected show and update where shows are used
         removeShow.setOnAction(e -> {
             String name = "";
             for (Show show : performerController.getShows()) {
@@ -194,6 +208,8 @@ public class MainScene extends StandardScene {
             callback.updateLists();
         });
     }
+
+    //choose a txt file from the root folder
     private void configureFileChooser(final FileChooser fileChooser) {
         fileChooser.setTitle("Select file");
         fileChooser.setInitialDirectory(new File("."));
@@ -220,7 +236,7 @@ public class MainScene extends StandardScene {
         agenda.update();
     }
 
-    //updates where the performerList is used and displayes
+    //updates where the performerList is used and displays
     public void updatePerformerList() {
         performerController.updateList(performerList);
     }

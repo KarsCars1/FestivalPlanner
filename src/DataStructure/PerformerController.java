@@ -13,25 +13,28 @@ public class PerformerController implements Serializable {
     private ArrayList<Band> bands = new ArrayList<>();
     private ArrayList<Location> locations = new ArrayList<>();
     private ArrayList<Show> shows = new ArrayList<>();
-    //private EditArtistScene editArtist = new EditArtistScene();
 
+    //return artists
     public ArrayList<Artist> getArtists() {
-
         return artists;
     }
 
+    //return bands
     public ArrayList<Band> getBands() {
         return bands;
     }
 
+    //return locations
     public ArrayList<Location> getLocations() {
         return locations;
     }
 
+    //return shows
     public ArrayList<Show> getShows() {
         return shows;
     }
 
+    //add an artist if its name isn't used
     public void addArtist(String performerName, int popularity) {
         if (!performerAlreadyExists(performerName) && !artistAlreadyExists(performerName)) {
             Artist newArtist = new Artist(performerName, popularity);
@@ -48,6 +51,7 @@ public class PerformerController implements Serializable {
         }
     }
 
+    //check if the given name is used
     public boolean artistAlreadyExists(String performerName) {
         for (Artist artist : artists) {
             if (artist.getName().equals(performerName)) {
@@ -57,6 +61,7 @@ public class PerformerController implements Serializable {
         return false;
     }
 
+    //check if the given bandName is used
     public boolean bandAlreadyExists(String performerName) {
         for (Band band : bands) {
             if (band.getPerformerName().equals(performerName)) {
@@ -66,6 +71,7 @@ public class PerformerController implements Serializable {
         return false;
     }
 
+    //check if the given name is used
     public boolean performerAlreadyExists(String performerName) {
         for (Performer performer : performers) {
             if (performer.getPerformerName().equals(performerName)) {
@@ -75,6 +81,7 @@ public class PerformerController implements Serializable {
         return false;
     }
 
+    //add members to a given band
     public void addBandMembers(ListView<String> listView, String bandName) {
         Band thisBand = null;
         for (Band band : bands) {
@@ -93,12 +100,15 @@ public class PerformerController implements Serializable {
         }
     }
 
+    //add a location
     public void addLocation(int[][]path, String name, Point2D size) {
         locations.add(new Location(path,name, size));
     }
 
+    //add a show
     public void addShow(String name, String location, String performer, LocalTime beginTime, LocalTime endTime) {
         for (Show show : shows) {
+            //check if the show's name is used
             if (show.getName().equals(name)) {
                 return;
             }
@@ -109,6 +119,7 @@ public class PerformerController implements Serializable {
                 return;
             }
         }
+
         Performer performer1 = null;
         for (Performer performer2 : performers) {
             if (performer2.getPerformerName().equals(performer)) {
@@ -125,20 +136,22 @@ public class PerformerController implements Serializable {
         shows.add(newShow);
     }
 
+    //get the given show by name
     public Show getShow(String name) {
         for (Show show : shows) {
             if (show.getName().equals(name)) {
                 return show;
             }
         }
-
         return null;
     }
 
+    //remove the given show
     public void removeShow(Show show) {
         shows.remove(show);
     }
 
+    //update the given list
     public void updateList(ListView<String> listView) {
         listView.getItems().clear();
         for (Performer performer : performers) {
@@ -146,6 +159,7 @@ public class PerformerController implements Serializable {
         }
     }
 
+    //add a band if it doesnt already exist
     public void addBand(String performerName, int popularity) {
         if (!performerAlreadyExists(performerName) && !bandAlreadyExists(performerName)) {
             Band newBand = new Band(performerName, popularity);
@@ -162,6 +176,7 @@ public class PerformerController implements Serializable {
         }
     }
 
+    //remove the given performer by name
     public void removePerformer(String performerName) {
         for (int i = 0; i < performers.size(); i++) {
             Performer performer = performers.get(i);
@@ -171,6 +186,7 @@ public class PerformerController implements Serializable {
         }
     }
 
+    //get all performers' names
     public ArrayList<String> getPerformersString() {
         ArrayList<String> names = new ArrayList<>();
         for (Performer performer : this.performers) {
@@ -179,6 +195,7 @@ public class PerformerController implements Serializable {
         return names;
     }
 
+    //get all location's names
     public ArrayList<String> getLocationsString() {
         ArrayList<String> names = new ArrayList<>();
         for (Location location : this.locations) {
@@ -187,6 +204,7 @@ public class PerformerController implements Serializable {
         return names;
     }
 
+    //change this performerController to the given performerController
     public void loadFrom(PerformerController newPerformerController) {
         this.performers = newPerformerController.performers;
         this.artists = newPerformerController.artists;
