@@ -49,30 +49,30 @@ public class MainScene extends StandardScene {
     public MainScene(PerformerController performerController, GuiCallback callback, SimulatorScene scene) {
         this.performerController = performerController;
 
-        performerList = new ListView();
-        performerList.setOnMousePressed(e -> {
-            selectedPerformer = performerList.getSelectionModel().getSelectedItem();
+        this.performerList = new ListView();
+        this.performerList.setOnMousePressed(e -> {
+            this.selectedPerformer = this.performerList.getSelectionModel().getSelectedItem();
         });
         //List components
-        performerList.setOrientation(Orientation.VERTICAL);
+        this.performerList.setOrientation(Orientation.VERTICAL);
 
         TextField textField = new TextField();
 
-        agenda = new Agenda(performerController.getLocations());
+        this.agenda = new Agenda(performerController.getLocations());
 
         //set the agenda's height to the number of locations and with to the hours in a day
-        agenda.setHeight(100 + performerController.getLocations().size()*100);
-        agenda.setWidth(2600);
-        agenda.drawAgendaBase();
-        agenda.drawShows();
+        this.agenda.setHeight(100 + performerController.getLocations().size()*100);
+        this.agenda.setWidth(2600);
+        this.agenda.drawAgendaBase();
+        this.agenda.drawShows();
 
         //make the agenda scrollable
-        agendaScroll.setContent(agenda);
-        agendaScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        agendaScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        agendaScroll.fitToWidthProperty().setValue(false);
-        agendaScroll.fitToHeightProperty().setValue(false);
-        agendaScroll.setPrefSize(1000, 500);
+        this.agendaScroll.setContent(agenda);
+        this.agendaScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        this.agendaScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        this.agendaScroll.fitToWidthProperty().setValue(false);
+        this.agendaScroll.fitToHeightProperty().setValue(false);
+        this.agendaScroll.setPrefSize(1000, 500);
 
         //make all the collumns used to display shows
         TableColumn showName = new TableColumn("Show");
@@ -90,42 +90,42 @@ public class MainScene extends StandardScene {
 
         //add the scrollable agenda and shows table
         HBox agendaHBox = new HBox();
-        agendaHBox.getChildren().addAll(showsTable, agendaScroll);
-        agendaBorderPane.setLeft(agendaHBox);
+        agendaHBox.getChildren().addAll(this.showsTable, agendaScroll);
+        this.agendaBorderPane.setLeft(agendaHBox);
 
 
         //add GUI components for saving and loading
         TextField saveTextField = new TextField("filename");
         HBox fileIOHBOX = new HBox();
-        fileIOHBOX.getChildren().addAll(saveTextField , saveButton, loadButton);
+        fileIOHBOX.getChildren().addAll(saveTextField , this.saveButton, this.loadButton);
 
         //add all buttons to the Gridpane
-        buttons.addColumn(0, addPerformer, editPerformer, removePerformer);
-        buttons.addColumn(1, addShow);
-        buttons.addColumn(2, removeShow, startSimulation);
-        performerVBox.getChildren().addAll(performerLabel, performerList, buttons, fileIOHBOX);
-        agendaBorderPane.setRight(performerVBox);
+        this.buttons.addColumn(0, this.addPerformer, this.editPerformer, this.removePerformer);
+        this.buttons.addColumn(1, this.addShow);
+        this.buttons.addColumn(2, this.removeShow, this.startSimulation);
+        this.performerVBox.getChildren().addAll(this.performerLabel, this.performerList, this.buttons, fileIOHBOX);
+        this.agendaBorderPane.setRight(this.performerVBox);
 
         //get the selected performer and remove it, then update the change
-        removePerformer.setOnAction(E -> {
-            performerController.removePerformer(performerList.getSelectionModel().getSelectedItem() + "");
-            performerController.updateList(performerList);
+        this.removePerformer.setOnAction(E -> {
+            this.performerController.removePerformer(this.performerList.getSelectionModel().getSelectedItem() + "");
+            this.performerController.updateList(this.performerList);
         });
 
         //put all components in the scene
-        this.scene = new Scene(agendaBorderPane);
+        this.scene = new Scene(this.agendaBorderPane);
 
         //show the addPreformer scene
-        addPerformer.setOnAction(E -> {
-            callback.setStage(new AddEditPerformerScene(performerController, null, callback).getScene());
+        this.addPerformer.setOnAction(E -> {
+            callback.setStage(new AddEditPerformerScene(this.performerController, null, callback).getScene());
         });
 
         //show the editPerformer scene
-        editPerformer.setOnAction(E -> {
-            if (!performerList.getSelectionModel().isEmpty()) {
-                for (Artist artist : performerController.getArtists()) {
-                    if (artist.getPerformerName().equals(performerList.getSelectionModel().getSelectedItem())) {
-                        callback.setStage(new AddEditPerformerScene(performerController, artist, callback).getScene());
+        this.editPerformer.setOnAction(E -> {
+            if (!this.performerList.getSelectionModel().isEmpty()) {
+                for (Artist artist : this.performerController.getArtists()) {
+                    if (artist.getPerformerName().equals(this.performerList.getSelectionModel().getSelectedItem())) {
+                        callback.setStage(new AddEditPerformerScene(this.performerController, artist, callback).getScene());
                         break;
                     }
                 }
@@ -138,16 +138,16 @@ public class MainScene extends StandardScene {
         });
 
         //UNUSED show addLocation scene
-        addLocation.setOnAction(e -> {
-            callback.setStage(new AddLocation(performerController).getScene());
+        this.addLocation.setOnAction(e -> {
+            callback.setStage(new AddLocation(this.performerController).getScene());
         });
 
         //Save the current performerController to a txt file
-        saveButton.setOnAction(e -> {
+        this.saveButton.setOnAction(e -> {
             try {
                 FileOutputStream fileOutputStream = new FileOutputStream(saveTextField.getText()+".txt");
                 ObjectOutputStream oos = new ObjectOutputStream(fileOutputStream);
-                oos.writeObject(performerController);
+                oos.writeObject(this.performerController);
                 fileOutputStream.close();
             } catch (FileNotFoundException e1) {
                 e1.printStackTrace();
@@ -157,15 +157,15 @@ public class MainScene extends StandardScene {
         });
 
         //Open a filechooser to load a chosen performercontroller txt file
-        loadButton.setOnAction(e -> {
+        this.loadButton.setOnAction(e -> {
             try {
-                configureFileChooser(fileChooser);
+                configureFileChooser(this.fileChooser);
                 File file = fileChooser.showOpenDialog(new Stage());
 
                 FileInputStream fis = new FileInputStream(file);
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 PerformerController newPerformerController = (PerformerController) ois.readObject();
-                performerController.loadFrom(newPerformerController);
+                this.performerController.loadFrom(newPerformerController);
                 callback.updateLists();
                 fis.close();
             } catch (FileNotFoundException e1) {
@@ -178,18 +178,18 @@ public class MainScene extends StandardScene {
         });
 
         //show the addShow scene
-        addShow.setOnAction(e -> {
-            for (Artist artist : performerController.getArtists()) {
-                if (artist.getPerformerName().equals(performerList.getSelectionModel().getSelectedItem())) {
-                    callback.setStage(new AddShowScene(performerController, callback, artist).getScene());
+        this.addShow.setOnAction(e -> {
+            for (Artist artist : this.performerController.getArtists()) {
+                if (artist.getPerformerName().equals(this.performerList.getSelectionModel().getSelectedItem())) {
+                    callback.setStage(new AddShowScene(this.performerController, callback, artist).getScene());
                     return;
                 }
             }
-            callback.setStage(new AddShowScene(performerController, callback, null).getScene());
+            callback.setStage(new AddShowScene(this.performerController, callback, null).getScene());
         });
 
         //Start the simulation 20 minutes before the first show
-        startSimulation.setOnAction(e -> {
+        this.startSimulation.setOnAction(e -> {
             callback.setStage(scene.getScene());
             scene.getAgendaFollower().setCurrentTime(scene.getAgendaFollower().getBeginTime());
             scene.getAnimationTimer().start();
@@ -197,47 +197,47 @@ public class MainScene extends StandardScene {
         });
 
         //Remove the selected show and update where shows are used
-        removeShow.setOnAction(e -> {
+        this.removeShow.setOnAction(e -> {
             String name = "";
-            for (Show show : performerController.getShows()) {
-                if (showsTable.getSelectionModel().getSelectedItem().toString().contains("name='" + show.getName())){
+            for (Show show : this.performerController.getShows()) {
+                if (this.showsTable.getSelectionModel().getSelectedItem().toString().contains("name='" + show.getName())){
                     name = show.getName();
                 }
             }
-            performerController.removeShow(performerController.getShow(name));
+            this.performerController.removeShow(this.performerController.getShow(name));
             callback.updateLists();
         });
     }
 
     //choose a txt file from the root folder
-    private void configureFileChooser(final FileChooser fileChooser) {
-        fileChooser.setTitle("Select file");
-        fileChooser.setInitialDirectory(new File("."));
-        if (fileChooser.getExtensionFilters().size() == 0) {
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(".txt", "*.txt"));
+    private void configureFileChooser(final FileChooser FILECHOOSER) {
+        FILECHOOSER.setTitle("Select file");
+        FILECHOOSER.setInitialDirectory(new File("."));
+        if (FILECHOOSER.getExtensionFilters().size() == 0) {
+            FILECHOOSER.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(".txt", "*.txt"));
         }
     }
 
     //updates where all the shows are displayed and used
     public void updateShows() {
-        ArrayList<Show> shows = performerController.getShows();
+        ArrayList<Show> shows = this.performerController.getShows();
         for (int i = 0; i < shows.size(); i++) {
             Show show = shows.get(i);
-            if (!showsTable.getItems().contains(show)) {
-                showsTable.getItems().add(i, show);
-                agenda.addShowBlock(show, performerController.getLocations().indexOf(show.getLocation()));
+            if (!this.showsTable.getItems().contains(show)) {
+                this.showsTable.getItems().add(i, show);
+                this.agenda.addShowBlock(show, this.performerController.getLocations().indexOf(show.getLocation()));
             }
         }
-        showsTable.getItems().retainAll(shows);
-        agenda.getShows().clear();
+        this.showsTable.getItems().retainAll(shows);
+        this.agenda.getShows().clear();
         for (Show show:shows) {
-            agenda.getShows().add(new ShowBlock(show, performerController.getLocations().indexOf(show.getLocation())));
+            this.agenda.getShows().add(new ShowBlock(show, this.performerController.getLocations().indexOf(show.getLocation())));
         }
-        agenda.update();
+        this.agenda.update();
     }
 
     //updates where the performerList is used and displays
     public void updatePerformerList() {
-        performerController.updateList(performerList);
+        this.performerController.updateList(this.performerList);
     }
 }

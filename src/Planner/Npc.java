@@ -51,7 +51,7 @@ public class Npc {
     }
 
     public int[][] getPathfinding() {
-        return pathfinding;
+        return this.pathfinding;
     }
 
     //set where the npc needs to go
@@ -59,7 +59,7 @@ public class Npc {
         if (location.getPath() != null) {
             this.pathfinding = location.getPath();
             this.location = location;
-            atStage = false;
+            this.atStage = false;
         }
 
     }
@@ -69,12 +69,15 @@ public class Npc {
         this.frame++;
 
         //check if the next tile has been reached and if the stage has been reached
-        if (target.distanceSq(position) < 32) {
-            if (atStage) {
-                target = new Point2D.Double(new Random().nextInt((int) this.location.getSize().getX() - 32),
-                        new Random().nextInt((int) this.location.getSize().getY() - 32));
-                target.setLocation( target.getX() - this.location.getSize().getX() / 2 + smallTarget.getX() * 16, 16 + target.getY() - this.location.getSize().getY() / 2 + smallTarget.getY() * 16);
-                //rotationSpeed = Math.random() - 0.5;
+        if (this.target.distanceSq(this.position) < 32) {
+            if (this.atStage) {
+                this.target = new Point2D.Double(new Random().nextInt((int) this.location.getSize().getX() - 32),
+                                            new Random().nextInt((int) this.location.getSize().getY() - 32));
+
+
+                this.target.setLocation( this.target.getX() - this.location.getSize().getX() / 2 + this.smallTarget.getX() * 16,
+                                    16 + this.target.getY() - this.location.getSize().getY() / 2 + this.smallTarget.getY() * 16);
+
             } else {
                 getNewTarget();
             }
@@ -110,19 +113,19 @@ public class Npc {
 
     //get the new target to the tile with the smallest distance
     private void getNewTarget() {
-        if (pathfinding != null) {
+        if (this.pathfinding != null) {
 
-            int x = (int) smallTarget.getX();
-            int y = (int) smallTarget.getY();
-            Point2D lowest = smallTarget;
+            int x = (int) this.smallTarget.getX();
+            int y = (int) this.smallTarget.getY();
+            Point2D lowest = this.smallTarget;
             int lowestNumber = 9999;
-            if (pathfinding[x - 1][y - 1] == 0) {
+            if (this.pathfinding[x - 1][y - 1] == 0) {
             } else {
 
                 for (int x1 = -1; x1 < 2; x1++) {
                     for (int y1 = -1; y1 < 2; y1++) {
                         if (!(x + x1 < 0 || x + x1 > 100 || y + y1 < 0 || y + y1 > 100)) {
-                            int newNumber = pathfinding[x + x1 - 1][y + y1 - 1];
+                            int newNumber = this.pathfinding[x + x1 - 1][y + y1 - 1];
                             if (newNumber < lowestNumber) {
                                 lowestNumber = newNumber;
                                 lowest = new Point2D.Double(x + x1, y + y1);
@@ -130,8 +133,8 @@ public class Npc {
                         }
                     }
                 }
-                smallTarget = lowest;
-                target = new Point2D.Double((smallTarget.getX()) * 16, (smallTarget.getY()) * 16);
+                this.smallTarget = lowest;
+                this.target = new Point2D.Double((this.smallTarget.getX()) * 16, (this.smallTarget.getY()) * 16);
             }
 
         }
@@ -139,13 +142,13 @@ public class Npc {
 
     //draw the npc at the correct location
     public void draw(FXGraphics2D graphics) {
-        int centerX = sprites.get(0).getWidth() / 2;
-        int centerY = sprites.get(0).getHeight() / 2;
+        int centerX = this.sprites.get(0).getWidth() / 2;
+        int centerY = this.sprites.get(0).getHeight() / 2;
         AffineTransform tx = new AffineTransform();
-        tx.translate(position.getX() - centerX, position.getY() - centerY);
-        tx.rotate(angle, centerX, centerY);
+        tx.translate(this.position.getX() - centerX, this.position.getY() - centerY);
+        tx.rotate(this.angle, centerX, centerY);
 
-        graphics.drawImage(this.sprites.get((int) Math.floor(frame) % this.sprites.size()), tx, null);
+        graphics.drawImage(this.sprites.get((int) Math.floor(this.frame) % this.sprites.size()), tx, null);
 
         graphics.setColor(Color.white);
     }

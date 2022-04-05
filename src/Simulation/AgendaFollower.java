@@ -21,9 +21,9 @@ public class AgendaFollower {
 
     //start the simulation 20 minutes before the first show
     public LocalTime getBeginTime(){
-        if(performerController.getShows().size() > 0){
-            Show earliest = performerController.getShows().get(0);
-            for (Show show : performerController.getShows()) {
+        if(this.performerController.getShows().size() > 0){
+            Show earliest = this.performerController.getShows().get(0);
+            for (Show show : this.performerController.getShows()) {
                 if(show.getBeginTime().compareTo(earliest.getBeginTime()) < 0){
                     earliest = show;
                 }
@@ -45,7 +45,8 @@ public class AgendaFollower {
     public void setCurrentTime(LocalTime newTime){
         ArrayList<Show> shows = performerController.getShows();
         for (Show show: shows) {
-            if(show.getBeginTime().minusMinutes(15).compareTo(newTime) <= 0 && show.getBeginTime().minusMinutes(15).compareTo(this.currentTime) >= 0){
+            if(show.getBeginTime().minusMinutes(15).compareTo(newTime) <= 0 &&
+               show.getBeginTime().minusMinutes(15).compareTo(this.currentTime) >= 0){
                 for (Npc npc : this.npcs) {
                     if (show.getPerformer().getPopularity() > Math.random()*100){
                         npc.setPathfinding(show.getLocation());
@@ -60,7 +61,7 @@ public class AgendaFollower {
 
     //check if the simulation is running
     public boolean isRunning() {
-        return running;
+        return this.running;
     }
 
     //turn on the simulation

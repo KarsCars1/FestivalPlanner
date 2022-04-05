@@ -21,8 +21,8 @@ public class Pathfinding {
         reached.put(stringPoint, point);
 
         //make sure there are collisions
-        if (collisions != null) {
-            
+        if (this.collisions != null) {
+
             while (!frontier.isEmpty()) {
                 currentNeighbors = frontier;
                 frontier = new LinkedList<>();
@@ -43,7 +43,7 @@ public class Pathfinding {
                         if (!reached.containsKey(check) && x >= 0 && x <= 99 && y >= 0 && y <= 99) {
 
 
-                            if (collisions[y][x]) {
+                            if (this.collisions[y][x]) {
                                 path[(int) next.getX()][(int) next.getY()] = 9999;
                             } else {
                                 path[(int) next.getX()][(int) next.getY()] = distance;

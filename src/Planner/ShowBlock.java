@@ -21,22 +21,31 @@ public class ShowBlock {
     public ShowBlock(Show show, int row) {
         this.row = row;
         this.show = show;
-        position = new Point2D.Double((this.show.getBeginTime().getHour()*100) + (this.show.getBeginTime().getMinute()/60.0*100.0)+100, (((this.show.getEndTime().getHour()*100) + (this.show.getEndTime().getMinute()/60.0*100.0))-((this.show.getBeginTime().getHour()*100))));
-        block = new Rectangle2D.Double((this.show.getBeginTime().getHour()*100) + (this.show.getBeginTime().getMinute()/60.0*100.0)+100, 100 + 100*row, (((this.show.getEndTime().getHour()*100) + (this.show.getEndTime().getMinute()/60.0*100.0))-((this.show.getBeginTime().getHour()*100) + (this.show.getBeginTime().getMinute()/60.0*100.0))) , 100);
+        this.position = new Point2D.Double((this.show.getBeginTime().getHour()*100) +
+                                         (this.show.getBeginTime().getMinute()/60.0*100.0)+100,
+                                              (((this.show.getEndTime().getHour()*100) +
+                                                (this.show.getEndTime().getMinute()/60.0*100.0))-
+                                                      ((this.show.getBeginTime().getHour()*100))));
+
+        this.block = new Rectangle2D.Double((this.show.getBeginTime().getHour()*100) +
+                                          (this.show.getBeginTime().getMinute()/60.0*100.0)+100, 100 + 100*row,
+                                                        (((this.show.getEndTime().getHour()*100) +
+                                                        (this.show.getEndTime().getMinute()/60.0*100.0))-
+                                                         ((this.show.getBeginTime().getHour()*100) +
+                                                        (this.show.getBeginTime().getMinute()/60.0*100.0))) , 100);
+
         this.text = "Show: " + this.show.getName() + "\n" +  "Perfomer: " + this.show.getPerformerName() + "\n" + this.show.getBeginTime();
-
-
     }
 
     //draw the block on the right spot with cropped text
     public void draw(FXGraphics2D graphics) {
         Font font = new Font(Font.MONOSPACED, 5, 16);
         graphics.setColor(Color.CYAN);
-        graphics.fill(block);
+        graphics.fill(this.block);
         graphics.setColor(Color.black);
 
         AffineTransform transform = new AffineTransform();
-        transform.translate(block.x+5, block.y+20);
+        transform.translate(this.block.x+5, this.block.y+20);
         GlyphVector vector;
 
         //draw the shows name within the block
@@ -78,7 +87,7 @@ public class ShowBlock {
         a = transform.createTransformedShape(a);
         graphics.fill(a);
 
-        graphics.draw(block);
+        graphics.draw(this.block);
 
 
 

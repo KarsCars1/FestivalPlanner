@@ -22,14 +22,14 @@ public class Gui extends Application implements GuiCallback {
         this.popUpStage = new Stage();
 
         //make the simulator scene on startup to generate the map image
-        this.simulatorScene = new SimulatorScene(performerController);
+        this.simulatorScene = new SimulatorScene(this.performerController);
         simulatorStage.setScene(this.simulatorScene.getScene());
 
         // Make the mainScene
-        this.mainScene = new MainScene(performerController, this, simulatorScene);
-        primaryStage.setScene(mainScene.getScene());
+        this.mainScene = new MainScene(this.performerController, this, this.simulatorScene);
+        primaryStage.setScene(this.mainScene.getScene());
 
-        primaryStage.setScene(mainScene.getScene());
+        primaryStage.setScene(this.mainScene.getScene());
         primaryStage.setTitle("Festival planner agenda");
         primaryStage.show();
     }

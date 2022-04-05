@@ -20,7 +20,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class SimulatorScene extends StandardScene implements Resizable {
-    private final Color backgroundColor = new Color(44, 139, 42, 255);
+    private final Color BACKGROUND_COLOR = new Color(44, 139, 42, 255);
     FXGraphics2D graphics;
     ResizableCanvas canvas;
     AffineTransform transform = new AffineTransform();
@@ -35,24 +35,24 @@ public class SimulatorScene extends StandardScene implements Resizable {
     private AnimationTimer animationTimer;
 
     public SimulatorScene(PerformerController performerController) throws Exception {
-        time = 0;
-        fps = 60;
+        this.time = 0;
+        this.fps = 60;
         BorderPane borderPane = new BorderPane();
-        map = new SimulationMap("TileMap1.json", new Pathfinding(), performerController);
-        canvas = new ResizableCanvas(g -> draw(g), borderPane);
-        borderPane.setCenter(canvas);
+        this.map = new SimulationMap("TileMap1.json", new Pathfinding(), performerController);
+        this.canvas = new ResizableCanvas(g -> draw(g), borderPane);
+        borderPane.setCenter(this.canvas);
         graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
         init();
         this.performerController = performerController;
-        this.agendaFollower = new AgendaFollower(performerController, npcs);
+        this.agendaFollower = new AgendaFollower(performerController, this.npcs);
 
-        camera = new Camera(canvas, this, graphics);
+        this.camera = new Camera(this.canvas, this, this.graphics);
 
 
         Label timer = new Label("00:00:00");
         borderPane.getChildren().add(timer);
 
-        scene = new Scene(borderPane);
+        this.scene = new Scene(borderPane);
 
         this.animationTimer = new AnimationTimer() {
             long last = -1;
@@ -76,20 +76,20 @@ public class SimulatorScene extends StandardScene implements Resizable {
             this.npcs.add(npc);
         }
 
-        timer = 0;
+        this.timer = 0;
     }
 
     //update all npc's and simulation time on a timer
     public void update(double deltaTime) {
-        time += deltaTime;
-        if (time >= 1.0 / fps) {
-            time = 0;
-            for (Npc npc : npcs) {
+        this.time += deltaTime;
+        if (this.time >= 1.0 / this.fps) {
+            this.time = 0;
+            for (Npc npc : this.npcs) {
                 npc.update();
             }
-            LocalTime newTime = agendaFollower.getCurrentTime().plusSeconds((long) (1));
-            agendaFollower.setCurrentTime(newTime);
-            draw(graphics);
+            LocalTime newTime = this.agendaFollower.getCurrentTime().plusSeconds((long) (1));
+            this.agendaFollower.setCurrentTime(newTime);
+            draw(this.graphics);
 
         }
     }
@@ -102,25 +102,25 @@ public class SimulatorScene extends StandardScene implements Resizable {
     //draw the map and all npc's
     public void draw(FXGraphics2D graphics) {
         graphics.setTransform(new AffineTransform());
-        graphics.clearRect(0, 0, (int) canvas.getHeight() * 2, (int) canvas.getWidth() * 2);
+        graphics.clearRect(0, 0, (int) this.canvas.getHeight() * 2, (int) this.canvas.getWidth() * 2);
 
         //transform with the camera
-        transform.setTransform(camera.getTransform());
-        graphics.setTransform(transform);
+        this.transform.setTransform(this.camera.getTransform());
+        graphics.setTransform(this.transform);
 
         //set the background green like the map
-        graphics.setBackground(backgroundColor);
+        graphics.setBackground(BACKGROUND_COLOR);
 
         //draw the map
-        map.draw(graphics);
+        this.map.draw(graphics);
 
         //draw the timer
         graphics.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
-        graphics.drawString(agendaFollower.getCurrentTime().toString(), 30, 30);
+        graphics.drawString(this.agendaFollower.getCurrentTime().toString(), 30, 30);
 
         //draw the npc's
-        if (!npcs.isEmpty()) {
-            for (Npc npc : npcs) {
+        if (!this.npcs.isEmpty()) {
+            for (Npc npc : this.npcs) {
                 npc.draw(graphics);
             }
         }
@@ -128,7 +128,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
 
     //get the agenda follower
     public AgendaFollower getAgendaFollower() {
-        return agendaFollower;
+        return this.agendaFollower;
     }
 
 }
