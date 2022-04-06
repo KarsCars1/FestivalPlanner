@@ -150,10 +150,7 @@ public class MainScene extends StandardScene {
             }
         });
 
-        //UNUSED show addLocation scene
-        this.addLocation.setOnAction(e -> {
-            callback.setStage(new AddLocation(this.performerController).getScene());
-        });
+
 
         //Save the current performerController to a txt file
         this.saveButton.setOnAction(e -> {

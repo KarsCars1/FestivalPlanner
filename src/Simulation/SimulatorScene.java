@@ -33,6 +33,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
     private AgendaFollower agendaFollower;
     private PerformerController performerController;
     private AnimationTimer animationTimer;
+    private TextField timeInput;
 
     public SimulatorScene(PerformerController performerController) throws Exception {
         this.time = 0;
