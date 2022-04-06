@@ -1,5 +1,6 @@
 package DataStructure.Data;
 
+// the Artist class is for performances with one person, it adds a name variable to the performer class
 public class Artist extends Performer {
 
 	private String name;
@@ -11,11 +12,6 @@ public class Artist extends Performer {
 
 	public Artist(String name){
 		super(name, 0);
-		this.name = name;
-	}
-
-	public Artist(String performerName, String name, int popularity) {
-		super(performerName, popularity);
 		this.name = name;
 	}
 

@@ -15,8 +15,9 @@ import javafx.scene.layout.VBox;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class AddShowScene extends StandardScene {
+// the AddShowScene is the pop up screen that appears when you try to add or edit a location
 
+public class AddShowScene extends StandardScene {
 
     private ArrayList<TextField> time;
 
@@ -90,6 +91,8 @@ public class AddShowScene extends StandardScene {
         this.callback = callback;
     }
 
+//    this method puts the pop up screen together
+
     public Scene createScene(String selectedItem) {
         this.time = new ArrayList<>();
         this.time.add(this.beginTimeHour);
@@ -151,7 +154,8 @@ public class AddShowScene extends StandardScene {
         return scene;
     }
 
-    //check if the time is valid
+//  this method makes sure that you can't put in wrong values in the time textfields
+
     public void checkTimes() {
         for (int i = 0; i < this.time.size(); i++) {
             TextField textField = this.time.get(i);

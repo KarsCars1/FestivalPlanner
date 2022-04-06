@@ -2,6 +2,8 @@ package DataStructure.Data;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 
+// the Location class is to define where the different stages are, a location Object contains a size, a name and a Path.
+
 public class Location implements Serializable, Comparable<Location> {
 
     Point2D location;
@@ -15,10 +17,12 @@ public class Location implements Serializable, Comparable<Location> {
         this.size = size;
     }
 
+//The path variable is implemented for the npc to be able to locate the location
     public int[][] getPath() {
         return this.path;
     }
 
+//With the size an Npc is able to determine what part of the map is part of the location they are in, this way the npc will know where they can move around
     public Point2D getSize(){
         return this.size;
     }

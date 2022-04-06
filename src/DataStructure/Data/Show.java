@@ -3,6 +3,8 @@ package DataStructure.Data;
 import java.io.Serializable;
 import java.time.LocalTime;
 
+//the Show class is for Shows that get planned, they have a performer, a location and a beginning and ending time
+
 public class Show implements Serializable {
 
     private String name;
