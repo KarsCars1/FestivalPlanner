@@ -114,16 +114,17 @@ public class SimulatorScene extends StandardScene implements Resizable {
         //draw the map
         this.map.draw(graphics);
 
-        //draw the timer
-        graphics.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
-        graphics.drawString(this.agendaFollower.getCurrentTime().toString(), 30, 30);
-
         //draw the npc's
         if (!this.npcs.isEmpty()) {
             for (Npc npc : this.npcs) {
                 npc.draw(graphics);
             }
         }
+
+        //draw the timer
+        graphics.setTransform(new AffineTransform());
+        graphics.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
+        graphics.drawString(this.agendaFollower.getCurrentTime().toString(), 30, 30);
     }
 
     //get the agenda follower
