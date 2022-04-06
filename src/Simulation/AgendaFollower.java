@@ -63,7 +63,6 @@ public class AgendaFollower {
                 this.earlyStart = LocalTime.of(0, 0);
                 for (Npc npc : this.npcs) {
                     if (show.getPerformer().getPopularity() > Math.random() * 100) {
-                        System.out.println(npc);
                         npc.setPathfinding(show.getLocation());
                         npc.setCurrentShow(show);
                     }
