@@ -3,6 +3,7 @@ package DataStructure.Data;
 import java.util.ArrayList;
 
 //The band class is for performers with more than one person in them, they add a list of members to the performer class
+
 public class Band extends Performer {
 
 	private ArrayList<Performer> members = new ArrayList<>();
@@ -18,9 +19,11 @@ public class Band extends Performer {
 		}
 	}
 
-	public void removeMember(Performer member) {
-		if (this.members.contains(member)) {
-			this.members.remove(member);
+	public void removeMember(String removeMember) {
+		for (Performer member: members) {
+			if (member.getPerformerName().equals(removeMember)) {
+				this.members.remove(member);
+			}
 		}
 	}
 
@@ -31,5 +34,9 @@ public class Band extends Performer {
 
 	public ArrayList<Performer> getMembers() {
 		return this.members;
+	}
+
+	public void clearMemberList() {
+		members.clear();
 	}
 }

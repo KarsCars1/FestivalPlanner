@@ -123,8 +123,10 @@ public class AddEditBandScene extends StandardScene {
         this.removeButton.setOnAction(e -> {
             String removeMember = this.BandMemberList.getSelectionModel().getSelectedItem();
             this.BandMemberList.getItems().remove(removeMember);
+            band.removeMember(removeMember);
             callback.updateLists();
         });
+
         this.saveButton.setOnAction(e -> {
             int i = 0;
             for (Performer member : band.getMembers()) {
