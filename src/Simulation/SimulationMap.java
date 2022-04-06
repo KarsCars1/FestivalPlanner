@@ -28,13 +28,12 @@ public class SimulationMap {
     private boolean loaded = false;
     private BufferedImage mapLayer;
 
-    public SimulationMap(String fileName, Pathfinding pathfinding, PerformerController performerController) {
+    public SimulationMap(String fileName, Pathfinding pathfinding, PerformerController performerController, Point entrance) {
         this.performerController = performerController;
         JsonReader reader;
         InputStream stream = getClass().getClassLoader().getResourceAsStream(fileName);
         reader = Json.createReader(stream);
         JsonObject root = reader.readObject();
-
         this.width = root.getInt("width");
         this.height = root.getInt("height");
 
@@ -104,10 +103,10 @@ public class SimulationMap {
                     for (int i1 = 0; i1 < jsonArray.size(); i1++) {
 
                         Point point = new Point(jsonArray.getJsonObject(i1).getInt("x") / 16 + (jsonArray.getJsonObject(i1).getInt("width") / 32),
-                                                jsonArray.getJsonObject(i1).getInt("y") / 16 + (jsonArray.getJsonObject(i1).getInt("height") / 32));
+                                jsonArray.getJsonObject(i1).getInt("y") / 16 + (jsonArray.getJsonObject(i1).getInt("height") / 32));
 
                         Point size = new Point((jsonArray.getJsonObject(i1).getInt("width")),
-                                                jsonArray.getJsonObject(i1).getInt("height"));
+                                jsonArray.getJsonObject(i1).getInt("height"));
 
                         performerController.addLocation(pathfinding.path(point), jsonArray.getJsonObject(i1).getString("name"), size);
                     }
@@ -135,14 +134,17 @@ public class SimulationMap {
                 }
             }
         }
-
+        this.path = pathfinding.path(entrance);
         //sort the locations by name
         Collections.sort(performerController.getLocations());
+    }
+    //gets path to the entrance
+    public int[][] getPath() {
+        return path;
     }
 
     //draw the map
     void draw(Graphics2D g2d) {
-        this.path = this.performerController.getLocations().get(0).getPath();
         g2d.drawImage(this.mapLayer, 0, 0, null);
     }
 }

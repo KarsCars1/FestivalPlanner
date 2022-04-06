@@ -38,7 +38,7 @@ public class AddShowScene extends StandardScene {
         this.controller = controller;
         if (artist != null) {
             this.scene = createScene(artist.getPerformerName());
-        }else{
+        } else {
             this.scene = createScene("");
         }
 
@@ -173,12 +173,14 @@ public class AddShowScene extends StandardScene {
     //save a new show
     public void saveShow() {
         LocalTime theBeginTime = LocalTime.of(Integer.parseInt(this.beginTimeHour.getText()), Integer.parseInt(this.beginTimeMinute.getText()));
-        LocalTime theEndTime = LocalTime.of(Integer.parseInt(this.endTimeHour.getText()), Integer.parseInt(this.endTimeMinute.getText()));
-        this.controller.addShow(this.showName.getText(),
-                this.locations.getSelectionModel().getSelectedItem(),
-                this.performerName.getSelectionModel().getSelectedItem(),
-                theBeginTime,
-                theEndTime);
+        LocalTime theEndTime = LocalTime.of(Integer.parseInt(this.endTimeHour.getText()), Integer.parseInt(endTimeMinute.getText()));
+        if (!theBeginTime.plusSeconds(1).isAfter(theEndTime) && this.locations.getSelectionModel().getSelectedItem() != null && this.performerName.getSelectionModel().getSelectedItem() != null && !this.showName.getText().isEmpty()) {
+            this.controller.addShow(this.showName.getText(),
+                    this.locations.getSelectionModel().getSelectedItem(),
+                    this.performerName.getSelectionModel().getSelectedItem(),
+                    theBeginTime,
+                    theEndTime);
+        }
     }
 
     //edit the show
