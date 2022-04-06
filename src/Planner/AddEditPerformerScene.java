@@ -10,6 +10,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+//the AddEditPerformerScene is the pop up screen that appears when you want to add or edit an artist to or from the list
+
 public class AddEditPerformerScene extends StandardScene {
 
     private BorderPane popUpBorderPane;
@@ -38,9 +40,13 @@ public class AddEditPerformerScene extends StandardScene {
         addButton = new Button("Add to list");
         saveButton = new Button("Save Changes");
 
+        //        this method makes sure the value that gets put into the popularity textfield is between 1 and 100
+        
         popularityTextField.setOnKeyReleased(E -> {
             checkPopularity();
         });
+
+//      the if-statement checks if a band has been selected to edit or a new band is being added and opens up the right screen based on that
 
         if (artist == null) {
             buttonHBox.getChildren().addAll(backButton, addButton);

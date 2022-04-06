@@ -12,6 +12,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+//the AddEditBandScene is the pop up screen that appears when you want to add or edit a band to or from the list
+
 public class AddEditBandScene extends StandardScene {
 
     private PerformerController controller;
@@ -52,9 +54,13 @@ public class AddEditBandScene extends StandardScene {
         addButton = new Button("Add to list");
         saveButton = new Button("Save Changes");
 
+//        this method makes sure the value that gets put into the popularity textfield is between 1 and 100
+
         popularityTextField.setOnKeyReleased(E -> {
             checkPopularity();
         });
+
+        //        the if-statement checks if a band has been selected to edit or a new band is being added and opens up the right screen based on that
 
         if (band == null) {
             membersHBox.getChildren().addAll(addMemberField, addMemberButton);
