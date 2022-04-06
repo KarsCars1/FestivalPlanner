@@ -137,12 +137,14 @@ public class MainScene extends StandardScene {
                 for (Artist artist : this.performerController.getArtists()) {
                     if (artist.getPerformerName().equals(this.performerList.getSelectionModel().getSelectedItem())) {
                         callback.setStage(new AddEditPerformerScene(this.performerController, artist, callback).getScene());
+                        callback.updateLists();
                         break;
                     }
                 }
                 for (Band band : performerController.getBands()) {
                     if (band.getPerformerName().equals(performerList.getSelectionModel().getSelectedItem())) {
                         callback.setStage(new AddEditBandScene(performerController, band, callback).getScene());
+                        callback.updateLists();
                     }
                 }
             }
@@ -246,7 +248,6 @@ public class MainScene extends StandardScene {
 
     //updates where all the shows are displayed and used
     public void updateShows() {
-        System.out.println("e");
         ArrayList<Show> shows = this.performerController.getShows();
         for (int i = 0; i < shows.size(); i++) {
             Show show = shows.get(i);
@@ -256,6 +257,7 @@ public class MainScene extends StandardScene {
             }
         }
         this.showsTable.getItems().retainAll(shows);
+        this.showsTable.refresh();
         this.agenda.getShows().clear();
         for (Show show:shows) {
             this.agenda.getShows().add(new ShowBlock(show, this.performerController.getLocations().indexOf(show.getLocation())));

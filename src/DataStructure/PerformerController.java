@@ -111,6 +111,7 @@ public class PerformerController implements Serializable {
         for (Show show : this.shows) {
             //check if the show's name is used
             if (show.getName().equals(name)) {
+                System.out.println("show name is already used!");
                 return;
             }
 
@@ -124,6 +125,16 @@ public class PerformerController implements Serializable {
                 return;
             }
         }
+
+
+        //show has a minimum length in minutes
+        int minimumLength = 15;
+        if((endTime.getHour()*60+endTime.getMinute()) < (beginTime.getHour()*60 + beginTime.getMinute() + minimumLength)){
+            System.out.println("show needs to be at least " + minimumLength + " minutes long!");
+            return;
+        }
+
+
         Performer performer1 = null;
         for (Performer performer2 : this.performers) {
             if (performer2.getPerformerName().equals(performer)) {
@@ -235,6 +246,13 @@ public class PerformerController implements Serializable {
                     return;
                 }
             }
+        }
+
+        //show has a minimum length in minutes
+        int minimumLength = 15;
+        if((endTime.getHour()*60+endTime.getMinute()) < (beginTime.getHour()*60 + beginTime.getMinute() + minimumLength)){
+            System.out.println("show needs to be at least " + minimumLength + " minutes long!");
+            return;
         }
 
 
