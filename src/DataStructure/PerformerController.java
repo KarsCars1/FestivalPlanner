@@ -216,4 +216,44 @@ public class PerformerController implements Serializable {
         this.locations = newPerformerController.locations;
         this.shows = newPerformerController.shows;
     }
+
+    public void editShow(String newName, Show oldShow, String location, String performer, LocalTime beginTime, LocalTime endTime) {
+        if(newName == null || location == null || performer == null || beginTime == null || endTime == null){
+            System.out.println("Empty input(s)!");
+            return;
+        }
+
+        for (Show show : this.shows) {
+            //control if the time is already occupied at the given stage
+            if(!show.equals(oldShow)) {
+                if (((beginTime.isAfter(show.getBeginTime()) && beginTime.isBefore(show.getEndTime())
+                        || (endTime.isAfter(show.getBeginTime()) && endTime.isBefore(show.getEndTime()))
+                        || (beginTime.compareTo(show.getBeginTime()) == 0)
+                        || (endTime.compareTo(show.getEndTime()) == 0))
+                        && location.equals(show.getLocation().getName()))) {
+                    System.out.println("2 shows cant be at the same time on the same stage!");
+                    return;
+                }
+            }
+        }
+
+
+        Performer performer1 = null;
+        for (Performer performer2 : this.performers) {
+            if (performer2.getPerformerName().equals(performer)) {
+                performer1 = performer2;
+            }
+        }
+        Location location1 = null;
+        for (Location location2 : this.locations) {
+            if (location2.getName().equals(location)) {
+                location1 = location2;
+            }
+        }
+
+        Show newShow = new Show(newName, location1, performer1, beginTime, endTime);
+
+        this.getShows().remove(this.getShow(oldShow.getName()));
+        this.shows.add(newShow);
+    }
 }
