@@ -102,8 +102,8 @@ public class MainScene extends StandardScene {
 
         //add all buttons to the Gridpane
         this.buttons.addColumn(0, this.addPerformer, this.editPerformer, this.removePerformer);
-        this.buttons.addColumn(1, this.addShow, this.editShow);
-        this.buttons.addColumn(2, this.removeShow, this.startSimulation);
+        this.buttons.addColumn(1, this.addShow, this.editShow, this.removeShow);
+        this.buttons.addColumn(2,  this.startSimulation);
         this.performerVBox.getChildren().addAll(this.performerLabel, this.performerList, this.buttons, fileIOHBOX);
         this.agendaBorderPane.setRight(this.performerVBox);
 
@@ -192,6 +192,10 @@ public class MainScene extends StandardScene {
         //Start the simulation 20 minutes before the first show
         this.startSimulation.setOnAction(e -> {
             callback.setStage(scene.getScene());
+
+            //reset the simulation
+            scene.restart();
+
             scene.getAgendaFollower().setCurrentTime(scene.getAgendaFollower().getBeginTime());
             scene.getAnimationTimer().start();
             scene.getAgendaFollower().setRunning(true);

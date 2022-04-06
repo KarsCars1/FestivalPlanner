@@ -38,7 +38,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
         this.time = 0;
         this.fps = 60;
         BorderPane borderPane = new BorderPane();
-        this.map = new SimulationMap("TileMap1.json", new Pathfinding(), performerController);
+        this.map = new SimulationMap("TileMap4.0.json", new Pathfinding(), performerController);
         this.canvas = new ResizableCanvas(g -> draw(g), borderPane);
         borderPane.setCenter(this.canvas);
         graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
@@ -131,4 +131,10 @@ public class SimulatorScene extends StandardScene implements Resizable {
         return this.agendaFollower;
     }
 
+    //reset all npcs
+    public void restart(){
+        this.npcs.forEach(e ->{
+            e.reset();
+        });
+    }
 }

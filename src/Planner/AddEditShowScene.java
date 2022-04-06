@@ -36,8 +36,11 @@ public class AddEditShowScene extends StandardScene {
         this.callback = callback;
         this.show = show;
 
+        //pre insert the name
         this.showName = new TextField(this.show.getName());
 
+
+        //pre insert the time
         if(show.getBeginTime().getHour() > 9) {
             this.beginTimeHour = new TextField("" + show.getBeginTime().getHour());
         } else{
@@ -107,10 +110,14 @@ public class AddEditShowScene extends StandardScene {
 
         this.performerName.getItems().removeAll(this.performerName.getSelectionModel().getSelectedItem());
         this.performerName.getItems().addAll(this.controller.getPerformersString());
+
+        //pre insert performer
         this.performerName.getSelectionModel().select(this.show.getPerformerName());
 
         this.locations.getItems().removeAll(this.locations.getSelectionModel().getSelectedItem());
         this.locations.getItems().addAll(this.controller.getLocationsString());
+
+        //pre insert location
         this.locations.getSelectionModel().select(this.show.getLocationName());
 
 
@@ -133,6 +140,7 @@ public class AddEditShowScene extends StandardScene {
         return scene;
     }
 
+    //check if the given time is valid
     public void checkTimes() {
         for (int i = 0; i < this.time.size(); i++) {
             TextField textField = this.time.get(i);
@@ -147,6 +155,7 @@ public class AddEditShowScene extends StandardScene {
         }
     }
 
+    //save the show
     public void saveShow() {
         LocalTime theBeginTime = LocalTime.of(Integer.parseInt(this.beginTimeHour.getText()), Integer.parseInt(this.beginTimeMinute.getText()));
         LocalTime theEndTime = LocalTime.of(Integer.parseInt(this.endTimeHour.getText()), Integer.parseInt(this.endTimeMinute.getText()));
@@ -155,9 +164,5 @@ public class AddEditShowScene extends StandardScene {
                 this.performerName.getSelectionModel().getSelectedItem(),
                 theBeginTime,
                 theEndTime);
-
-        this.controller.getShows().forEach(e ->{
-            System.out.println(e);
-        });
     }
 }

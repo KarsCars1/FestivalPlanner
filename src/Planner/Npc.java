@@ -17,6 +17,7 @@ public class Npc {
     private static double rotationSpeed = 1;
     private boolean atStage = false;
     private Point2D position;
+    private Point2D startPosition;
     private double angle;
     private ArrayList<BufferedImage> sprites;
     private double speed;
@@ -32,6 +33,7 @@ public class Npc {
         BufferedImage fullImage = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Npc_template.png"));
 
         this.position = position;
+        this.startPosition = position;
         this.target = position;
         this.smallTarget = new Point2D.Double(position.getX() / 16, position.getY() / 16);
         this.angle = angle;
@@ -85,7 +87,7 @@ public class Npc {
 
         //check if the next target is the stage
         if (this.pathfinding != null && this.pathfinding[(int) this.smallTarget.getX() - 1][(int) this.smallTarget.getY() - 1] == 0 && !atStage) {
-            atStage = true;
+            this.atStage = true;
         }
 
         double targetAngle = Math.atan2(this.target.getY() - this.position.getY(), this.target.getX() - this.position.getX());
@@ -153,5 +155,13 @@ public class Npc {
         graphics.setColor(Color.white);
     }
 
+    //reset the npc's pathfinding
+    public void reset() {
+        this.position = startPosition;
+        this.target = startPosition;
+        this.atStage = false;
+        this.smallTarget = new Point2D.Double(startPosition.getX() / 16, startPosition.getY() / 16);
+        this.pathfinding = null;
+    }
 }
 
