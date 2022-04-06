@@ -49,12 +49,32 @@ public class Show implements Serializable {
         return this.location;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public void setPerformer(Performer performer) {
+        this.performer = performer;
+    }
+
+    public void setBeginTime(LocalTime beginTime) {
+        this.beginTime = beginTime;
+    }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
+    }
+
     @Override
     public String toString() {
         return "Show{" +
                 "name='" + this.name + '\'' +
                 ", location=" + this.location +
-                ", performer=" + this.performer +
+                ", performer=" + this.performer.getPerformerName() +
                 ", beginTime=" + this.beginTime +
                 ", endTime=" + this.endTime +
                 '}';
