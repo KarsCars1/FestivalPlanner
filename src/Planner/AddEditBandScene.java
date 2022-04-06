@@ -34,6 +34,7 @@ public class AddEditBandScene extends StandardScene {
     private Button addButton;
     private Button saveButton;
     private Button removeButton;
+    private String popularityString;
 
     public AddEditBandScene(PerformerController controller, Band band, GuiCallback callback) {
 
@@ -59,6 +60,7 @@ public class AddEditBandScene extends StandardScene {
 //        this method makes sure the value that gets put into the popularity textfield is between 1 and 100
 
         popularityTextField.setOnKeyReleased(E -> {
+            popularityString = this.popularityTextField.getText();
             checkPopularity();
         });
 
@@ -134,6 +136,7 @@ public class AddEditBandScene extends StandardScene {
                 i++;
             }
             band.setPerformerName(this.performerNameTextField.getText());
+            band.setPopularity(Integer.parseInt(this.popularityString));
             callback.updateLists();
             callback.closeStage();
         });
@@ -143,9 +146,9 @@ public class AddEditBandScene extends StandardScene {
     }
 
     public void checkPopularity() {
-        String text = this.popularityTextField.getText();
+
             try {
-                int value = Integer.parseInt(text);
+                int value = Integer.parseInt(popularityString);
                if(value > 100 || value < 0){
                    this.popularityTextField.setText("");
                }

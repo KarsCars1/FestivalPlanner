@@ -25,6 +25,7 @@ public class AddEditPerformerScene extends StandardScene {
     private Button backButton;
     private Button addButton;
     private Button saveButton;
+    private String popuylarityString;
 
     public AddEditPerformerScene(PerformerController controller, Artist artist, GuiCallback callback) {
 
@@ -43,6 +44,7 @@ public class AddEditPerformerScene extends StandardScene {
         //        this method makes sure the value that gets put into the popularity textfield is between 1 and 100
         
         popularityTextField.setOnKeyReleased(E -> {
+            popuylarityString = this.popularityTextField.getText();
             checkPopularity();
         });
 
@@ -75,6 +77,7 @@ public class AddEditPerformerScene extends StandardScene {
 
         this.saveButton.setOnAction(e -> {
             artist.setPerformerName(this.performerNameTextField.getText());
+            artist.setPopularity(Integer.parseInt(popuylarityString));
             callback.updateLists();
             callback.closeStage();
         });
@@ -92,9 +95,8 @@ public class AddEditPerformerScene extends StandardScene {
     }
 
     public void checkPopularity() {
-        String text = this.popularityTextField.getText();
         try {
-            int value = Integer.parseInt(text);
+            int value = Integer.parseInt(popuylarityString);
             if (value > 100 || value < 0) {
                 this.popularityTextField.setText("");
             }
