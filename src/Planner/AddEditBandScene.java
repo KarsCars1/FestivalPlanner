@@ -31,6 +31,7 @@ public class AddEditBandScene extends StandardScene {
     private Button backButton;
     private Button addButton;
     private Button saveButton;
+    private Button removeButton;
 
     public AddEditBandScene(PerformerController controller, Band band, GuiCallback callback) {
 
@@ -50,7 +51,9 @@ public class AddEditBandScene extends StandardScene {
         this.buttonHBox = new HBox();
         this.backButton = new Button("Back");
         this.addButton = new Button("Add to list");
+        this.removeButton = new Button("Remove member");
         this.saveButton = new Button("Save Changes");
+
 
         this.popularityTextField.setOnKeyReleased(E -> {
             checkPopularity();
@@ -59,8 +62,8 @@ public class AddEditBandScene extends StandardScene {
         if (band == null) {
             this.membersHBox.getChildren().addAll(this.addMemberField, this.addMemberButton);
             this.BandMemberList.setMaxSize(175, 150);
-            this.buttonHBox.getChildren().addAll(this.backButton, this.addButton);
-            this.buttonHBox.setSpacing(140);
+            this.buttonHBox.getChildren().addAll(this.backButton, this.removeButton, this.addButton);
+            this.buttonHBox.setSpacing(10);
             this.addPerformerVBox.getChildren().addAll(this.name, this.performerNameTextField, this.popularityLabel, this.popularityTextField,
                                                        this.switchToArtistButton, this.buttonHBox, this.members, this.membersHBox, this.BandMemberList);
             this.popUpBorderPane.setTop(this.addPerformerVBox);
@@ -74,8 +77,8 @@ public class AddEditBandScene extends StandardScene {
             for (Performer member : band.getMembers()) {
                 this.BandMemberList.getItems().add(member.getPerformerName());
             }
-            this.buttonHBox.getChildren().addAll(this.backButton, this.saveButton);
-            this.buttonHBox.setSpacing(140);
+            this.buttonHBox.getChildren().addAll(this.backButton,this.removeButton, this.saveButton);
+            this.buttonHBox.setSpacing(10);
             this.addPerformerVBox.getChildren().addAll(this.name, this.performerNameTextField, this.popularityLabel, this.popularityTextField,
                                                        this.buttonHBox, this.members, this.membersHBox, this.BandMemberList);
             this.popUpBorderPane.setTop(this.addPerformerVBox);
@@ -112,6 +115,11 @@ public class AddEditBandScene extends StandardScene {
             }
         });
 
+        this.removeButton.setOnAction(e -> {
+            String removeMember = this.BandMemberList.getSelectionModel().getSelectedItem();
+            this.BandMemberList.getItems().remove(removeMember);
+            callback.updateLists();
+        });
         this.saveButton.setOnAction(e -> {
             int i = 0;
             for (Performer member : band.getMembers()) {
