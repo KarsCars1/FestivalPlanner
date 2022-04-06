@@ -76,6 +76,7 @@ public class AddEditPerformerScene extends StandardScene {
         });
 
         this.saveButton.setOnAction(e -> {
+            popuylarityString = this.popularityTextField.getText();
             artist.setPerformerName(this.performerNameTextField.getText());
             artist.setPopularity(Integer.parseInt(popuylarityString));
             callback.updateLists();

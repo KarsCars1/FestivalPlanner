@@ -79,6 +79,7 @@ public class AddEditBandScene extends StandardScene {
             int popularityNumber = band.getPopularity();
             this.performerNameTextField.setText(band.getPerformerName());
             this.popularityTextField.setText(Integer.toString(popularityNumber));
+            this.popularityString = popularityNumber + "";
             this.membersHBox.getChildren().addAll( this.addMemberField, this.addMemberButton);
             this.BandMemberList.setMaxSize(175, 150);
             for (Performer member : band.getMembers()) {

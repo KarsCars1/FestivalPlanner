@@ -20,11 +20,13 @@ public class Band extends Performer {
 	}
 
 	public void removeMember(String removeMember) {
+		ArrayList<Performer> removeMembers = new ArrayList<>();
 		for (Performer member: members) {
 			if (member.getPerformerName().equals(removeMember)) {
-				this.members.remove(member);
+				removeMembers.add(member);
 			}
 		}
+		this.members.removeAll(removeMembers);
 	}
 
 	@Override

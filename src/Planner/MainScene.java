@@ -61,7 +61,7 @@ public class MainScene extends StandardScene {
 
         this.agenda = new Agenda(performerController.getLocations());
 
-        //set the agenda's height to the number of locations and with to the hours in a day
+        //set the agenda's height to the number of locations and width to the hours in a day
         this.agenda.setHeight(100 + performerController.getLocations().size()*100);
         this.agenda.setWidth(2600);
         this.agenda.drawAgendaBase();

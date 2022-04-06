@@ -133,6 +133,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
 
     //reset all npcs
     public void restart(){
+        this.agendaFollower.reset();
         this.npcs.forEach(e ->{
             e.reset();
         });
