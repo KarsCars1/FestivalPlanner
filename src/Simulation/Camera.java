@@ -27,34 +27,40 @@ public class Camera {
         this.canvas = canvas;
         this.resizable = resizable;
         this.g2d = g2d;
-        canvas.setOnMousePressed(e -> {lastMousePos = new Point2D.Double(e.getX(), e.getY());});
+
+        //check where you clicked
+        canvas.setOnMousePressed(e -> {
+            this.lastMousePos = new Point2D.Double(e.getX(), e.getY());
+        });
+
         canvas.setOnMouseDragged(e -> mouseDragged(e));
         canvas.setOnScroll(e-> mouseScroll(e));
     }
 
-
-
+    //return the current transform
     public AffineTransform getTransform()  {
         AffineTransform tx = new AffineTransform();
-        tx.scale(zoom, zoom);
-        tx.translate(centerPoint.getX(), centerPoint.getY());
-        tx.rotate(rotation);
+        tx.scale(this.zoom, this.zoom);
+        tx.translate(this.centerPoint.getX(), this.centerPoint.getY());
+        tx.rotate(this.rotation);
         return tx;
     }
 
+    //react to a dragging mouse
     public void mouseDragged(MouseEvent e) {
         if(e.getButton() == MouseButton.PRIMARY) {
-            centerPoint = new Point2D.Double(
-                    centerPoint.getX() - (lastMousePos.getX() - e.getX()) / zoom,
-                    centerPoint.getY() - (lastMousePos.getY() - e.getY()) / zoom
+            this.centerPoint = new Point2D.Double(
+                    this.centerPoint.getX() - (this.lastMousePos.getX() - e.getX()) / this.zoom,
+                    this.centerPoint.getY() - (this.lastMousePos.getY() - e.getY()) / this.zoom
             );
             lastMousePos = new Point2D.Double(e.getX(), e.getY());
 
         }
     }
 
+    //change the zoom on scroll
     public void mouseScroll(ScrollEvent e) {
-        zoom *= (1 + e.getDeltaY()/250.0f);
+        this.zoom *= (1 + e.getDeltaY()/250.0f);
 
     }
 }

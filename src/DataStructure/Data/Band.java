@@ -10,23 +10,23 @@ public class Band extends Performer {
 	}
 
 	public void addMember(Performer member) {
-		if (!members.contains(member) && member != this) {
-			members.add(member);
+		if (!this.members.contains(member) && member != this) {
+			this.members.add(member);
 		}
 	}
 
 	public void removeMember(Performer member) {
-		if (members.contains(member)) {
-			members.remove(member);
+		if (this.members.contains(member)) {
+			this.members.remove(member);
 		}
 	}
 
 	@Override
 	public String toString() {
-		return performerName;
+		return this.performerName;
 	}
 
 	public ArrayList<Performer> getMembers() {
-		return members;
+		return this.members;
 	}
 }

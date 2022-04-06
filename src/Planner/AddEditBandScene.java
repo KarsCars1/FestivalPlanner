@@ -35,105 +35,107 @@ public class AddEditBandScene extends StandardScene {
     public AddEditBandScene(PerformerController controller, Band band, GuiCallback callback) {
 
         this.controller = controller;
-        members = new Label("Members");
-        membersHBox = new HBox();
-        addMemberButton = new Button("+");
-        addMemberField = new TextField();
-        popUpBorderPane = new BorderPane();
-        BandMemberList = new ListView<>();
-        addPerformerVBox = new VBox();
-        name = new Label("Band name:");
-        performerNameTextField = new TextField();
-        popularityLabel = new Label("Popularity (0 to 100): ");
-        popularityTextField = new TextField();
-        switchToArtistButton = new Button("Switch to Artist");
-        buttonHBox = new HBox();
-        backButton = new Button("Back");
-        addButton = new Button("Add to list");
-        saveButton = new Button("Save Changes");
+        this.members = new Label("Members");
+        this.membersHBox = new HBox();
+        this.addMemberButton = new Button("+");
+        this.addMemberField = new TextField();
+        this.popUpBorderPane = new BorderPane();
+        this.BandMemberList = new ListView<>();
+        this.addPerformerVBox = new VBox();
+        this.name = new Label("Band name:");
+        this.performerNameTextField = new TextField();
+        this.popularityLabel = new Label("Popularity (0 to 100): ");
+        this.popularityTextField = new TextField();
+        this.switchToArtistButton = new Button("Switch to Artist");
+        this.buttonHBox = new HBox();
+        this.backButton = new Button("Back");
+        this.addButton = new Button("Add to list");
+        this.saveButton = new Button("Save Changes");
 
-        popularityTextField.setOnKeyReleased(E -> {
+        this.popularityTextField.setOnKeyReleased(E -> {
             checkPopularity();
         });
 
         if (band == null) {
-            membersHBox.getChildren().addAll(addMemberField, addMemberButton);
-            BandMemberList.setMaxSize(175, 150);
-            buttonHBox.getChildren().addAll(backButton, addButton);
-            buttonHBox.setSpacing(140);
-            addPerformerVBox.getChildren().addAll(name, performerNameTextField, popularityLabel, popularityTextField, switchToArtistButton, buttonHBox, members, membersHBox, BandMemberList);
-            popUpBorderPane.setTop(addPerformerVBox);
-            popUpBorderPane.setBottom(buttonHBox);
+            this.membersHBox.getChildren().addAll(this.addMemberField, this.addMemberButton);
+            this.BandMemberList.setMaxSize(175, 150);
+            this.buttonHBox.getChildren().addAll(this.backButton, this.addButton);
+            this.buttonHBox.setSpacing(140);
+            this.addPerformerVBox.getChildren().addAll(this.name, this.performerNameTextField, this.popularityLabel, this.popularityTextField,
+                                                       this.switchToArtistButton, this.buttonHBox, this.members, this.membersHBox, this.BandMemberList);
+            this.popUpBorderPane.setTop(this.addPerformerVBox);
+            this.popUpBorderPane.setBottom(this.buttonHBox);
         } else {
             int popularityNumber = band.getPopularity();
-            performerNameTextField.setText(band.getPerformerName());
-            popularityTextField.setText(Integer.toString(popularityNumber));
-            membersHBox.getChildren().addAll( addMemberField, addMemberButton);
-            BandMemberList.setMaxSize(175, 150);
+            this.performerNameTextField.setText(band.getPerformerName());
+            this.popularityTextField.setText(Integer.toString(popularityNumber));
+            this.membersHBox.getChildren().addAll( this.addMemberField, this.addMemberButton);
+            this.BandMemberList.setMaxSize(175, 150);
             for (Performer member : band.getMembers()) {
-                BandMemberList.getItems().add(member.getPerformerName());
+                this.BandMemberList.getItems().add(member.getPerformerName());
             }
-            buttonHBox.getChildren().addAll(backButton, saveButton);
-            buttonHBox.setSpacing(140);
-            addPerformerVBox.getChildren().addAll(name, performerNameTextField, popularityLabel, popularityTextField, buttonHBox, members, membersHBox, BandMemberList);
-            popUpBorderPane.setTop(addPerformerVBox);
-            popUpBorderPane.setBottom(buttonHBox);
+            this.buttonHBox.getChildren().addAll(this.backButton, this.saveButton);
+            this.buttonHBox.setSpacing(140);
+            this.addPerformerVBox.getChildren().addAll(this.name, this.performerNameTextField, this.popularityLabel, this.popularityTextField,
+                                                       this.buttonHBox, this.members, this.membersHBox, this.BandMemberList);
+            this.popUpBorderPane.setTop(this.addPerformerVBox);
+            this.popUpBorderPane.setBottom(this.buttonHBox);
         }
 
-        switchToArtistButton.setOnAction(e -> {
+        this.switchToArtistButton.setOnAction(e -> {
             callback.closeStage();
-            callback.setStage(new AddEditPerformerScene(controller, null, callback).getScene());
+            callback.setStage(new AddEditPerformerScene(this.controller, null, callback).getScene());
         });
 
-        backButton.setOnAction(e -> {
+        this.backButton.setOnAction(e -> {
             callback.closeStage();
         });
 
-        addMemberButton.setOnAction(E -> {
-            if (!addMemberField.getText().trim().equals("")) {
+        this.addMemberButton.setOnAction(E -> {
+            if (!this.addMemberField.getText().trim().equals("")) {
                 if (band != null) {
-                    band.addMember(new Performer(addMemberField.getText(), 0));
+                    band.addMember(new Performer(this.addMemberField.getText(), 0));
                 }
-                BandMemberList.getItems().add(addMemberField.getText());
+                this.BandMemberList.getItems().add(this.addMemberField.getText());
             }
-            addMemberField.setText("");
+            this.addMemberField.setText("");
         });
 
-        addButton.setOnAction(E -> {
-            if (!performerNameTextField.getText().isEmpty() && !popularityTextField.getText().isEmpty()) {
-                controller.addBand(performerNameTextField.getText(), Integer.parseInt(popularityTextField.getText()));
-                controller.addBandMembers(BandMemberList, performerNameTextField.getText());
+        this.addButton.setOnAction(E -> {
+            if (!this.performerNameTextField.getText().isEmpty() && !this.popularityTextField.getText().isEmpty()) {
+                this.controller.addBand(this.performerNameTextField.getText(), Integer.parseInt(this.popularityTextField.getText()));
+                this.controller.addBandMembers(this.BandMemberList, this.performerNameTextField.getText());
                 callback.updateLists();
-                BandMemberList.getItems().clear();
-                performerNameTextField.deleteText(0, performerNameTextField.getText().length());
-                popularityTextField.deleteText(0, popularityTextField.getText().length());
+                this.BandMemberList.getItems().clear();
+                this.performerNameTextField.deleteText(0, this.performerNameTextField.getText().length());
+                this.popularityTextField.deleteText(0, this.popularityTextField.getText().length());
             }
         });
 
-        saveButton.setOnAction(e -> {
+        this.saveButton.setOnAction(e -> {
             int i = 0;
             for (Performer member : band.getMembers()) {
-                member.setPerformerName(BandMemberList.getItems().get(i));
+                member.setPerformerName(this.BandMemberList.getItems().get(i));
                 i++;
             }
-            band.setPerformerName(performerNameTextField.getText());
+            band.setPerformerName(this.performerNameTextField.getText());
             callback.updateLists();
             callback.closeStage();
         });
 
 
-        scene = new Scene(popUpBorderPane);
+        this.scene = new Scene(this.popUpBorderPane);
     }
 
     public void checkPopularity() {
-        String text = popularityTextField.getText();
+        String text = this.popularityTextField.getText();
             try {
                 int value = Integer.parseInt(text);
                if(value > 100 || value < 0){
-                   popularityTextField.setText("");
+                   this.popularityTextField.setText("");
                }
             } catch (NumberFormatException e) {
-                popularityTextField.setText("");
+                this.popularityTextField.setText("");
             }
 
     }

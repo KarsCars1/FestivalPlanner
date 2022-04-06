@@ -44,82 +44,93 @@ public class SimulationMap {
 
             BufferedImage tilemap = ImageIO.read(getClass().getClassLoader().getResourceAsStream(a.replace("tsx", "png")));
 
-            tileHeight = root.getInt("tileheight");
-            tileWidth = root.getInt("tilewidth");
+            this.tileHeight = root.getInt("tileheight");
+            this.tileWidth = root.getInt("tilewidth");
             ArrayList<BufferedImage> arrayList = new ArrayList<>();
-            GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            GraphicsDevice device = env.getDefaultScreenDevice();
-            GraphicsConfiguration config = device.getDefaultConfiguration();
-            BufferedImage buffy = config.createCompatibleImage(width, height, Transparency.TRANSLUCENT);
-            Graphics g = buffy.getGraphics();
 
-            for (int y = 0; y < tilemap.getHeight(); y += tileHeight) {
-                for (int x = 0; x < tilemap.getWidth(); x += tileWidth) {
-                    arrayList.add(tilemap.getSubimage(x, y, tileWidth, tileHeight));
+            //get all tiles form the tilemap
+            for (int y = 0; y < tilemap.getHeight(); y += this.tileHeight) {
+                for (int x = 0; x < tilemap.getWidth(); x += this.tileWidth) {
+                    arrayList.add(tilemap.getSubimage(x, y, this.tileWidth, this.tileHeight));
                 }
             }
             for (int i = 0; i < arrayList.size(); i++) {
-                tiles[i] = arrayList.get(i);
+                this.tiles[i] = arrayList.get(i);
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        layers = root.getJsonArray("layers").size();
+
+        //get the tiles for each layer
+        this.layers = root.getJsonArray("layers").size();
 
         int j = 0;
 
-        map = new int[layers][height][width];
+        this.map = new int[this.layers][this.height][this.width];
+
+        //add collision layer
         for (int i = 0; i < root.getJsonArray("layers").size(); i++) {
             String layerName = root.getJsonArray("layers").getJsonObject(i).getJsonString("name").getString();
             if (layerName.equals("Collision")) {
-                boolean[][] collisions = new boolean[height][width];
-                for (int y = 0; y < height; y++) {
-                    for (int x = 0; x < width; x++) {
-                        collisions[y][x] = (root.getJsonArray("layers").getJsonObject(i).getJsonArray("data").getInt(x + y * width) == 85);
+                boolean[][] collisions = new boolean[this.height][this.width];
+                for (int y = 0; y < this.height; y++) {
+                    for (int x = 0; x < this.width; x++) {
+                        collisions[y][x] = (root.getJsonArray("layers").getJsonObject(i).getJsonArray("data").getInt(x + y * this.width) == 85);
                     }
                 }
                 pathfinding.addColisions(collisions);
-                //democode
-                Point point = new Point(25, 25);
-                path = pathfinding.path(point);
 
             }
         }
+        //Get teh non collision layers and objects
         for (int i = 0; i < root.getJsonArray("layers").size(); i++) {
+
             String layerType = root.getJsonArray("layers").getJsonObject(i).getJsonString("type").getString();
+
             String layerName = root.getJsonArray("layers").getJsonObject(i).getJsonString("name").getString();
+
+
             if (layerType.equals("tilelayer") && !layerName.equals("Collision")) {
-                for (int y = 0; y < height; y++) {
-                    for (int x = 0; x < width; x++) {
-                        map[j][y][x] = root.getJsonArray("layers").getJsonObject(i).getJsonArray("data").getInt(x + y * width);
+                for (int y = 0; y < this.height; y++) {
+                    for (int x = 0; x < this.width; x++) {
+                        this.map[j][y][x] = root.getJsonArray("layers").getJsonObject(i).getJsonArray("data").getInt(x + y * this.width);
                     }
                 }
             } else {
                 if (layerType.equals("objectgroup")) {
                     JsonArray jsonArray = root.getJsonArray("layers").getJsonObject(i).getJsonArray("objects");
                     for (int i1 = 0; i1 < jsonArray.size(); i1++) {
-                        Point point = new Point(jsonArray.getJsonObject(i1).getInt("x") / 16 + (jsonArray.getJsonObject(i1).getInt("width") / 32), jsonArray.getJsonObject(i1).getInt("y") / 16 + (jsonArray.getJsonObject(i1).getInt("height") / 32));
-                        Point size = new Point((jsonArray.getJsonObject(i1).getInt("width")), jsonArray.getJsonObject(i1).getInt("height"));
+
+                        Point point = new Point(jsonArray.getJsonObject(i1).getInt("x") / 16 + (jsonArray.getJsonObject(i1).getInt("width") / 32),
+                                                jsonArray.getJsonObject(i1).getInt("y") / 16 + (jsonArray.getJsonObject(i1).getInt("height") / 32));
+
+                        Point size = new Point((jsonArray.getJsonObject(i1).getInt("width")),
+                                                jsonArray.getJsonObject(i1).getInt("height"));
 
                         performerController.addLocation(pathfinding.path(point), jsonArray.getJsonObject(i1).getString("name"), size);
                     }
                 }
                 j--;
-                layers--;
+                this.layers--;
             }
             j++;
         }
-        mapLayer = new BufferedImage(16 * width, 16 * height, 1);
-        Graphics2D graphics2D1 = mapLayer.createGraphics();
-        for (int i = 0; i < layers; i++) {
-            for (int x = 0; x < width; x++) {
-                for (int y = 0; y < height; y++) {
-                    if (map[i][y][x] < 0)
+
+        //create the map as an image
+        this.mapLayer = new BufferedImage(16 * this.width, 16 * this.height, 1);
+        Graphics2D graphics2D1 = this.mapLayer.createGraphics();
+        for (int i = 0; i < this.layers; i++) {
+            for (int x = 0; x < this.width; x++) {
+                for (int y = 0; y < this.height; y++) {
+                    if (this.map[i][y][x] < 0)
                         continue;
-                    if (map[i][y][x] != 0) {
-                        graphics2D1.drawImage(tiles[(map[i][y][x] - 1)], AffineTransform.getTranslateInstance(x * tileWidth, y * tileHeight), null);
+                    if (this.map[i][y][x] != 0) {
+
+                        graphics2D1.drawImage(this.tiles[(this.map[i][y][x] - 1)], AffineTransform.getTranslateInstance(x * this.tileWidth, y * this.tileHeight), null);
+
+
                     }
                 }
             }
@@ -129,21 +140,10 @@ public class SimulationMap {
         Collections.sort(performerController.getLocations());
     }
 
-    void draw(Graphics2D g2d, double height, double width) {
-        path = performerController.getLocations().get(0).getPath();
-        g2d.drawImage(mapLayer, 0, 0, null);
-        for (int y = 0; y < this.height; y++) {
-            for (int x = 0; x < this.width; x++) {
-                for (int i = 0; i < layers; i++) {
-                    if (map[i][y][x] < 0)
-                        continue;
-                    if (map[i][y][x] != 0) {
-                    }
-                }
-                loaded = true;
-            }
-
-        }
+    //draw the map
+    void draw(Graphics2D g2d) {
+        this.path = this.performerController.getLocations().get(0).getPath();
+        g2d.drawImage(this.mapLayer, 0, 0, null);
     }
 }
 

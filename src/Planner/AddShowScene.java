@@ -43,27 +43,27 @@ public class AddShowScene extends StandardScene {
     }
 
     public Scene createScene(String selectedItem) {
-        time = new ArrayList<>();
-        time.add(beginTimeHour);
-        time.add(endTimeHour);
-        time.add(beginTimeMinute);
-        time.add(endTimeMinute);
-        beginTimeHour.setOnKeyReleased(E -> {
+        this.time = new ArrayList<>();
+        this.time.add(this.beginTimeHour);
+        this.time.add(this.endTimeHour);
+        this.time.add(this.beginTimeMinute);
+        this.time.add(this.endTimeMinute);
+        this.beginTimeHour.setOnKeyReleased(E -> {
             checkTimes();
         });
-        beginTimeMinute.setOnKeyReleased(E -> {
+        this.beginTimeMinute.setOnKeyReleased(E -> {
             checkTimes();
         });
-        endTimeHour.setOnKeyReleased(E -> {
+        this.endTimeHour.setOnKeyReleased(E -> {
             checkTimes();
         });
-        endTimeMinute.setOnKeyReleased(E -> {
+        this.endTimeMinute.setOnKeyReleased(E -> {
             checkTimes();
         });
-        beginTimeHour.setMaxWidth(30);
-        beginTimeMinute.setMaxWidth(30);
-        endTimeHour.setMaxWidth(30);
-        endTimeMinute.setMaxWidth(30);
+        this.beginTimeHour.setMaxWidth(30);
+        this.beginTimeMinute.setMaxWidth(30);
+        this.endTimeHour.setMaxWidth(30);
+        this.endTimeMinute.setMaxWidth(30);
 
         Label betweenBegin = new Label(":");
         Label betweenEnd = new Label(":");
@@ -72,28 +72,28 @@ public class AddShowScene extends StandardScene {
         Label performers = new Label("performer:");
         Label showNameText = new Label("show name:");
         Label location = new Label("location:");
-        performerName.getItems().removeAll(performerName.getSelectionModel().getSelectedItem());
-        performerName.getItems().addAll(this.controller.getPerformersString());
-        performerName.getSelectionModel().select(selectedItem);
-        locations.getItems().removeAll(locations.getSelectionModel().getSelectedItem());
-        locations.getItems().addAll(this.controller.getLocationsString());
+        this.performerName.getItems().removeAll(this.performerName.getSelectionModel().getSelectedItem());
+        this.performerName.getItems().addAll(this.controller.getPerformersString());
+        this.performerName.getSelectionModel().select(selectedItem);
+        this.locations.getItems().removeAll(this.locations.getSelectionModel().getSelectedItem());
+        this.locations.getItems().addAll(this.controller.getLocationsString());
 
 
         HBox times = new HBox();
         GridPane names = new GridPane();
         names.add(performers, 0, 0);
-        names.add(performerName, 1, 0);
+        names.add(this.performerName, 1, 0);
         names.add(location, 0, 1);
-        names.add(locations, 1, 1);
+        names.add(this.locations, 1, 1);
 
-        performerName.setMinWidth(200);
-        locations.setMinWidth(200);
-        times.getChildren().addAll(begintime, beginTimeHour, betweenBegin, beginTimeMinute, endtime, endTimeHour, betweenEnd, endTimeMinute);
+        this.performerName.setMinWidth(200);
+        this.locations.setMinWidth(200);
+        times.getChildren().addAll(begintime, this.beginTimeHour, betweenBegin, this.beginTimeMinute, endtime, this.endTimeHour, betweenEnd, this.endTimeMinute);
         VBox vBox = new VBox();
-        vBox.getChildren().addAll(showNameText, showName, names, times, save);
+        vBox.getChildren().addAll(showNameText, this.showName, names, times, this.save);
 
         Scene scene = new Scene(vBox);
-        save.setOnAction(e -> {
+        this.save.setOnAction(e -> {
             saveShow();
             callback.updateLists();
         });
@@ -102,8 +102,8 @@ public class AddShowScene extends StandardScene {
     }
 
     public void checkTimes() {
-        for (int i = 0; i < time.size(); i++) {
-            TextField textField = time.get(i);
+        for (int i = 0; i < this.time.size(); i++) {
+            TextField textField = this.time.get(i);
             try {
                 int time = Integer.parseInt(textField.getText());
                 if ((time >= 24 && i < 2) || (time >= 60 && i > 1)) {
@@ -112,17 +112,16 @@ public class AddShowScene extends StandardScene {
             } catch (NumberFormatException e) {
                 textField.setText("");
             }
-
         }
     }
 
 
     public void saveShow() {
-        LocalTime theBeginTime = LocalTime.of(Integer.parseInt(beginTimeHour.getText()), Integer.parseInt(beginTimeMinute.getText()));
-        LocalTime theEndTime = LocalTime.of(Integer.parseInt(endTimeHour.getText()), Integer.parseInt(endTimeMinute.getText()));
-        controller.addShow(showName.getText(),
-                locations.getSelectionModel().getSelectedItem(),
-                performerName.getSelectionModel().getSelectedItem(),
+        LocalTime theBeginTime = LocalTime.of(Integer.parseInt(this.beginTimeHour.getText()), Integer.parseInt(this.beginTimeMinute.getText()));
+        LocalTime theEndTime = LocalTime.of(Integer.parseInt(this.endTimeHour.getText()), Integer.parseInt(this.endTimeMinute.getText()));
+        this.controller.addShow(this.showName.getText(),
+                this.locations.getSelectionModel().getSelectedItem(),
+                this.performerName.getSelectionModel().getSelectedItem(),
                 theBeginTime,
                 theEndTime);
     }

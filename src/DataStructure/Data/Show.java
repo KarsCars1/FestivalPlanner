@@ -26,19 +26,19 @@ public class Show implements Serializable {
     }
 
     public String getLocationName() {
-        return location.getName();
+        return this.location.getName();
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public LocalTime getBeginTime() {
-        return beginTime;
+        return this.beginTime;
     }
 
     public LocalTime getEndTime() {
-        return endTime;
+        return this.endTime;
     }
 
     public Performer getPerformer() {
@@ -52,11 +52,11 @@ public class Show implements Serializable {
     @Override
     public String toString() {
         return "Show{" +
-                "name='" + name + '\'' +
-                ", location=" + location +
-                ", performer=" + performer +
-                ", beginTime=" + beginTime +
-                ", endTime=" + endTime +
+                "name='" + this.name + '\'' +
+                ", location=" + this.location +
+                ", performer=" + this.performer +
+                ", beginTime=" + this.beginTime +
+                ", endTime=" + this.endTime +
                 '}';
     }
 }
