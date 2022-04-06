@@ -1,6 +1,4 @@
 package Simulation;
-import DataStructure.Data.Performer;
-import DataStructure.Data.Show;
 import DataStructure.PerformerController;
 import Planner.Npc;
 import Planner.StandardScene;
@@ -39,7 +37,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
         this.time = 0;
         this.fps = 60;
         BorderPane borderPane = new BorderPane();
-        this.map = new SimulationMap("TileMap4.0.json", new Pathfinding(), performerController);
+        this.map = new SimulationMap("TileMap4.0.json", new Pathfinding(), performerController,new Point(51, 100));
         this.canvas = new ResizableCanvas(g -> draw(g), borderPane);
         borderPane.setCenter(this.canvas);
         graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
@@ -73,7 +71,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
     public void init() throws IOException {
         this.npcs = new ArrayList<>();
         while (this.npcs.size() < 1000) {
-            Npc npc = new Npc(new Point2D.Double(832, 1600), 0);
+            Npc npc = new Npc(new Point2D.Double(832, 1600), 0,map.getPath());
             this.npcs.add(npc);
         }
 
@@ -86,7 +84,7 @@ public class SimulatorScene extends StandardScene implements Resizable {
         if (this.time >= 1.0 / this.fps) {
             this.time = 0;
             for (Npc npc : this.npcs) {
-                npc.update();
+                npc.update(agendaFollower.getCurrentTime());
             }
             LocalTime newTime = this.agendaFollower.getCurrentTime().plusSeconds((long) (1));
             this.agendaFollower.setCurrentTime(newTime);

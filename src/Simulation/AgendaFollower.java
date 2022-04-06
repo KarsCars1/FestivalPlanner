@@ -50,6 +50,7 @@ public class AgendaFollower {
                 for (Npc npc : this.npcs) {
                     if (show.getPerformer().getPopularity() > Math.random()*100){
                         npc.setPathfinding(show.getLocation());
+                        npc.setCurrentShow(show);
                     }
                 }
             }
