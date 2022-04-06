@@ -110,6 +110,16 @@ public class MainScene extends StandardScene {
         //get the selected performer and remove it, then update the change
         this.removePerformer.setOnAction(E -> {
             this.performerController.removePerformer(this.performerList.getSelectionModel().getSelectedItem() + "");
+            ArrayList<Show> removedShows = new ArrayList<>();
+
+            //remove shows with removed performer
+            for (Show show:this.performerController.getShows()) {
+                if(show.getPerformerName().equals(this.performerList.getSelectionModel().getSelectedItem())){
+                    removedShows.add(show);
+                }
+            }
+            this.performerController.getShows().removeAll(removedShows);
+            callback.updateLists();
             this.performerController.updateList(this.performerList);
         });
 
