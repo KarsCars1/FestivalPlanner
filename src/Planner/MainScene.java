@@ -194,11 +194,11 @@ public class MainScene extends StandardScene {
         this.addShow.setOnAction(e -> {
             for (Artist artist : this.performerController.getArtists()) {
                 if (artist.getPerformerName().equals(this.performerList.getSelectionModel().getSelectedItem())) {
-                    callback.setStage(new AddShowScene(this.performerController, callback, artist).getScene());
+                    callback.setStage(new AddShowScene(this.performerController, callback, artist, null).getScene());
                     return;
                 }
             }
-            callback.setStage(new AddShowScene(this.performerController, callback, null).getScene());
+            callback.setStage(new AddShowScene(this.performerController, callback, null, null).getScene());
         });
 
         //Start the simulation 20 minutes before the first show
@@ -229,7 +229,7 @@ public class MainScene extends StandardScene {
             String name = "";
             for (Show show : this.performerController.getShows()) {
                 if (this.showsTable.getSelectionModel().getSelectedItem().toString().contains("name='" + show.getName())){
-                    callback.setStage(new AddEditShowScene(show, this.performerController, callback).createScene());
+                    callback.setStage(new AddShowScene(this.performerController, callback, null, show).createScene(""));
                     return;
                 }
             }

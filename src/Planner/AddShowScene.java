@@ -1,6 +1,7 @@
 package Planner;
 
 import DataStructure.Data.Artist;
+import DataStructure.Data.Show;
 import DataStructure.PerformerController;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -30,13 +31,60 @@ public class AddShowScene extends StandardScene {
     private PerformerController controller;
     private Button save = new Button("add show");
     private GuiCallback callback;
+    private Show show;
 
-    public AddShowScene(PerformerController controller, GuiCallback callback, Artist artist) {
+    public AddShowScene(PerformerController controller, GuiCallback callback, Artist artist, Show show) {
         this.controller = controller;
         if (artist != null) {
             this.scene = createScene(artist.getPerformerName());
         }else{
             this.scene = createScene("");
+        }
+
+        this.performerName.getItems().removeAll(this.performerName.getSelectionModel().getSelectedItem());
+        this.performerName.getItems().addAll(this.controller.getPerformersString());
+
+        this.locations.getItems().removeAll(this.locations.getSelectionModel().getSelectedItem());
+        this.locations.getItems().addAll(this.controller.getLocationsString());
+
+        if(show != null){
+            this.save = new Button("edit show");
+            this.show = show;
+
+            //pre insert the name
+            this.showName = new TextField(this.show.getName());
+
+
+            //pre insert the time
+            if(show.getBeginTime().getHour() > 9) {
+                this.beginTimeHour = new TextField("" + show.getBeginTime().getHour());
+            } else{
+                this.beginTimeHour = new TextField("0" + show.getBeginTime().getHour());
+            }
+
+            if(show.getBeginTime().getMinute() > 9){
+                this.beginTimeMinute = new TextField(""+show.getBeginTime().getMinute());
+            } else{
+                this.beginTimeMinute = new TextField("0"+show.getBeginTime().getMinute());
+            }
+
+            if(show.getBeginTime().getHour() > 9) {
+                this.endTimeHour = new TextField("" + show.getEndTime().getHour());
+            } else{
+                this.endTimeHour = new TextField("0" + show.getEndTime().getHour());
+            }
+
+            if(show.getBeginTime().getMinute() > 9){
+                this.endTimeMinute = new TextField(""+show.getEndTime().getMinute());
+            } else{
+                this.endTimeMinute = new TextField("0"+show.getEndTime().getMinute());
+            }
+
+            //pre insert performer
+            this.performerName.getSelectionModel().select(this.show.getPerformerName());
+
+            //pre insert location
+            this.locations.getSelectionModel().select(this.show.getLocationName());
         }
         this.selectedArtist = artist;
         this.callback = callback;
@@ -72,12 +120,10 @@ public class AddShowScene extends StandardScene {
         Label performers = new Label("performer:");
         Label showNameText = new Label("show name:");
         Label location = new Label("location:");
-        this.performerName.getItems().removeAll(this.performerName.getSelectionModel().getSelectedItem());
-        this.performerName.getItems().addAll(this.controller.getPerformersString());
-        this.performerName.getSelectionModel().select(selectedItem);
-        this.locations.getItems().removeAll(this.locations.getSelectionModel().getSelectedItem());
-        this.locations.getItems().addAll(this.controller.getLocationsString());
 
+        if(this.show == null) {
+            this.performerName.getSelectionModel().select(selectedItem);
+        }
 
         HBox times = new HBox();
         GridPane names = new GridPane();
@@ -94,13 +140,18 @@ public class AddShowScene extends StandardScene {
 
         Scene scene = new Scene(vBox);
         this.save.setOnAction(e -> {
-            saveShow();
+            if(this.show == null) {
+                saveShow();
+            } else{
+                editShow();
+            }
             callback.updateLists();
         });
 
         return scene;
     }
 
+    //check if the time is valid
     public void checkTimes() {
         for (int i = 0; i < this.time.size(); i++) {
             TextField textField = this.time.get(i);
@@ -115,7 +166,7 @@ public class AddShowScene extends StandardScene {
         }
     }
 
-
+    //save a new show
     public void saveShow() {
         LocalTime theBeginTime = LocalTime.of(Integer.parseInt(this.beginTimeHour.getText()), Integer.parseInt(this.beginTimeMinute.getText()));
         LocalTime theEndTime = LocalTime.of(Integer.parseInt(this.endTimeHour.getText()), Integer.parseInt(this.endTimeMinute.getText()));
@@ -124,6 +175,18 @@ public class AddShowScene extends StandardScene {
                 this.performerName.getSelectionModel().getSelectedItem(),
                 theBeginTime,
                 theEndTime);
+    }
+
+    //edit the show
+    public void editShow() {
+        LocalTime theBeginTime = LocalTime.of(Integer.parseInt(this.beginTimeHour.getText()), Integer.parseInt(this.beginTimeMinute.getText()));
+        LocalTime theEndTime = LocalTime.of(Integer.parseInt(this.endTimeHour.getText()), Integer.parseInt(this.endTimeMinute.getText()));
+        this.controller.editShow(this.showName.getText(), this.show,
+                this.locations.getSelectionModel().getSelectedItem(),
+                this.performerName.getSelectionModel().getSelectedItem(),
+                theBeginTime,
+                theEndTime);
+        this.show = this.controller.getShow(this.showName.getText());
     }
 
 }
