@@ -14,11 +14,11 @@ public class Performer implements Serializable {
 
 
     public String getPerformerName() {
-        return performerName;
+        return this.performerName;
     }
 
     public int getPopularity(){
-        int convertedPopularity = (int) (popularity);
+        int convertedPopularity = this.popularity;
         return convertedPopularity;
     }
 

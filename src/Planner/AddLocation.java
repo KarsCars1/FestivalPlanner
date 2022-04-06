@@ -16,10 +16,10 @@ public class AddLocation extends StandardScene {
 
         this.loactionNameField = new TextField();
         Button saveButton = new Button("Add Location");
-        pane.add(loactionNameField, 0, 0);
+        pane.add(this.loactionNameField, 0, 0);
         pane.add(saveButton, 0, 1);
 
-        scene = new Scene(pane);
+        this.scene = new Scene(pane);
     }
 
 }

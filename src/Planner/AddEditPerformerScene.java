@@ -26,74 +26,74 @@ public class AddEditPerformerScene extends StandardScene {
 
     public AddEditPerformerScene(PerformerController controller, Artist artist, GuiCallback callback) {
 
-        popUpBorderPane = new BorderPane();
-        addPerformerVBox = new VBox();
-        name = new Label("Artist name:");
-        performerNameTextField = new TextField();
-        popularityLabel = new Label("Popularity (0 to 100)");
-        popularityTextField = new TextField();
-        switchToBandButton = new Button("Switch to Band");
-        buttonHBox = new HBox();
-        backButton = new Button("Back");
-        addButton = new Button("Add to list");
-        saveButton = new Button("Save Changes");
+        this.popUpBorderPane = new BorderPane();
+        this.addPerformerVBox = new VBox();
+        this.name = new Label("Artist name:");
+        this.performerNameTextField = new TextField();
+        this.popularityLabel = new Label("Popularity (0 to 100)");
+        this.popularityTextField = new TextField();
+        this.switchToBandButton = new Button("Switch to Band");
+        this.buttonHBox = new HBox();
+        this.backButton = new Button("Back");
+        this.addButton = new Button("Add to list");
+        this.saveButton = new Button("Save Changes");
 
-        popularityTextField.setOnKeyReleased(E -> {
+        this.popularityTextField.setOnKeyReleased(E -> {
             checkPopularity();
         });
 
         if (artist == null) {
-            buttonHBox.getChildren().addAll(backButton, addButton);
-            buttonHBox.setSpacing(140);
-            addPerformerVBox.getChildren().addAll(name, performerNameTextField, popularityLabel, popularityTextField, switchToBandButton);
-            popUpBorderPane.setTop(addPerformerVBox);
-            popUpBorderPane.setBottom(buttonHBox);
+            this.buttonHBox.getChildren().addAll(this.backButton, this.addButton);
+            this.buttonHBox.setSpacing(140);
+            this.addPerformerVBox.getChildren().addAll(this.name, this.performerNameTextField, this.popularityLabel, this.popularityTextField, this.switchToBandButton);
+            this.popUpBorderPane.setTop(this.addPerformerVBox);
+            this.popUpBorderPane.setBottom(this.buttonHBox);
         } else {
             int popularityNumber = artist.getPopularity();
-            performerNameTextField.setText(artist.getPerformerName());
-            popularityTextField.setText(Integer.toString(popularityNumber));
-            buttonHBox.getChildren().addAll(backButton, saveButton);
-            buttonHBox.setSpacing(140);
-            addPerformerVBox.getChildren().addAll(name, performerNameTextField, popularityLabel, popularityTextField);
-            popUpBorderPane.setTop(addPerformerVBox);
-            popUpBorderPane.setBottom(buttonHBox);
+            this.performerNameTextField.setText(artist.getPerformerName());
+            this.popularityTextField.setText(Integer.toString(popularityNumber));
+            this.buttonHBox.getChildren().addAll(this.backButton, this.saveButton);
+            this.buttonHBox.setSpacing(140);
+            this.addPerformerVBox.getChildren().addAll(this.name, this.performerNameTextField, this.popularityLabel, this.popularityTextField);
+            this.popUpBorderPane.setTop(this.addPerformerVBox);
+            this.popUpBorderPane.setBottom(this.buttonHBox);
         }
 
-        backButton.setOnAction(e -> {
+        this.backButton.setOnAction(e -> {
             callback.closeStage();
         });
 
-        switchToBandButton.setOnAction(e -> {
+        this.switchToBandButton.setOnAction(e -> {
             callback.setStage(new AddEditBandScene(controller, null, callback).getScene());
         });
 
-        saveButton.setOnAction(e -> {
-            artist.setPerformerName(performerNameTextField.getText());
+        this.saveButton.setOnAction(e -> {
+            artist.setPerformerName(this.performerNameTextField.getText());
             callback.updateLists();
             callback.closeStage();
         });
 
-        addButton.setOnAction(e -> {
-            if (!performerNameTextField.getText().isEmpty() && !popularityTextField.getText().isEmpty()) {
-                controller.addArtist(performerNameTextField.getText(), Integer.parseInt(popularityTextField.getText()));
+        this.addButton.setOnAction(e -> {
+            if (!this.performerNameTextField.getText().isEmpty() && !this.popularityTextField.getText().isEmpty()) {
+                controller.addArtist(this.performerNameTextField.getText(), Integer.parseInt(this.popularityTextField.getText()));
                 callback.updateLists();
-                performerNameTextField.deleteText(0, performerNameTextField.getText().length());
-                popularityTextField.deleteText(0, popularityTextField.getText().length());
+                this.performerNameTextField.deleteText(0, this.performerNameTextField.getText().length());
+                this.popularityTextField.deleteText(0, this.popularityTextField.getText().length());
             }
         });
 
-        scene = new Scene(popUpBorderPane);
+        this.scene = new Scene(this.popUpBorderPane);
     }
 
     public void checkPopularity() {
-        String text = popularityTextField.getText();
+        String text = this.popularityTextField.getText();
         try {
             int value = Integer.parseInt(text);
             if (value > 100 || value < 0) {
-                popularityTextField.setText("");
+                this.popularityTextField.setText("");
             }
         } catch (NumberFormatException e) {
-            popularityTextField.setText("");
+            this.popularityTextField.setText("");
         }
 
     }

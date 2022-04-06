@@ -16,7 +16,7 @@ public class Location implements Serializable, Comparable<Location> {
     }
 
     public int[][] getPath() {
-        return path;
+        return this.path;
     }
 
     public Point2D getSize(){
@@ -24,7 +24,7 @@ public class Location implements Serializable, Comparable<Location> {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
